@@ -16,27 +16,10 @@
         </tr>
       </tbody>
     </table>
-    <!-- <hr>
-    <table>
-      <thead>
-        <th v-for="(header, index) in headers" :key="index">{{header.value}}</th>
-      </thead>
-      <tbody>
-        <tr v-for="(line, idxLine) in highscorelist" :key="idxLine">
-          <td v-for="(cell, idxCell) in headers" :key="idxCell">
-            <span v-if="cell.name === 'place'">{{idxLine + 1}}</span>
-            <span v-else-if="cell.name === 'diff_first'">differenz auf ersten</span>
-            <span v-else-if="cell.name === 'diff_prev'">differenz auf vorher platzierte(n)</span>
-            <span v-else>{{ line[cell.name] }}</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>-->
   </div>
 </template>
 
 <script>
-// import { highscore } from "../mock/highscorelist";
 import ArrayService from "../../services/array.service";
 import TimeService from "../services/time.service";
 
@@ -44,27 +27,20 @@ export default {
   name: "highscorelist-table",
 
   data() {
-    return {
-      // headers: highscore.fields,
-      // highscorelist: highscore.list
-    };
+    return {};
   },
 
   props: {
     list: {
       type: Object,
-      default: {}
+      default() {
+        return {};
+      }
     }
   },
 
   // Larissa Rosenthal
   // Ladyna Wittscher
-
-  // computed: {
-  //   highscorelist: function() {
-  //     this.sortHighscorelist();
-  //   }
-  // },
 
   created() {
     this.sortHighscorelist();
@@ -85,7 +61,6 @@ export default {
       }, highscoreList[0].time);
 
       this.list.list = highscoreList;
-      // (new Date(Date.apply([...[0, 0, 0, 0, 0, 0], ...time.split(":")]))).getTime()
     },
 
     formatTime: function(time) {

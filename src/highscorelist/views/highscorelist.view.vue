@@ -2,7 +2,6 @@
   <div>
     <h2>Highscorelist</h2>
     <highscorelist-table v-bind:list="highscorelist"></highscorelist-table>
-    <!-- <highscorelist-table v-bind:list="highscorelist"></highscorelist-table> -->
   </div>
 </template>
 
