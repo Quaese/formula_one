@@ -2,6 +2,7 @@
   <div>
     <h2>Highscorelist</h2>
     <highscorelist-table v-bind:list="highscorelist"></highscorelist-table>
+    <p>{{new Date().getTime() }}</p>
   </div>
 </template>
 
@@ -22,6 +23,7 @@ export default {
 
   computed: {
     highscorelist() {
+      console.log("computed");
       return this.$store.state.highscorelist.lists[this.id];
     }
   },
