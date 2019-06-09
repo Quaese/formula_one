@@ -1,8 +1,12 @@
 import TimeService from "../../services/time.service";
+import HighscoreService from "../../services/highscore.service";
 
 const mutations = {
   getByIdSuccess(state, payload) {
     state.lists = { ...state.lists } || {};
+
+    const list = HighscoreService.sortHighscorelist(payload.highscore.list);
+    payload.highscore.list = [...list];
 
     state.lists = {
       ...state.lists,
@@ -10,40 +14,25 @@ const mutations = {
     };
   },
 
-  getByIdSuccess__(state, payload) {
-    state.highscorelist = { ...state.highscorelist } || {};
+  modifyItem(state, payload) {
+    // find index of modified highscore item
+    const index = state.lists[payload.listId].list.findIndex(
+      entry => entry.id === payload.item.id
+    );
 
-    state.highscorelist = {
-      ...state.highscorelist,
-      lists: {
-        ...(state.highscorelist.lists || {}),
-        [payload.id]: payload.highscore
-      }
-      // ...highscore
-    };
-  },
+    // set time and time_string properties
+    payload.item.time_string = payload.item.time;
+    payload.item.time = TimeService.stringToSeconds(payload.item.time);
 
-  modifyEntry(state, item) {
-    console.log("mutation.modifyEntry: ");
-    const index = state.lists[1].list.findIndex(entry => entry.id === item.id);
+    // rebuild highscore list
+    let list = [...state.lists[payload.listId].list];
+    list[index] = payload.item;
 
-    item.time_string = item.time;
-    item.time = TimeService.stringToSeconds(item.time);
+    // sort and recalculate new highscore list
+    list = HighscoreService.sortHighscorelist(list);
 
-    let array = [...state.lists[1].list];
-    array[index] = item;
-
-    console.log("mutation.modifyEntry: ", array);
-
-    // ToDo: time Eigenschaft aus aktueller time Eigenschaft berechnen
-    //       aktuelle time Eigenschaft wird time_string Eigenschaft
-
-    state.lists[1].list = [...array];
-    // state.lists[1].list = { ...state.lists[1].list, [index]: item };
-    // state.lists[1].list = [...state.lists[1].list, item];
-    // state.lists[1].list = [...state.lists[1].list, array[index]];
-
-    // state.lists = { ...state.lists };
+    // set new state
+    state.lists[payload.listId].list = [...list];
   }
 };
 

@@ -9,10 +9,8 @@ const actions = {
     commit("getByIdSuccess", { id: payload.id || 1, highscore: highscore });
   },
 
-  modifyEntry({ commit }, payload) {
-    console.log("modifyEntry: ", payload);
-
-    commit("modifyEntry", payload);
+  modifyItem({ commit }, payload) {
+    commit("modifyItem", payload);
   }
 };
 

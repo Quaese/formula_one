@@ -1,4 +1,5 @@
 export const highscore = {
+  id: 1,
   list: [
     { id: 1, name: "Quaese", time: 310123, time_string: "05:10:123" },
     { id: 2, name: "Pchel", time: 305456, time_string: "05:05:456" },

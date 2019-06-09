@@ -75,6 +75,10 @@ export default {
         ];
       }
     },
+    listId: {
+      type: Number,
+      default: 1
+    },
     item: {
       type: Object,
       default() {
@@ -93,7 +97,6 @@ export default {
   },
 
   updated() {
-    console.log("updated: ", this.hasError, this.edit);
     if (this.hasError) {
       this.edit = true;
     }
@@ -105,7 +108,6 @@ export default {
     },
 
     setEdit: function(enable) {
-      console.log("setEdit: ", enable);
       this.edit = enable;
     },
 
@@ -114,9 +116,12 @@ export default {
 
       if ((this.itemData.time, pattern.test(this.itemData.time))) {
         this.hasError = false;
-        this.$store.dispatch("highscorelist/modifyEntry", {
-          id: this.item.id,
-          ...this.itemData
+        this.$store.dispatch("highscorelist/modifyItem", {
+          listId: this.listId,
+          item: {
+            id: this.item.id,
+            ...this.itemData
+          }
         });
       } else {
         this.hasError = true;
