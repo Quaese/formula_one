@@ -2,13 +2,13 @@
   <div>
     <table>
       <thead>
-        <th v-for="(header, index) in list.fields" :key="index">{{header.value}}</th>
+        <th v-for="(header, index) in fields" :key="index">{{header.value}}</th>
       </thead>
       <tbody>
         <highscorelist-item
           v-for="(item, idxLine) in list.list"
           v-bind:listId="list.id"
-          v-bind:fields="list.fields"
+          v-bind:fields="fields"
           v-bind:item="item"
           v-bind:idxLine="idxLine"
           :key="idxLine"
@@ -39,6 +39,19 @@ export default {
       type: Object,
       default() {
         return {};
+      }
+    },
+    fields: {
+      type: Array,
+      default() {
+        return [
+          { name: "place", value: "Platz" },
+          { name: "name", value: "Name" },
+          { name: "time", value: "Zeit" },
+          { name: "diff_first", value: "+" },
+          { name: "diff_prev", value: "+" },
+          { name: "actions", value: "Aktionen" }
+        ];
       }
     }
   },

@@ -1,7 +1,11 @@
 //import BandsService from "../../services/bands.service";
-import highscores from "../../mock/highscorelist";
+import highscores, { fields } from "../../mock/highscorelist";
 
 const actions = {
+  getFields({ commit }) {
+    commit("getFieldsSuccess", { fields });
+  },
+
   getById({ commit }, payload) {
     const highscore = highscores[payload.id || 1];
 

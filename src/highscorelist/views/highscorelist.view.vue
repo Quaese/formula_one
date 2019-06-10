@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Highscorelist</h2>
-    <highscorelist-table v-bind:list="highscorelist"></highscorelist-table>
+    <highscorelist-table v-bind:list="highscorelist" v-bind:fields="fields"></highscorelist-table>
   </div>
 </template>
 
@@ -23,10 +23,18 @@ export default {
   computed: {
     highscorelist() {
       return this.$store.state.highscorelist.lists[this.id];
+    },
+    fields() {
+      return this.$store.state.highscorelist.fields;
     }
   },
 
   created() {
+    // get fields
+    if (this.$store.state.highscorelist.fields === null) {
+      this.$store.dispatch("highscorelist/getFields");
+    }
+
     // if (this.$store.state.highscorelist.lists === null) {
     this.$store.dispatch("highscorelist/getById", { id: this.id });
     // }

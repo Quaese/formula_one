@@ -2,6 +2,10 @@ import TimeService from "../../services/time.service";
 import HighscoreService from "../../services/highscore.service";
 
 const mutations = {
+  getFieldsSuccess(state, payload) {
+    state.fields = [...payload.fields];
+  },
+
   getByIdSuccess(state, payload) {
     state.lists = { ...state.lists } || {};
 
