@@ -13,6 +13,8 @@
           v-bind:idxLine="idxLine"
           :key="idxLine"
         ></highscorelist-item>
+
+        <highscorelist-item-add v-bind:listId="list.id" v-bind:fields="fields"></highscorelist-item-add>
       </tbody>
     </table>
   </div>
@@ -22,12 +24,14 @@
 import TimeService from "../services/time.service";
 
 import HighscorelistItem from "./highscorelist-item.component";
+import HighscorelistItemAdd from "./highscorelist-itemadd.component";
 
 export default {
   name: "highscorelist-table",
 
   components: {
-    "highscorelist-item": HighscorelistItem
+    "highscorelist-item": HighscorelistItem,
+    "highscorelist-item-add": HighscorelistItemAdd
   },
 
   data() {

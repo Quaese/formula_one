@@ -37,6 +37,25 @@ const mutations = {
 
     // set new state
     state.lists[payload.listId].list = [...list];
+  },
+
+  addItem(state, payload) {
+    // 04:16:123
+    // create new id
+    const id = HighscoreService.createId(state.lists[payload.listId].list);
+
+    // set time and time_string properties
+    payload.item.time_string = payload.item.time;
+    payload.item.time = TimeService.stringToSeconds(payload.item.time);
+    payload.item.id = id;
+
+    // create temporary list
+    let list = [...state.lists[payload.listId].list, payload.item];
+    // sort temporary list
+    list = HighscoreService.sortHighscorelist(list);
+
+    // set new state
+    state.lists[payload.listId].list = [...list];
   }
 };
 

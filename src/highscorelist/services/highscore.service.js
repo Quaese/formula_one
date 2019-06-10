@@ -13,5 +13,15 @@ export default {
     }, highscoreList[0].time);
 
     return [...highscoreList];
+  },
+
+  createId: list => {
+    let id = 0;
+
+    list.forEach(item => {
+      id = Math.max(id, item.id);
+    });
+
+    return id + 1;
   }
 };

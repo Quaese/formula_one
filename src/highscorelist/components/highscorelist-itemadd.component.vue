@@ -1,42 +1,29 @@
 <template>
-  <tr v-bind:id="`item_${item.id}`">
+  <tr>
     <td v-for="(cell, idxCell) in fields" :key="idxCell">
       <div v-if="edit">
-        <span v-if="cell.name === 'place'">{{idxLine + 1}}</span>
-        <span v-else-if="cell.name === 'name'">
-          <input
-            v-model="itemData.name"
-            v-init-input:itemData="{field: 'name', value: item[cell.name]}"
-            v-bind:placeholder="item[cell.name]"
-          >
+        <span v-if="cell.name === 'name'">
+          <input v-model="itemData.name" placeholder="Name">
         </span>
         <span v-else-if="cell.name === 'time'">
           <input
             v-model="itemData.time"
-            v-init-input:itemData="{field: 'time', value: formatTime(item[cell.name])}"
-            v-bind:placeholder="formatTime(item[cell.name])"
+            placeholder="mm:ss:ddd"
             v-bind:class="{error: hasError}"
             pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
           >
         </span>
-        <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
-        <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
           <button @click="setEdit(false); save();">done</button>
         </span>
-        <span v-else>{{ item[cell.name] }}</span>
+        <span v-else></span>
       </div>
 
       <div v-else>
-        <span v-if="cell.name === 'place'">{{idxLine + 1}}</span>
-        <span v-else-if="cell.name === 'name'">{{ item[cell.name] }}</span>
-        <span v-else-if="cell.name === 'time'">{{ formatTime(item[cell.name]) }}</span>
-        <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
-        <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
-        <span v-else-if="cell.name === 'actions'">
-          <button @click="setEdit(true)">edit</button>
+        <span v-if="cell.name === 'actions'">
+          <button @click="setEdit(true)">add</button>
         </span>
-        <span v-else>{{ item[cell.name] }}</span>
+        <span v-else></span>
       </div>
     </td>
   </tr>
@@ -78,21 +65,6 @@ export default {
     listId: {
       type: Number,
       default: 1
-    },
-    item: {
-      type: Object,
-      default() {
-        return {
-          id: 1,
-          name: "Quaese",
-          time: 310123,
-          time_string: "05:10:123"
-        };
-      }
-    },
-    idxLine: {
-      type: Number,
-      default: 0
     }
   },
 
@@ -114,12 +86,15 @@ export default {
     save: function() {
       const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
 
-      if ((this.itemData.time, pattern.test(this.itemData.time))) {
+      if (this.itemData.time.length === 0 && this.itemData.name.length === 0) {
+        return;
+      }
+
+      if (this.itemData.time.length > 0 && pattern.test(this.itemData.time)) {
         this.hasError = false;
-        this.$store.dispatch("highscorelist/modifyItem", {
+        this.$store.dispatch("highscorelist/addItem", {
           listId: this.listId,
           item: {
-            id: this.item.id,
             ...this.itemData
           }
         });

@@ -15,6 +15,10 @@ const actions = {
 
   modifyItem({ commit }, payload) {
     commit("modifyItem", payload);
+  },
+
+  addItem({ commit }, payload) {
+    commit("addItem", payload);
   }
 };
 
