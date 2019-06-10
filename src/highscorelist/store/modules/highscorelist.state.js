@@ -1,6 +1,7 @@
 const state = {
   loading: false,
-  lists: {}
+  fields: null,
+  lists: null
 };
 
 export default state;
