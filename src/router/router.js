@@ -13,6 +13,17 @@ export default new Router({
     },
     {
       path: "/highscorelist",
+      name: "highscorelist-home",
+      // route level code-splitting
+      // this generates a separate chunk (highscorelist.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(
+          /* webpackChunkName: "highscorelist" */ "../highscorelist/views/highscorelist-home.view.vue"
+        )
+    },
+    {
+      path: "/highscorelist/:id",
       name: "highscorelist",
       // route level code-splitting
       // this generates a separate chunk (highscorelist.[hash].js) for this route
@@ -22,6 +33,11 @@ export default new Router({
           /* webpackChunkName: "highscorelist" */ "../highscorelist/views/highscorelist.view.vue"
         )
     },
+    // {
+    //   path: "/bands/:id",
+    //   name: "band-details",
+    //   component: BandDetails
+    // },
     {
       path: "/about",
       name: "about",

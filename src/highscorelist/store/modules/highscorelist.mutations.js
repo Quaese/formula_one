@@ -18,6 +18,10 @@ const mutations = {
     };
   },
 
+  getListIDsSuccess(state, payload) {
+    state.ids = { ...payload.ids };
+  },
+
   modifyItem(state, payload) {
     // find index of modified highscore item
     const index = state.lists[payload.listId].list.findIndex(

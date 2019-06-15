@@ -6,6 +6,11 @@ const actions = {
     commit("getFieldsSuccess", { fields });
   },
 
+  getListIDs({ commit }) {
+    const ids = Object.keys(highscores);
+    commit("getListIDsSuccess", { ids });
+  },
+
   getById({ commit }, payload) {
     const highscore = highscores[payload.id || 1];
 

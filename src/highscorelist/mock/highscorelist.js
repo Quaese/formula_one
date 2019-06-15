@@ -18,7 +18,8 @@ export const fields = [
 ];
 
 const highscores = {
-  1: highscore
+  1: highscore,
+  2: { ...highscore, id: 2 }
 };
 
 export default highscores;
