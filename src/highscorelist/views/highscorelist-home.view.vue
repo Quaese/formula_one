@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h2>Highscorelist Home</h2>
+    <h2>Highscorelist Home - Seasons-List</h2>
     <ol>
-      <li v-for="(id, index) in highscorelist_ids" :key="index">
-        <span @click="navigate(id)">{{id}}</span>
+      <li v-for="(season) in seasons" :key="season.id">
+        <span @click="navigate(season.id)">{{season.title}} (ID: {{season.id}})</span>
       </li>
     </ol>
   </div>
@@ -18,21 +18,21 @@ export default {
   },
 
   computed: {
-    highscorelist_ids() {
-      return this.$store.state.highscorelist.ids;
+    seasons() {
+      return this.$store.state.highscorelist.seasons;
     }
   },
 
   created() {
-    // get fields
-    if (this.$store.state.highscorelist.ids === null) {
-      this.$store.dispatch("highscorelist/getListIDs");
+    // get seasons
+    if (this.$store.state.highscorelist.seasons === null) {
+      this.$store.dispatch("highscorelist/getSeasons");
     }
   },
 
   methods: {
     navigate(id) {
-      this.$router.push(`/highscorelist/${id}`);
+      this.$router.push(`/highscorelist/season/${id}`);
     }
   }
 };

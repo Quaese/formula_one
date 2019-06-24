@@ -18,8 +18,41 @@ const mutations = {
     };
   },
 
-  getListIDsSuccess(state, payload) {
-    state.ids = { ...payload.ids };
+  // getSeasonsIDsSuccess(state, payload) {
+  //   state.seasonsIDs = { ...payload.ids };
+  // },
+
+  getSeasonsSuccess(state, payload) {
+    state.seasons = [...payload.seasons];
+  },
+
+  getSeasonByIdSuccess(state, payload) {
+    // const id = payload.id;
+    // const season = state.seasons.find(season => String(season.id) === id);
+
+    // ToDo:
+    // test if (season.races === undefined)
+    // if so => load races by IDs from racesIDs array
+
+    state.season = { ...payload.season };
+  },
+
+  getRacesForSeasonIdSuccess(state, payload) {
+    const id = payload.id;
+    // let season = state.seasons.find(season => String(season.id) === id);
+    state.seasons.forEach(season => {
+      if (String(season.id) === id) {
+        season.races = [...payload.races];
+      }
+    });
+
+    console.log("getRacesForSeasonIdSuccess");
+
+    // ToDo:
+    // test if (season.races === undefined)
+    // if so => load races by IDs from racesIDs array
+
+    // state.season = { ...payload.season };
   },
 
   modifyItem(state, payload) {

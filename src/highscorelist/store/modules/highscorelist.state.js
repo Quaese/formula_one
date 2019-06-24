@@ -1,8 +1,11 @@
 const state = {
+  // loading: false,
+  // fields: null,
+  // lists: null,
+  // ids: null
   loading: false,
-  fields: null,
-  lists: null,
-  ids: null
+  seasons: null,
+  fields: []
 };
 
 export default state;
