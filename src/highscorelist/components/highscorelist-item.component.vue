@@ -1,42 +1,42 @@
 <template>
-  <tr v-bind:id="`item_${item.id}`">
+  <tr v-bind:id="`item_${result.id}`">
     <td v-for="(cell, idxCell) in fields" :key="idxCell">
       <div v-if="edit">
         <span v-if="cell.name === 'place'">{{idxLine + 1}}</span>
         <span v-else-if="cell.name === 'name'">
           <input
-            v-model="itemData.name"
-            v-init-input:itemData="{field: 'name', value: item[cell.name]}"
-            v-bind:placeholder="item[cell.name]"
-          >
+            v-model="resultData.name"
+            v-init-input:resultData="{field: 'name', value: result[cell.name]}"
+            v-bind:placeholder="result[cell.name]"
+          />
         </span>
         <span v-else-if="cell.name === 'time'">
           <input
-            v-model="itemData.time"
-            v-init-input:itemData="{field: 'time', value: formatTime(item[cell.name])}"
-            v-bind:placeholder="formatTime(item[cell.name])"
+            v-model="resultData.time"
+            v-init-input:resultData="{field: 'time', value: formatTime(result[cell.name])}"
+            v-bind:placeholder="formatTime(result[cell.name])"
             v-bind:class="{error: hasError}"
             pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
-          >
+          />
         </span>
-        <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
-        <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
+        <span v-else-if="cell.name === 'diff_first'">{{ formatTime(result[cell.name]) }}</span>
+        <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(result[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
-          <button @click="setEdit(false); save();">done</button>
+          <button @click="setEdit(false); save();" class="w-100 btn btn-primary">done</button>
         </span>
-        <span v-else>{{ item[cell.name] }}</span>
+        <span v-else>{{ result[cell.name] }}</span>
       </div>
 
       <div v-else>
         <span v-if="cell.name === 'place'">{{idxLine + 1}}</span>
-        <span v-else-if="cell.name === 'name'">{{ item[cell.name] }}</span>
-        <span v-else-if="cell.name === 'time'">{{ formatTime(item[cell.name]) }}</span>
-        <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
-        <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
+        <span v-else-if="cell.name === 'name'">{{ result[cell.name] }}</span>
+        <span v-else-if="cell.name === 'time'">{{ formatTime(result[cell.name]) }}</span>
+        <span v-else-if="cell.name === 'diff_first'">{{ formatTime(result[cell.name]) }}</span>
+        <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(result[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
-          <button @click="setEdit(true)">edit</button>
+          <button @click="setEdit(true)" class="w-100 btn btn-success">edit</button>
         </span>
-        <span v-else>{{ item[cell.name] }}</span>
+        <span v-else>{{ result[cell.name] }}</span>
       </div>
     </td>
   </tr>
@@ -54,7 +54,7 @@ export default {
     return {
       edit: false,
       hasError: false,
-      itemData: {
+      resultData: {
         name: "",
         time: ""
       }
@@ -75,11 +75,15 @@ export default {
         ];
       }
     },
-    listId: {
+    seasonId: {
+      type: String,
+      default: "1"
+    },
+    raceId: {
       type: Number,
       default: 1
     },
-    item: {
+    result: {
       type: Object,
       default() {
         return {
@@ -95,6 +99,12 @@ export default {
       default: 0
     }
   },
+
+  // computed: {
+  //   current() {
+  //     return this.$store.getters["highscorelist/getCurrent"]();
+  //   }
+  // },
 
   updated() {
     if (this.hasError) {
@@ -114,13 +124,24 @@ export default {
     save: function() {
       const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
 
-      if ((this.itemData.time, pattern.test(this.itemData.time))) {
+      if ((this.resultData.time, pattern.test(this.resultData.time))) {
         this.hasError = false;
-        this.$store.dispatch("highscorelist/modifyItem", {
-          listId: this.listId,
-          item: {
-            id: this.item.id,
-            ...this.itemData
+        console.log("save: ", {
+          raceId: this.raceId,
+          seasonId: this.seasonId,
+          result: {
+            id: this.result.id,
+            ...this.resultData
+          }
+        });
+        // return;
+
+        this.$store.dispatch("highscorelist/updateResult", {
+          raceId: this.raceId,
+          seasonId: this.seasonId,
+          result: {
+            id: this.result.id,
+            ...this.resultData
           }
         });
       } else {

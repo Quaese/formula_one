@@ -5,7 +5,8 @@ const state = {
   // ids: null
   loading: false,
   seasons: null,
-  fields: []
+  current: null,
+  fields: null
 };
 
 export default state;

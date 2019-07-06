@@ -3,7 +3,7 @@
     <td v-for="(cell, idxCell) in fields" :key="idxCell">
       <div v-if="edit">
         <span v-if="cell.name === 'name'">
-          <input v-model="itemData.name" placeholder="Name">
+          <input v-model="itemData.name" placeholder="Name" />
         </span>
         <span v-else-if="cell.name === 'time'">
           <input
@@ -11,7 +11,7 @@
             placeholder="mm:ss:ddd"
             v-bind:class="{error: hasError}"
             pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
-          >
+          />
         </span>
         <span v-else-if="cell.name === 'actions'">
           <button @click="setEdit(false); save();">done</button>
@@ -21,7 +21,7 @@
 
       <div v-else>
         <span v-if="cell.name === 'actions'">
-          <button @click="setEdit(true)">add</button>
+          <button @click="setEdit(true)" class="w-100 btn btn-primary">add</button>
         </span>
         <span v-else></span>
       </div>

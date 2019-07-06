@@ -18,22 +18,22 @@ const Result_4 = { id: 4, name: "p", time: 180012, time_string: "03:00:012" };
 const Race_1 = {
   id: 1,
   title: "Race 1",
-  races: [Result_1, Result_2, Result_3, Result_4]
+  results: [Result_1, Result_2, Result_3, Result_4]
 };
 const Race_2 = {
   id: 2,
   title: "Race 2",
-  races: [Result_1, Result_2, Result_3, Result_4]
+  results: [Result_1, Result_2, Result_3, Result_4]
 };
 const Race_3 = {
   id: 3,
   title: "Race 3",
-  races: [Result_1, Result_2, Result_3, Result_4]
+  results: [Result_1, Result_2, Result_3, Result_4]
 };
 const Race_4 = {
   id: 4,
   title: "Race 4",
-  races: [Result_1, Result_2, Result_3, Result_4]
+  results: [Result_1, Result_2, Result_3, Result_4]
 };
 
 // Seasons

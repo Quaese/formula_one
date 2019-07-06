@@ -1,23 +1,22 @@
 <template>
-  <div>
-    <table>
-      <thead>
-        <th v-for="(header, index) in fields" :key="index">{{header.value}}</th>
-      </thead>
-      <tbody>
-        <highscorelist-item
-          v-for="(item, idxLine) in list.list"
-          v-bind:listId="list.id"
-          v-bind:fields="fields"
-          v-bind:item="item"
-          v-bind:idxLine="idxLine"
-          :key="idxLine"
-        ></highscorelist-item>
+  <table v-if="race" class="table table-hover">
+    <thead>
+      <th v-for="(header, index) in fields" :key="index">{{header.value}}</th>
+    </thead>
+    <tbody>
+      <highscorelist-item
+        v-for="(result, idxLine) in race.results"
+        v-bind:raceId="race.id"
+        v-bind:fields="fields"
+        v-bind:result="result"
+        v-bind:seasonId="seasonId"
+        v-bind:idxLine="idxLine"
+        :key="idxLine"
+      ></highscorelist-item>
 
-        <highscorelist-item-add v-bind:listId="list.id" v-bind:fields="fields"></highscorelist-item-add>
-      </tbody>
-    </table>
-  </div>
+      <highscorelist-item-add v-bind:listId="race.id" v-bind:fields="fields"></highscorelist-item-add>
+    </tbody>
+  </table>
 </template>
 
 <script>
@@ -39,11 +38,15 @@ export default {
   },
 
   props: {
-    list: {
+    race: {
       type: Object,
       default() {
         return {};
       }
+    },
+    seasonId: {
+      type: String,
+      default: "1"
     },
     fields: {
       type: Array,
@@ -58,16 +61,10 @@ export default {
         ];
       }
     }
-  },
+  }
 
   // Larissa Rosenthal
   // Ladyna Wittscher
-
-  methods: {
-    formatTime: function(time) {
-      return TimeService.secondsToString(time);
-    }
-  }
 };
 </script>
 

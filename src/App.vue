@@ -1,12 +1,31 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>|
-      <router-link to="/highscorelist">highscorelist</router-link>|
-      <router-link to="/about">About</router-link>
+  <div id="app" class="container">
+    <div class="row">
+      <div class="col-12">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="collapse navbar-collapse">
+            <ul id="nav" class="navbar-nav">
+              <li class="nav-item">
+                <router-link class="nav-link" to="/">Home</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/highscorelist">highscorelist</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/about">About</router-link>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
     </div>
-    <router-view/>
+    <div class="row my-5">
+      <div class="col-12">
+        <router-view/>
+      </div>
+    </div>
   </div>
+  <!-- end: #id -->
 </template>
 
 <script>
@@ -20,21 +39,23 @@ export default {
 </script>
 
 <style lang="less">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.router-link-active {
 }
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+// #app {
+//   font-family: "Avenir", Helvetica, Arial, sans-serif;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+//   // text-align: center;
+//   color: #2c3e50;
+// }
+// #nav {
+//   padding: 30px;
+//   a {
+//     font-weight: bold;
+//     color: #2c3e50;
+//     &.router-link-exact-active {
+//       color: #42b983;
+//     }
+//   }
+// }
 </style>
