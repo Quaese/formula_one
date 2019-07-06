@@ -5,6 +5,7 @@ import store from "./store/index";
 
 // register input initializer globally
 import "./directives/init-input.directive";
+import "bootstrap/dist/css/bootstrap.css";
 
 Vue.config.productionTip = false;
 

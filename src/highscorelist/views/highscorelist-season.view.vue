@@ -1,7 +1,18 @@
 <template>
-  <div>
-    <h2>Highscorelist Home - Season</h2>
-    <p v-if="season">{{season.title}}</p>
+  <div class="container-fluid" v-if="season">
+    <div class="row">
+      <div class="col-12">
+        <h2>Season - {{season.title}}</h2>
+      </div>
+    </div>
+    <ol class="row">
+      <li
+        @click="navigate(race.id)"
+        class="col-12"
+        v-for="race in season.races"
+        :key="race.id"
+      >{{race.title}}</li>
+    </ol>
   </div>
 </template>
 
@@ -10,44 +21,48 @@ export default {
   name: "highscorelist-season-view",
 
   data() {
-    return {};
+    return {
+      seasonId: this.$route.params.id
+    };
   },
 
   computed: {
-    seasons() {
-      return this.$store.state.highscorelist.seasons;
-    },
     season() {
-      return this.$store.getters["highscorelist/getSeasonById"](
-        this.$route.params.id
-      );
+      return this.$store.getters["highscorelist/getSeasonById"](this.seasonId);
     }
   },
 
   created() {
-    const id = this.$route.params.id;
-    // get season
-
     if (this.$store.state.highscorelist.seasons !== null) {
-      const season = this.$store.getters["highscorelist/getSeasonById"](id);
+      // get season by id
+      const season = this.$store.getters["highscorelist/getSeasonById"](
+        this.seasonId
+      );
+
+      // no races loaded yet => dispatch action to load season races
       if (season.races === undefined) {
         this.$store.dispatch("highscorelist/getRacesForSeasonId", {
-          id,
+          id: this.seasonId,
           racesIDs: season.racesIDs
         });
       }
-      // this.$store.dispatch("highscorelist/getSeasonById", { id });
     } else {
-      // ToDo: No seasons ...
+      console.log("...:", this.$store.state.highscorelist.current);
+      // back to season list
+      this.$router.push(`/highscorelist`);
     }
-    // if (this.$store.state.highscorelist.seasons === null) {
-    //   this.$store.dispatch("highscorelist/getSeasons");
-    // }
   },
 
   methods: {
     navigate(id) {
-      this.$router.push(`/highscorelist/season/${id}`);
+      // set id's of current objects (season, race)
+      this.$store.dispatch("highscorelist/setCurrent", {
+        seasonId: this.seasonId,
+        raceId: id
+      });
+
+      // navigate to requested race
+      this.$router.push(`/highscorelist/season/${this.seasonId}/race/${id}`);
     }
   }
 };
