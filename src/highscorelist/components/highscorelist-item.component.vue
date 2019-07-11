@@ -35,6 +35,7 @@
         <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(result[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
           <button @click="setEdit(true)" class="w-100 btn btn-success">edit</button>
+          <button @click="setAppName('horst', result.name)" class="w-100 btn btn-danger">setAppName</button>
         </span>
         <span v-else>{{ result[cell.name] }}</span>
       </div>
@@ -100,11 +101,11 @@ export default {
     }
   },
 
-  // computed: {
-  //   current() {
-  //     return this.$store.getters["highscorelist/getCurrent"]();
-  //   }
-  // },
+  computed: {
+    //   current() {
+    //     return this.$store.getters["highscorelist/getCurrent"]();
+    //   }
+  },
 
   updated() {
     if (this.hasError) {
@@ -125,28 +126,52 @@ export default {
       const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
 
       if ((this.resultData.time, pattern.test(this.resultData.time))) {
-        this.hasError = false;
-        console.log("save: ", {
-          raceId: this.raceId,
-          seasonId: this.seasonId,
-          result: {
-            id: this.result.id,
-            ...this.resultData
-          }
-        });
+        console.log(
+          "save: ",
+          JSON.stringify({
+            raceId: this.raceId,
+            seasonId: this.seasonId,
+            result: {
+              id: this.result.id,
+              ...this.resultData
+            }
+          })
+        );
         // return;
 
-        this.$store.dispatch("highscorelist/updateResult", {
-          raceId: this.raceId,
-          seasonId: this.seasonId,
-          result: {
-            id: this.result.id,
-            ...this.resultData
-          }
-        });
+        // no error occurs
+        this.hasError = false;
+        // save to store
+        this.$store.dispatch(
+          "highscorelist/updateResult",
+          {
+            raceId: this.raceId,
+            seasonId: this.seasonId,
+            result: {
+              id: this.result.id,
+              ...this.resultData
+            }
+          },
+          { root: true }
+        );
       } else {
         this.hasError = true;
       }
+    },
+
+    setAppName: function(name, res) {
+      // this.$store.dispatch("app/setAppName", { name });
+
+      // {"raceId":1,"seasonId":"1","result":{"id":3,"name":"qdddd","time":"05:07:789"}}
+      this.$store.dispatch(
+        "highscorelist/updateResult",
+        {
+          raceId: 1,
+          seasonId: "1",
+          result: { id: 3, name: "qdddd" + res, time: "01:07:789" }
+        },
+        { root: true }
+      );
     }
   }
 };

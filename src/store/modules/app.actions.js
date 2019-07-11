@@ -4,6 +4,10 @@ const actions = {
 
     // set state to loading
     commit("setupApp", payload);
+  },
+
+  setAppName({ commit, state }, payload) {
+    commit("setAppNameSuccess", payload);
   }
 };
 

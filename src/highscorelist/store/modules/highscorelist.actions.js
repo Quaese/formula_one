@@ -14,6 +14,7 @@ const loadRaces = ids => {
   return races;
 };
 
+// actions
 const actions = {
   getFields({ commit }) {
     commit("getFieldsSuccess", { fields });
@@ -25,6 +26,10 @@ const actions = {
 
     // mutation with seasons array
     commit("getSeasonsSuccess", { seasons });
+  },
+
+  setSeasonName({ commit }, payload) {
+    commit("setSeasonNameSuccess", payload);
   },
 
   getRacesForSeasonId({ commit }, payload) {

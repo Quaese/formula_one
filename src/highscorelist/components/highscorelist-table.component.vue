@@ -16,6 +16,9 @@
 
       <highscorelist-item-add v-bind:listId="race.id" v-bind:fields="fields"></highscorelist-item-add>
     </tbody>
+    <tfoot>
+      <td :colspan="fields.length">{{this.appName}}</td>
+    </tfoot>
   </table>
 </template>
 
@@ -60,6 +63,12 @@ export default {
           { name: "actions", value: "Aktionen" }
         ];
       }
+    }
+  },
+
+  computed: {
+    appName() {
+      return this.$store.state.app.name;
     }
   }
 

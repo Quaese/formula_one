@@ -33,9 +33,10 @@ export default {
     fields() {
       return this.$store.state.highscorelist.fields;
     },
-    season() {
-      return this.$store.getters["highscorelist/getSeasonById"](this.seasonId);
-    },
+    // seasons() {
+    //   console.log("highscorelist-race.view (computed.seasons)");
+    //   return this.$store.state.highscorelist.seasons;
+    // },
     race() {
       console.log("highscorelist-race.view (computed.race)");
       return this.getRaceById();

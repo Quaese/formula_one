@@ -42,6 +42,12 @@ export default {
         raceId: null
       });
 
+      // this.$store.dispatch("highscorelist/setSeasonName", {
+      //   title: "dolle wuasd",
+      //   id: id
+      // });
+      // return;
+
       // navigate to requested season
       this.$router.push(`/highscorelist/season/${id}`);
     }

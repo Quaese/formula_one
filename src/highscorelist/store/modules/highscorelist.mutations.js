@@ -1,5 +1,6 @@
 import TimeService from "../../services/time.service";
 import HighscoreService from "../../services/highscore.service";
+import Vue from "vue";
 
 const mutations = {
   getFieldsSuccess(state, payload) {
@@ -10,7 +11,40 @@ const mutations = {
     state.seasons = [...payload.seasons];
   },
 
+  getRacesForSeasonIdSuccess_(state, payload) {
+    // add races to season
+    state.seasons.forEach(season => {
+      if (String(season.id) === payload.id) {
+        // sort race results
+        payload.races.forEach(
+          race =>
+            (race.results = HighscoreService.sortHighscorelist(race.results))
+        );
+
+        season.races = [...payload.races];
+      }
+    });
+  },
+
   getRacesForSeasonIdSuccess(state, payload) {
+    // let seasonIndex = 0;
+    // let season = state.seasons.find((season, index) => {
+    //   if (String(season.id) === payload.id) {
+    //     seasonIndex = index;
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // });
+
+    // payload.races.forEach(
+    //   race =>
+    //     (race.results = [...HighscoreService.sortHighscorelist(race.results)])
+    // );
+
+    // season.races = [...payload.races];
+    // state.seasons[seasonIndex] = season;
+
     // add races to season
     state.seasons.forEach(season => {
       if (String(season.id) === payload.id) {
@@ -30,8 +64,17 @@ const mutations = {
   },
 
   updateResultSuccess(state, payload) {
+    // state.seasons[0].races[0].results.splice(2, 1, {
+    //   id: 3,
+    //   name: "q2222",
+    //   time: 67789,
+    //   time_string: "01:07:789",
+    //   diff_first: 0,
+    //   diff_prev: 0
+    // });
+    // return;
     let seasonIndex = 0;
-    const season = state.seasons.find((season, index) => {
+    let season = state.seasons.find((season, index) => {
       if (String(season.id) === payload.seasonId) {
         seasonIndex = index;
         return true;
@@ -39,11 +82,12 @@ const mutations = {
         return false;
       }
     });
+
     // find index of modified highscore item
     const raceIndex = season.races.findIndex(
       race => race.id === payload.raceId
     );
-    // find index of modified highscore item
+    // find index of modified result item
     const resultIndex = season.races[raceIndex].results.findIndex(
       result => result.id === payload.result.id
     );
@@ -51,13 +95,14 @@ const mutations = {
     // set time and time_string properties
     payload.result.time_string = payload.result.time;
     payload.result.time = TimeService.stringToSeconds(payload.result.time);
-
+    console.log(JSON.stringify(season.races[raceIndex].results));
     // rebuild highscore list
     let results = [...season.races[raceIndex].results];
     results[resultIndex] = payload.result;
 
     // sort and recalculate new highscore list
     results = HighscoreService.sortHighscorelist(results);
+    console.log(JSON.stringify([...results]));
 
     // let races = [...season.races];
     // races[raceIndex] = { ...races[raceIndex], results };
@@ -67,6 +112,23 @@ const mutations = {
     // set new state
     // state.seasons[seasonIndex].races = [...races];
     state.seasons[seasonIndex].races[raceIndex].results = [...results];
+    console.log(state);
+    // Vue.set(state, "highscorelist.seasons", [...state.seasons]);
+  },
+
+  setSeasonNameSuccess(state, payload) {
+    let seasonIndex = 0;
+    const season = state.seasons.find((season, index) => {
+      if (season.id === payload.id) {
+        seasonIndex = index;
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    season.title = payload.title;
+    state.seasons[seasonIndex] = season;
   },
 
   /*
