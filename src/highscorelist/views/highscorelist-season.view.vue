@@ -7,11 +7,11 @@
     </div>
     <ol class="row">
       <li
-        @click="navigate(race.id)"
         class="col-12"
-        v-for="race in season.races"
-        :key="race.id"
-      >{{race.title}}</li>
+        v-for="raceId in season.races"
+        :key="raceId"
+        @click="navigate(raceId)"
+      >{{races[raceId].title}}</li>
     </ol>
   </div>
 </template>
@@ -29,25 +29,15 @@ export default {
   computed: {
     season() {
       return this.$store.getters["highscorelist/getSeasonById"](this.seasonId);
+    },
+
+    races() {
+      return this.$store.state.highscorelist.races;
     }
   },
 
   created() {
-    if (this.$store.state.highscorelist.seasons !== null) {
-      // get season by id
-      const season = this.$store.getters["highscorelist/getSeasonById"](
-        this.seasonId
-      );
-
-      // no races loaded yet => dispatch action to load season races
-      if (season.races === undefined) {
-        this.$store.dispatch("highscorelist/getRacesForSeasonId", {
-          id: this.seasonId,
-          racesIDs: season.racesIDs
-        });
-      }
-    } else {
-      console.log("...:", this.$store.state.highscorelist.current);
+    if (this.$store.state.highscorelist.seasons === null) {
       // back to season list
       this.$router.push(`/highscorelist`);
     }
@@ -55,11 +45,11 @@ export default {
 
   methods: {
     navigate(id) {
-      // set id's of current objects (season, race)
-      this.$store.dispatch("highscorelist/setCurrent", {
-        seasonId: this.seasonId,
-        raceId: id
-      });
+      // // set id's of current objects (season, race)
+      // this.$store.dispatch("highscorelist/setCurrent", {
+      //   seasonId: this.seasonId,
+      //   raceId: id
+      // });
 
       // navigate to requested race
       this.$router.push(`/highscorelist/season/${this.seasonId}/race/${id}`);

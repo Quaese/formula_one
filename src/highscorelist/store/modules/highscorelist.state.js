@@ -5,7 +5,9 @@ const state = {
   // ids: null
   loading: false,
   seasons: null,
-  fields: []
+  races: null,
+  results: null,
+  fields: null
 };
 
 export default state;

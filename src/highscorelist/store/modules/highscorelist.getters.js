@@ -1,9 +1,6 @@
 const getters = {
   getSeasonById: state => id => {
-    const season =
-      state.seasons !== null
-        ? state.seasons.find(season => String(season.id) === String(id))
-        : null;
+    const season = state.seasons !== null ? state.seasons.byId[id] : null;
 
     return season;
   }

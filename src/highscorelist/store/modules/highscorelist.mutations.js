@@ -6,6 +6,13 @@ const mutations = {
     state.fields = [...payload.fields];
   },
 
+  fetchStateSuccess(state, payload) {
+    // set state
+    state.seasons = { ...payload.state.seasons };
+    state.races = { ...payload.state.races };
+    state.results = { ...payload.state.results };
+  },
+
   getByIdSuccess(state, payload) {
     state.lists = { ...state.lists } || {};
 

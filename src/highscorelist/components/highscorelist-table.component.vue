@@ -1,20 +1,20 @@
 <template>
   <div>
-    <table>
+    <table v-if="results!==null">
       <thead>
         <th v-for="(header, index) in fields" :key="index">{{header.value}}</th>
       </thead>
       <tbody>
         <highscorelist-item
-          v-for="(item, idxLine) in list.list"
-          v-bind:listId="list.id"
+          v-for="(resultId, idxLine) in race.results"
+          v-bind:listId="resultId"
           v-bind:fields="fields"
-          v-bind:item="item"
+          v-bind:item="results[resultId]"
           v-bind:idxLine="idxLine"
           :key="idxLine"
         ></highscorelist-item>
 
-        <highscorelist-item-add v-bind:listId="list.id" v-bind:fields="fields"></highscorelist-item-add>
+        <!-- <highscorelist-item-add v-bind:listId="list.id" v-bind:fields="fields"></highscorelist-item-add> -->
       </tbody>
     </table>
   </div>
@@ -39,7 +39,7 @@ export default {
   },
 
   props: {
-    list: {
+    race: {
       type: Object,
       default() {
         return {};
@@ -60,8 +60,18 @@ export default {
     }
   },
 
+  computed: {
+    results() {
+      return this.$store.state.highscorelist.results;
+    }
+  },
+
   // Larissa Rosenthal
   // Ladyna Wittscher
+
+  mounted() {
+    console.log(this.race, this.fields);
+  },
 
   methods: {
     formatTime: function(time) {

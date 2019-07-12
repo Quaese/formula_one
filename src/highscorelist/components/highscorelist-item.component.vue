@@ -8,7 +8,7 @@
             v-model="itemData.name"
             v-init-input:itemData="{field: 'name', value: item[cell.name]}"
             v-bind:placeholder="item[cell.name]"
-          >
+          />
         </span>
         <span v-else-if="cell.name === 'time'">
           <input
@@ -17,7 +17,7 @@
             v-bind:placeholder="formatTime(item[cell.name])"
             v-bind:class="{error: hasError}"
             pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
-          >
+          />
         </span>
         <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
@@ -76,8 +76,10 @@ export default {
       }
     },
     listId: {
-      type: Number,
-      default: 1
+      type: String,
+      // type: Number,
+      default: "1"
+      // default: 1
     },
     item: {
       type: Object,

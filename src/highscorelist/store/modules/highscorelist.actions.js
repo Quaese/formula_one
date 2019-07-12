@@ -1,4 +1,4 @@
-//import BandsService from "../../services/bands.service";
+import HighscoreService from "../../services/highscore.service";
 import highscores from "../../mock/highscorelist";
 import { Seasons, Races, fields } from "../../mock/saisons.mock";
 
@@ -24,12 +24,15 @@ const actions = {
   //   commit("getSeasonsIDsSuccess", { ids });
   // },
 
-  getSeasons({ commit }) {
-    // ToDo: get seasons from JSON, database or sth. else
-    const seasons = [...Seasons];
-
-    // mutation with seasons array
-    commit("getSeasonsSuccess", { seasons });
+  fetchState({ commit }) {
+    HighscoreService.fetchState().then(
+      state => {
+        commit("fetchStateSuccess", { state });
+      },
+      error => {
+        console.log(error);
+      }
+    );
   },
 
   getSeasonById({ commit, dispatch, state }, payload) {
