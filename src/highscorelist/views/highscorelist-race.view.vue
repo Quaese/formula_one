@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <h2>Race</h2>
+        <h2>Race{{race!==null && `${" - " + race.title}`}}</h2>
       </div>
     </div>
     <div class="row">
@@ -34,11 +34,9 @@ export default {
       return this.$store.state.highscorelist.fields;
     },
     race() {
-      console.log(
-        "highscorelist-race.view (computed.race)",
-        this.$store.state.highscorelist.races[this.raceId]
-      );
-      return this.$store.state.highscorelist.races[this.raceId];
+      return this.$store.state.highscorelist.races
+        ? this.$store.state.highscorelist.races[this.raceId]
+        : null;
     },
     results() {
       return this.$store.state.highscorelist.results;
@@ -46,7 +44,10 @@ export default {
   },
 
   created() {
-    if (this.$store.state.highscorelist.seasons !== null) {
+    if (
+      this.$store.state.highscorelist.seasons !== null &&
+      this.$store.state.highscorelist.seasons.races !== null
+    ) {
       // get fields
       if (this.$store.state.highscorelist.fields === null) {
         this.$store.dispatch("highscorelist/getFields");

@@ -75,7 +75,7 @@ export default {
         ];
       }
     },
-    listId: {
+    raceId: {
       type: String,
       // type: Number,
       default: "1"
@@ -118,8 +118,9 @@ export default {
 
       if ((this.itemData.time, pattern.test(this.itemData.time))) {
         this.hasError = false;
+
         this.$store.dispatch("highscorelist/modifyItem", {
-          listId: this.listId,
+          raceId: this.raceId,
           item: {
             id: this.item.id,
             ...this.itemData
