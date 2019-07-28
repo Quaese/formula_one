@@ -1,8 +1,12 @@
 <template>
-  <div>
-    <h2>Highscorelist Home - Seasons-List</h2>
-    <ol v-if="seasons!==null">
-      <li v-for="(seasonId) in order" :key="seasonId">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <h2>Season List</h2>
+      </div>
+    </div>
+    <ol class="row" v-if="seasons!==null">
+      <li class="col-12" v-for="(seasonId) in order" :key="seasonId">
         <span @click="navigate(seasonId)">{{seasons[seasonId].title}} (ID: {{seasons[seasonId].id}})</span>
       </li>
     </ol>

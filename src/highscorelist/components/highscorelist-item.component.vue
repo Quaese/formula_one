@@ -22,7 +22,7 @@
         <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
-          <button @click="setEdit(false); save();">done</button>
+          <button @click="setEdit(false); save();" class="w-100 btn btn-primary">done</button>
         </span>
         <span v-else>{{ item[cell.name] }}</span>
       </div>
@@ -34,7 +34,7 @@
         <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
-          <button @click="setEdit(true)">edit</button>
+          <button @click="setEdit(true)" class="w-100 btn btn-success">edit</button>
         </span>
         <span v-else>{{ item[cell.name] }}</span>
       </div>

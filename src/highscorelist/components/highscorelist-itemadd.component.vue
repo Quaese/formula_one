@@ -14,14 +14,14 @@
           />
         </span>
         <span v-else-if="cell.name === 'actions'">
-          <button @click="setEdit(false); save();">done</button>
+          <button @click="setEdit(false); save();" class="w-100 btn btn-primary">done</button>
         </span>
         <span v-else></span>
       </div>
 
       <div v-else>
         <span v-if="cell.name === 'actions'">
-          <button @click="setEdit(true)">add</button>
+          <button @click="setEdit(true)" class="w-100 btn btn-success">add</button>
         </span>
         <span v-else></span>
       </div>
