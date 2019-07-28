@@ -20,6 +20,9 @@ const handleResponse = response => {
 
 // highscore service
 export default {
+  /*
+   * Fetches the state (async)
+   */
   fetchState: async () => {
     const requestOptions = {
       method: "GET",
@@ -45,13 +48,14 @@ export default {
     return [...highscoreList];
   },
 
-  createId: list => {
-    let id = 0;
+  createId: (prefix, resultsList) => {
+    const resultPre = "_result";
+    let id = resultsList.length;
 
-    list.forEach(item => {
-      id = Math.max(id, item.id);
-    });
+    while (resultsList.indexOf(prefix + resultPre + id) > -1 && id < 1000) {
+      id++;
+    }
 
-    return id + 1;
+    return prefix + resultPre + id;
   }
 };
