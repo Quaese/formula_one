@@ -1,6 +1,39 @@
 import ArrayService from "../../services/array.service";
 
+const apiUrl = "http://localhost:4000";
+
+// handle response from fake fetch (see: _tools/fake-backend.tools.js)
+const handleResponse = response => {
+  return response.text().then(text => {
+    const data = text && JSON.parse(text);
+
+    // response not ok
+    if (!response.ok) {
+      const error = "highscore.service (handleResponse): response not ok";
+      return Promise.reject(error);
+    }
+
+    // return data
+    return data;
+  });
+};
+
+// highscore service
 export default {
+  /*
+   * Fetches the state (async)
+   */
+  fetchState: async () => {
+    const requestOptions = {
+      method: "GET",
+      headers: {}
+    };
+
+    return await fetch(`${apiUrl}/highscore/state`, requestOptions).then(
+      handleResponse
+    );
+  },
+
   sortHighscorelist: list => {
     let highscoreList = list.sort(ArrayService.sortObjectByProperty("time"));
 
@@ -15,13 +48,14 @@ export default {
     return [...highscoreList];
   },
 
-  createId: list => {
-    let id = 0;
+  createId: (prefix, resultsList) => {
+    const resultPre = "_result";
+    let id = resultsList.length;
 
-    list.forEach(item => {
-      id = Math.max(id, item.id);
-    });
+    while (resultsList.indexOf(prefix + resultPre + id) > -1 && id < 1000) {
+      id++;
+    }
 
-    return id + 1;
+    return prefix + resultPre + id;
   }
 };

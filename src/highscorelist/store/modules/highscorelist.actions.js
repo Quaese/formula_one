@@ -1,14 +1,19 @@
-//import BandsService from "../../services/bands.service";
-import highscores, { fields } from "../../mock/highscorelist";
+import HighscoreService from "../../services/highscore.service";
+import highscores from "../../mock/highscorelist";
+import { fields } from "../../mock/fields.mock";
 
 const actions = {
   getFields({ commit }) {
     commit("getFieldsSuccess", { fields });
   },
 
-  getListIDs({ commit }) {
-    const ids = Object.keys(highscores);
-    commit("getListIDsSuccess", { ids });
+  fetchState: async ({ commit }) => {
+    try {
+      const state = await HighscoreService.fetchState();
+      commit("fetchStateSuccess", { state });
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   getById({ commit }, payload) {
@@ -19,11 +24,11 @@ const actions = {
   },
 
   modifyItem({ commit }, payload) {
-    commit("modifyItem", payload);
+    commit("modifyItemSuccess", payload);
   },
 
   addItem({ commit }, payload) {
-    commit("addItem", payload);
+    commit("addItemSuccess", payload);
   }
 };
 

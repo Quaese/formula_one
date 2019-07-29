@@ -23,20 +23,37 @@ export default new Router({
         )
     },
     {
-      path: "/highscorelist/:id",
-      name: "highscorelist",
+      path: "/highscorelist/season/:seasonId/race/:id",
+      name: "highscorelist-race",
       // route level code-splitting
       // this generates a separate chunk (highscorelist.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(
-          /* webpackChunkName: "highscorelist" */ "../highscorelist/views/highscorelist.view.vue"
+          /* webpackChunkName: "highscorelist" */ "../highscorelist/views/highscorelist-race.view.vue"
+        )
+    },
+    {
+      path: "/highscorelist/season/:id",
+      name: "highscorelist-season",
+      // route level code-splitting
+      // this generates a separate chunk (highscorelist.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(
+          /* webpackChunkName: "highscorelist" */ "../highscorelist/views/highscorelist-season.view.vue"
         )
     },
     // {
-    //   path: "/bands/:id",
-    //   name: "band-details",
-    //   component: BandDetails
+    //   path: "/highscorelist/:id",
+    //   name: "highscorelist",
+    //   // route level code-splitting
+    //   // this generates a separate chunk (highscorelist.[hash].js) for this route
+    //   // which is lazy-loaded when the route is visited.
+    //   component: () =>
+    //     import(
+    //       /* webpackChunkName: "highscorelist" */ "../highscorelist/views/highscorelist.view.vue"
+    //     )
     // },
     {
       path: "/about",

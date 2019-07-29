@@ -1,6 +1,7 @@
 <template>
   <tr v-bind:id="`item_${item.id}`">
-    <td v-for="(cell, idxCell) in fields" :key="idxCell">
+    <!--  @click="!edit && setEdit(true)" -->
+    <td v-for="(cell, idxCell) in fields" :key="idxCell" class="align-middle">
       <div v-if="edit">
         <span v-if="cell.name === 'place'">{{idxLine + 1}}</span>
         <span v-else-if="cell.name === 'name'">
@@ -8,7 +9,7 @@
             v-model="itemData.name"
             v-init-input:itemData="{field: 'name', value: item[cell.name]}"
             v-bind:placeholder="item[cell.name]"
-          >
+          />
         </span>
         <span v-else-if="cell.name === 'time'">
           <input
@@ -17,12 +18,12 @@
             v-bind:placeholder="formatTime(item[cell.name])"
             v-bind:class="{error: hasError}"
             pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
-          >
+          />
         </span>
         <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
-          <button @click="setEdit(false); save();">done</button>
+          <button @click="setEdit(false); save();" class="w-100 btn btn-primary">done</button>
         </span>
         <span v-else>{{ item[cell.name] }}</span>
       </div>
@@ -34,7 +35,7 @@
         <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
-          <button @click="setEdit(true)">edit</button>
+          <button @click="setEdit(true)" class="w-100 btn btn-success">edit</button>
         </span>
         <span v-else>{{ item[cell.name] }}</span>
       </div>
@@ -75,9 +76,11 @@ export default {
         ];
       }
     },
-    listId: {
-      type: Number,
-      default: 1
+    raceId: {
+      type: String,
+      // type: Number,
+      default: "1"
+      // default: 1
     },
     item: {
       type: Object,
@@ -116,8 +119,9 @@ export default {
 
       if ((this.itemData.time, pattern.test(this.itemData.time))) {
         this.hasError = false;
+
         this.$store.dispatch("highscorelist/modifyItem", {
-          listId: this.listId,
+          raceId: this.raceId,
           item: {
             id: this.item.id,
             ...this.itemData

@@ -1,9 +1,9 @@
 <template>
   <tr>
-    <td v-for="(cell, idxCell) in fields" :key="idxCell">
+    <td v-for="(cell, idxCell) in fields" :key="idxCell" class="align-middle">
       <div v-if="edit">
         <span v-if="cell.name === 'name'">
-          <input v-model="itemData.name" placeholder="Name">
+          <input v-model="itemData.name" placeholder="Name" />
         </span>
         <span v-else-if="cell.name === 'time'">
           <input
@@ -11,17 +11,17 @@
             placeholder="mm:ss:ddd"
             v-bind:class="{error: hasError}"
             pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
-          >
+          />
         </span>
         <span v-else-if="cell.name === 'actions'">
-          <button @click="setEdit(false); save();">done</button>
+          <button @click="setEdit(false); save();" class="w-100 btn btn-primary">done</button>
         </span>
         <span v-else></span>
       </div>
 
       <div v-else>
         <span v-if="cell.name === 'actions'">
-          <button @click="setEdit(true)">add</button>
+          <button @click="setEdit(true)" class="w-100 btn btn-success">add</button>
         </span>
         <span v-else></span>
       </div>
@@ -62,9 +62,9 @@ export default {
         ];
       }
     },
-    listId: {
-      type: Number,
-      default: 1
+    raceId: {
+      type: String,
+      default: "1"
     }
   },
 
@@ -93,7 +93,7 @@ export default {
       if (this.itemData.time.length > 0 && pattern.test(this.itemData.time)) {
         this.hasError = false;
         this.$store.dispatch("highscorelist/addItem", {
-          listId: this.listId,
+          raceId: this.raceId,
           item: {
             ...this.itemData
           }

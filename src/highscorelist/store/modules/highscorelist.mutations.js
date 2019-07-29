@@ -1,9 +1,62 @@
 import TimeService from "../../services/time.service";
 import HighscoreService from "../../services/highscore.service";
 
+/*
+ * Sorts results for every race in the state (state = {seasons, races, results})
+ */
+const sortRaceResults = state => {
+  let results;
+
+  Object.keys(state.races).forEach(raceId => {
+    results = [];
+
+    // loop over race results
+    state.races[raceId].results.forEach(resultId => {
+      // push corresponding results to an array
+      results.push(state.results[resultId]);
+    });
+
+    // sort temporary results array
+    results = HighscoreService.sortHighscorelist(results);
+    // get result IDs in sorted order
+    results = results.map(result => result.id);
+    // assign sorted results array to race
+    state.races[raceId].results = [...results];
+  });
+};
+
+/*
+ * Sorts results for a race by the raceId (state = {seasons, races, results})
+ */
+const sortResultsByRaceId = (state, raceId) => {
+  let results = [];
+
+  // loop over race results
+  state.races[raceId].results.forEach(resultId => {
+    // push corresponding results to an array
+    results.push(state.results[resultId]);
+  });
+
+  // sort temporary results array
+  results = HighscoreService.sortHighscorelist(results);
+  // get result IDs in sorted order
+  results = results.map(result => result.id);
+  // assign sorted results array to race
+  state.races[raceId].results = [...results];
+};
+
 const mutations = {
   getFieldsSuccess(state, payload) {
     state.fields = [...payload.fields];
+  },
+
+  fetchStateSuccess(state, payload) {
+    sortRaceResults(payload.state);
+
+    // set state
+    state.seasons = { ...payload.state.seasons };
+    state.races = { ...payload.state.races };
+    state.results = { ...payload.state.results };
   },
 
   getByIdSuccess(state, payload) {
@@ -18,48 +71,44 @@ const mutations = {
     };
   },
 
-  getListIDsSuccess(state, payload) {
-    state.ids = { ...payload.ids };
-  },
-
-  modifyItem(state, payload) {
-    // find index of modified highscore item
-    const index = state.lists[payload.listId].list.findIndex(
-      entry => entry.id === payload.item.id
-    );
-
+  modifyItemSuccess(state, payload) {
     // set time and time_string properties
     payload.item.time_string = payload.item.time;
     payload.item.time = TimeService.stringToSeconds(payload.item.time);
 
-    // rebuild highscore list
-    let list = [...state.lists[payload.listId].list];
-    list[index] = payload.item;
+    // set changed/modified results to existing results
+    state.results = { ...state.results, [payload.item.id]: payload.item };
 
-    // sort and recalculate new highscore list
-    list = HighscoreService.sortHighscorelist(list);
+    const tmpState = { ...state };
 
-    // set new state
-    state.lists[payload.listId].list = [...list];
+    // sort results list for race by the raceId
+    sortResultsByRaceId(tmpState, payload.raceId);
+    state.races[payload.raceId] = { ...state.races[payload.raceId] };
   },
 
-  addItem(state, payload) {
+  addItemSuccess(state, payload) {
     // 04:16:123
+    const race = state.races[payload.raceId];
     // create new id
-    const id = HighscoreService.createId(state.lists[payload.listId].list);
+    const resultId = HighscoreService.createId(race.id, race.results);
 
     // set time and time_string properties
     payload.item.time_string = payload.item.time;
     payload.item.time = TimeService.stringToSeconds(payload.item.time);
-    payload.item.id = id;
+    payload.item.id = resultId;
 
-    // create temporary list
-    let list = [...state.lists[payload.listId].list, payload.item];
-    // sort temporary list
-    list = HighscoreService.sortHighscorelist(list);
+    // push new resultId to result IDs array
+    race.results.push(resultId);
+    // update race in state
+    state.races[payload.raceId] = { ...state.races[payload.raceId] };
+    // update results in state
+    state.results = { ...state.results, [resultId]: payload.item };
 
-    // set new state
-    state.lists[payload.listId].list = [...list];
+    const tmpState = { ...state };
+
+    // sort results list for race by the raceId
+    sortResultsByRaceId(tmpState, payload.raceId);
+    state.races[payload.raceId] = { ...state.races[payload.raceId] };
   }
 };
 
