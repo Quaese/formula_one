@@ -1,6 +1,7 @@
 import ArrayService from "../../services/array.service";
 
-const apiUrl = "http://localhost:4000";
+// const apiUrl = "http://localhost:4000";
+const apiUrl = "http://localhost:1337";
 
 // handle response from fake fetch (see: _tools/fake-backend.tools.js)
 const handleResponse = response => {
@@ -29,7 +30,8 @@ export default {
       headers: {}
     };
 
-    return await fetch(`${apiUrl}/highscore/state`, requestOptions).then(
+    // return await fetch(`${apiUrl}/highscore/state`, requestOptions).then(
+    return await fetch(`${apiUrl}/api/v1/state`, requestOptions).then(
       handleResponse
     );
   },

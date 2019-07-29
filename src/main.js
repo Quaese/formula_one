@@ -8,8 +8,8 @@ import "./directives/init-input.directive";
 import "bootstrap/dist/css/bootstrap.css";
 
 // setup fake backend
-import { configureFakeBackend } from "./highscorelist/_tools/fake-backend.tool";
-configureFakeBackend();
+// import { configureFakeBackend } from "./highscorelist/_tools/fake-backend.tool";
+// configureFakeBackend();
 
 Vue.config.productionTip = false;
 
