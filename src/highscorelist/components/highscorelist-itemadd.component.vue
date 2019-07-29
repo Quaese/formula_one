@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td v-for="(cell, idxCell) in fields" :key="idxCell">
+    <td v-for="(cell, idxCell) in fields" :key="idxCell" class="align-middle">
       <div v-if="edit">
         <span v-if="cell.name === 'name'">
           <input v-model="itemData.name" placeholder="Name" />

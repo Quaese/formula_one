@@ -1,6 +1,6 @@
 import HighscoreService from "../../services/highscore.service";
 import highscores from "../../mock/highscorelist";
-import { fields } from "../../mock/saisons.mock";
+import { fields } from "../../mock/fields.mock";
 
 const actions = {
   getFields({ commit }) {

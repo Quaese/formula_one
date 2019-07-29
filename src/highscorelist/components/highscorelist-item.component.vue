@@ -1,6 +1,7 @@
 <template>
   <tr v-bind:id="`item_${item.id}`">
-    <td v-for="(cell, idxCell) in fields" :key="idxCell">
+    <!--  @click="!edit && setEdit(true)" -->
+    <td v-for="(cell, idxCell) in fields" :key="idxCell" class="align-middle">
       <div v-if="edit">
         <span v-if="cell.name === 'place'">{{idxLine + 1}}</span>
         <span v-else-if="cell.name === 'name'">

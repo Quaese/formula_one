@@ -1,6 +1,6 @@
 <template>
   <div v-if="results!==null">
-    <table class="table table-row">
+    <table class="table table-hover">
       <thead>
         <th v-for="(header, index) in fields" :key="index">{{header.value}}</th>
       </thead>
