@@ -1,6 +1,10 @@
-const filename = "../data/state.json";
-let state = require(filename);
 const helper = require("../helpers/helper.js");
+
+const getPath = "../data/";
+const updatePath = "./data/";
+const filename = "state.json";
+
+let state = require(getPath + filename);
 
 function getState() {
   return new Promise((resolve, reject) => {
@@ -15,11 +19,13 @@ function getState() {
   });
 }
 
-function insertState(newState) {}
+function insertState(newState) {
+  newState;
+}
 
 function updateState(newState) {
   return new Promise((resolve, reject) => {
-    // helper.writeJSONFile(filename, newState);
+    helper.writeJSONFile(updatePath + filename, newState);
     resolve(newState);
   });
 }

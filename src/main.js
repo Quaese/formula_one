@@ -3,13 +3,18 @@ import App from "./App.vue";
 import router from "./router/router";
 import store from "./store/index";
 
+import { config } from "./config/config";
+import { configureFakeBackend } from "./highscorelist/_tools/fake-backend.tool";
+
 // register input initializer globally
 import "./directives/init-input.directive";
 import "bootstrap/dist/css/bootstrap.css";
 
-// setup fake backend
-// import { configureFakeBackend } from "./highscorelist/_tools/fake-backend.tool";
-// configureFakeBackend();
+if (config.fakeBackend) {
+  console.log("fakeBackend");
+  // setup fake backend
+  configureFakeBackend();
+}
 
 Vue.config.productionTip = false;
 

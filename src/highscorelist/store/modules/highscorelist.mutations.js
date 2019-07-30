@@ -84,6 +84,7 @@ const mutations = {
     // sort results list for race by the raceId
     sortResultsByRaceId(tmpState, payload.raceId);
     state.races[payload.raceId] = { ...state.races[payload.raceId] };
+    HighscoreService.updateState(state);
   },
 
   addItemSuccess(state, payload) {
