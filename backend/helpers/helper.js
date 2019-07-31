@@ -16,6 +16,9 @@ const writeJSONFile = (filename, content) => {
       }
     }
   );
+
+  // delete json object from require cache
+  delete require.cache[require.resolve("." + filename)];
 };
 
 module.exports = {

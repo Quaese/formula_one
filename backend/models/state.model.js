@@ -3,10 +3,11 @@ const helper = require("../helpers/helper.js");
 const getPath = "../data/";
 const updatePath = "./data/";
 const filename = "state.json";
-
 let state = require(getPath + filename);
 
 function getState() {
+  state = require(getPath + filename);
+
   return new Promise((resolve, reject) => {
     if (Object.keys(state).length === 0) {
       reject({
@@ -26,6 +27,9 @@ function insertState(newState) {
 function updateState(newState) {
   return new Promise((resolve, reject) => {
     helper.writeJSONFile(updatePath + filename, newState);
+
+    // delete require.cache[require.resolve(getPath + filename)];
+
     resolve(newState);
   });
 }
