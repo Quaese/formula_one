@@ -71,7 +71,7 @@ const mutations = {
     };
   },
 
-  modifyItemSuccess(state, payload) {
+  modifyItemSuccess: async (state, payload) => {
     // set time and time_string properties
     payload.item.time_string = payload.item.time;
     payload.item.time = TimeService.stringToSeconds(payload.item.time);
@@ -84,9 +84,12 @@ const mutations = {
     // sort results list for race by the raceId
     sortResultsByRaceId(tmpState, payload.raceId);
     state.races[payload.raceId] = { ...state.races[payload.raceId] };
+
+    // update state.json file on server
+    await HighscoreService.updateState(state);
   },
 
-  addItemSuccess(state, payload) {
+  addItemSuccess: async (state, payload) => {
     // 04:16:123
     const race = state.races[payload.raceId];
     // create new id
@@ -109,6 +112,9 @@ const mutations = {
     // sort results list for race by the raceId
     sortResultsByRaceId(tmpState, payload.raceId);
     state.races[payload.raceId] = { ...state.races[payload.raceId] };
+
+    // update state.json file on server
+    await HighscoreService.updateState(state);
   }
 };
 
