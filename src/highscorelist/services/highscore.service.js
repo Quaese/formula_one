@@ -55,6 +55,7 @@ export default {
 
     return await fetch(requestUrl, requestOptions).then(response => {
       console.log(response);
+      return response.status;
     });
   },
 
