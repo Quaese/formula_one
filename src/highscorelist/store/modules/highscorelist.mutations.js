@@ -115,6 +115,20 @@ const mutations = {
 
     // update state.json file on server
     await HighscoreService.updateState(state);
+  },
+
+  removeItemSuccess: async (state, payload) => {
+    // get race by id
+    const race = state.races[payload.raceId];
+    // remove result id from results array
+    race.results = race.results.filter(id => id !== payload.resultId);
+    // update races in state
+    state.races = { ...state.races, [payload.raceId]: race };
+    // delete result object from state
+    delete state.results[payload.resultId];
+
+    // // update state.json file on server
+    await HighscoreService.updateState(state);
   }
 };
 

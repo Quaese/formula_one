@@ -36,6 +36,7 @@
         <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
           <button @click="setEdit(true)" class="w-100 btn btn-success">edit</button>
+          <button @click="remove(item.id)" class="w-100 btn btn-danger">delete</button>
         </span>
         <span v-else>{{ item[cell.name] }}</span>
       </div>
@@ -130,6 +131,14 @@ export default {
       } else {
         this.hasError = true;
       }
+    },
+
+    remove: function(id) {
+      console.log("id: ", id);
+      this.$store.dispatch("highscorelist/removeItem", {
+        raceId: this.raceId,
+        resultId: id
+      });
     }
   }
 };

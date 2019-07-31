@@ -29,6 +29,10 @@ const actions = {
 
   addItem({ commit }, payload) {
     commit("addItemSuccess", payload);
+  },
+
+  removeItem({ commit }, payload) {
+    commit("removeItemSuccess", payload);
   }
 };
 
