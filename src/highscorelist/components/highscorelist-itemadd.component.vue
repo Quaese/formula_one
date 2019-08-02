@@ -3,7 +3,7 @@
     <td v-for="(cell, idxCell) in fields" :key="idxCell" class="align-middle">
       <div v-if="edit">
         <span v-if="cell.name === 'name'">
-          <input v-model="itemData.name" placeholder="Name" />
+          <input ref="name" v-model="itemData.name" placeholder="Name" />
         </span>
         <span v-else-if="cell.name === 'time'">
           <input
@@ -15,6 +15,7 @@
         </span>
         <span v-else-if="cell.name === 'actions'">
           <button @click="setEdit(false); save();" class="w-100 btn btn-primary">done</button>
+          <button @click="setEdit(false);" class="w-100 btn btn-secondary">cancel</button>
         </span>
         <span v-else></span>
       </div>
@@ -35,7 +36,7 @@
 import TimeService from "../services/time.service";
 
 export default {
-  name: "highscorelist-item",
+  name: "highscorelist-item-add",
 
   data() {
     return {
@@ -81,6 +82,14 @@ export default {
 
     setEdit: function(enable) {
       this.edit = enable;
+
+      if (enable) {
+        this.itemData.name = "";
+        this.itemData.time = "";
+        this.$nextTick(() => {
+          this.$refs["name"][0].focus();
+        });
+      }
     },
 
     save: function() {

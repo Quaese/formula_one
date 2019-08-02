@@ -44,9 +44,14 @@ export default {
    * Updates the state (async)
    */
   updateState: async state => {
+    // clone state and remove unnecessary properties before update
+    let saveState = { ...state };
+    delete saveState.loading;
+    delete saveState.fields;
+
     const requestOptions = {
       method: "PUT",
-      body: JSON.stringify(state),
+      body: JSON.stringify(saveState),
       headers: { "Content-Type": "application/json" }
     };
     const requestUrl = config.fakeBackend

@@ -6,6 +6,7 @@
         <span v-if="cell.name === 'place'">{{idxLine + 1}}</span>
         <span v-else-if="cell.name === 'name'">
           <input
+            ref="name"
             v-model="itemData.name"
             v-init-input:itemData="{field: 'name', value: item[cell.name]}"
             v-bind:placeholder="item[cell.name]"
@@ -24,6 +25,7 @@
         <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
           <button @click="setEdit(false); save();" class="w-100 btn btn-primary">done</button>
+          <button @click="setEdit(false);" class="w-100 btn btn-secondary">cancel</button>
         </span>
         <span v-else>{{ item[cell.name] }}</span>
       </div>
@@ -104,6 +106,7 @@ export default {
     if (this.hasError) {
       this.edit = true;
     }
+    // if (this.edit) this.$refs["name"][0].focus();
   },
 
   methods: {
@@ -113,6 +116,12 @@ export default {
 
     setEdit: function(enable) {
       this.edit = enable;
+
+      if (enable) {
+        this.$nextTick(() => {
+          this.$refs["name"][0].focus();
+        });
+      }
     },
 
     save: function() {
