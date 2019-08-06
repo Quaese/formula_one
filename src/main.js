@@ -30,6 +30,7 @@ import {
   faCheck,
   faEdit,
   faPencilAlt,
+  faPlus,
   faTimes,
   faTimesCircle,
   faTrashAlt
@@ -49,6 +50,7 @@ library.add(
   faCheck,
   faEdit,
   faPencilAlt,
+  faPlus,
   faTimes,
   faTimesCircle,
   faTrashAlt,

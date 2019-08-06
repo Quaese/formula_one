@@ -24,18 +24,31 @@
         <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
-          <font-awesome-icon
-            :icon="['far', 'check-circle']"
-            size="lg"
+          <font-awesome-layers
             @click="setEdit(false); save();"
             title="ok"
-          />
-          <font-awesome-icon
-            :icon="['far', 'times-circle']"
-            size="lg"
+            class="fa-lg qp-action-icon qp-action-icon-layer"
+          >
+            <font-awesome-icon :icon="['far', 'circle']" />
+            <font-awesome-icon
+              class="qp-action-icon-ok"
+              :icon="['fas', 'check']"
+              transform="shrink-8"
+            />
+          </font-awesome-layers>
+
+          <font-awesome-layers
             @click="setEdit(false);"
             title="cancel"
-          />
+            class="fa-lg qp-action-icon qp-action-icon-layer"
+          >
+            <font-awesome-icon :icon="['far', 'circle']" />
+            <font-awesome-icon
+              class="qp-action-icon-cancel"
+              :icon="['fas', 'times']"
+              transform="shrink-8"
+            />
+          </font-awesome-layers>
         </span>
         <span v-else>{{ item[cell.name] }}</span>
       </div>
@@ -47,8 +60,27 @@
         <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
-          <font-awesome-icon icon="edit" @click="setEdit(true)" title="edit" />
-          <font-awesome-icon :icon="['fas', 'trash-alt']" @click="remove(item.id)" title="remove" />
+          <font-awesome-layers
+            @click="setEdit(true)"
+            title="edit"
+            class="fa-lg qp-action-icon qp-action-icon-layer"
+          >
+            <font-awesome-icon :icon="['far', 'circle']" />
+            <font-awesome-icon class="qp-action-icon-edit" icon="pencil-alt" transform="shrink-8" />
+          </font-awesome-layers>
+
+          <font-awesome-layers
+            @click="remove(item.id)"
+            title="remove"
+            class="fa-lg qp-action-icon qp-action-icon-layer"
+          >
+            <font-awesome-icon :icon="['far', 'circle']" />
+            <font-awesome-icon
+              class="qp-action-icon-remove"
+              :icon="['far', 'trash-alt']"
+              transform="shrink-8"
+            />
+          </font-awesome-layers>
         </span>
         <span v-else>{{ item[cell.name] }}</span>
       </div>
@@ -163,7 +195,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
 .error {
   border: 1px solid red;
 }
