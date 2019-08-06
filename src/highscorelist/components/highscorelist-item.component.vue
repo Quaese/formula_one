@@ -24,8 +24,18 @@
         <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
-          <button @click="setEdit(false); save();" class="w-100 btn btn-primary">done</button>
-          <button @click="setEdit(false);" class="w-100 btn btn-secondary">cancel</button>
+          <font-awesome-icon
+            :icon="['far', 'check-circle']"
+            size="lg"
+            @click="setEdit(false); save();"
+            title="ok"
+          />
+          <font-awesome-icon
+            :icon="['far', 'times-circle']"
+            size="lg"
+            @click="setEdit(false);"
+            title="cancel"
+          />
         </span>
         <span v-else>{{ item[cell.name] }}</span>
       </div>
@@ -37,8 +47,8 @@
         <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
-          <button @click="setEdit(true)" class="w-100 btn btn-success">edit</button>
-          <button @click="remove(item.id)" class="w-100 btn btn-danger">delete</button>
+          <font-awesome-icon icon="edit" @click="setEdit(true)" title="edit" />
+          <font-awesome-icon :icon="['fas', 'trash-alt']" @click="remove(item.id)" title="remove" />
         </span>
         <span v-else>{{ item[cell.name] }}</span>
       </div>
