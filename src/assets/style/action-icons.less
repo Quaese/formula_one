@@ -1,0 +1,33 @@
+@qp-action-icon-margin: 3px 5px;
+
+.qp-action-icon {
+  color: @color-secondary;
+  font-size: 28px;
+  margin: @qp-action-icon-margin;
+  cursor: pointer;
+
+  &-ok {
+    &:hover {
+      color: @color-success;
+    }
+  }
+  &-cancel {
+    &:hover {
+      color: @color-info;
+    }
+  }
+  &-edit {
+    &:hover {
+      color: @color-primary;
+    }
+  }
+  &-remove {
+    &:hover {
+      color: @color-danger;
+    }
+  }
+
+  &-layer {
+    margin: 0 5px;
+  }
+}
