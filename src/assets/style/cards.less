@@ -1,0 +1,26 @@
+.qp-card {
+  &-list {
+    list-style: none;
+    padding: 0;
+
+    li {
+      width: 23%;
+    }
+
+    @media (max-width: @mid-max-width) {
+      li {
+        width: 31%;
+      }
+    }
+
+    @media (max-width: @small-max-width) {
+      li {
+        width: 47%;
+      }
+    }
+  }
+
+  &-img {
+    filter: grayscale(70%);
+  }
+}
