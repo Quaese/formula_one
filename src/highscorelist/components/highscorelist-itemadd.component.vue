@@ -14,15 +14,49 @@
           />
         </span>
         <span v-else-if="cell.name === 'actions'">
-          <button @click="setEdit(false); save();" class="w-100 btn btn-primary">done</button>
-          <button @click="setEdit(false);" class="w-100 btn btn-secondary">cancel</button>
+          <font-awesome-layers
+            @click="setEdit(false); save();"
+            title="ok"
+            class="fa-lg qp-action-icon qp-action-icon-layer"
+          >
+            <font-awesome-icon :icon="['far', 'circle']" />
+            <font-awesome-icon
+              class="qp-action-icon-ok"
+              :icon="['fas', 'check']"
+              transform="shrink-8"
+            />
+          </font-awesome-layers>
+
+          <font-awesome-layers
+            @click="setEdit(false);"
+            title="cancel"
+            class="fa-lg qp-action-icon qp-action-icon-layer"
+          >
+            <font-awesome-icon :icon="['far', 'circle']" />
+            <font-awesome-icon
+              class="qp-action-icon-cancel"
+              :icon="['fas', 'times']"
+              transform="shrink-8"
+            />
+          </font-awesome-layers>
         </span>
         <span v-else></span>
       </div>
 
       <div v-else>
         <span v-if="cell.name === 'actions'">
-          <button @click="setEdit(true)" class="w-100 btn btn-success">add</button>
+          <font-awesome-layers
+            @click="setEdit(true);"
+            title="add"
+            class="fa-lg qp-action-icon qp-action-icon-layer"
+          >
+            <font-awesome-icon :icon="['far', 'circle']" />
+            <font-awesome-icon
+              class="qp-action-icon-primary"
+              :icon="['fas', 'plus']"
+              transform="shrink-8"
+            />
+          </font-awesome-layers>
         </span>
         <span v-else></span>
       </div>
