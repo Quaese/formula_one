@@ -6,6 +6,8 @@ const filename = "state.json";
 let state = require(getPath + filename);
 
 function getState() {
+  // delete json object from require cache
+  delete require.cache[require.resolve(getPath + filename)];
   state = require(getPath + filename);
 
   return new Promise((resolve, reject) => {
