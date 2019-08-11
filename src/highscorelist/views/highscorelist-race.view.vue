@@ -2,7 +2,21 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <h2>Results{{race!==null && `${" - " + race.title}`}}</h2>
+        <h2 class="qp-breadcrumb-header">
+          <font-awesome-layers
+            @click="back()"
+            title="back"
+            class="fa-lg qp-action-icon qp-action-icon-layer"
+          >
+            <font-awesome-icon :icon="['far', 'circle']" />
+            <font-awesome-icon
+              class="qp-action-icon-primary"
+              icon="arrow-left"
+              transform="shrink-8"
+            />
+          </font-awesome-layers>
+          Results{{race!==null && `${" - " + race.title}`}}
+        </h2>
       </div>
     </div>
     <div class="row">
@@ -59,6 +73,10 @@ export default {
   },
 
   methods: {
+    back() {
+      this.$router.push(`/highscorelist/season/${this.seasonId}`);
+    }
+
     // getRaceById() {
     //   return this.$store.getters["highscorelist/getRaceById"]({
     //     raceId: this.raceId,

@@ -29,6 +29,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCheck,
   faEdit,
+  faArrowLeft,
+  faArrowRight,
   faPencilAlt,
   faPlus,
   faTimes,
@@ -49,6 +51,8 @@ import {
 library.add(
   faCheck,
   faEdit,
+  faArrowLeft,
+  faArrowRight,
   faPencilAlt,
   faPlus,
   faTimes,

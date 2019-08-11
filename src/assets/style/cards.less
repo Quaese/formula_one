@@ -1,26 +1,50 @@
 .qp-card {
   &-list {
     list-style: none;
-    padding: 0;
+    padding: 15px;
 
     li {
       width: 23%;
     }
 
-    @media (max-width: @mid-max-width) {
+    @media (max-width: @large-max-width) {
       li {
         width: 31%;
       }
     }
 
-    @media (max-width: @small-max-width) {
+    @media (max-width: @mid-max-width) {
       li {
         width: 47%;
+      }
+    }
+
+    @media (max-width: @small-max-width) {
+      li {
+        width: 100%;
       }
     }
   }
 
   &-img {
     filter: grayscale(70%);
+
+    &-bg {
+      filter: grayscale(70%);
+      background-size: cover;
+      background-position: 50%;
+      height: 150px;
+    }
+  }
+
+  &-footer {
+    margin: auto -5px;
+    padding-top: 15px;
+
+    &-actions,
+    &-navigate {
+      // padding-left: 10px;
+      // padding-right: 10px;
+    }
   }
 }

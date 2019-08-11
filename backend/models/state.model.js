@@ -27,7 +27,7 @@ function insertState(newState) {
 }
 
 function updateState(newState) {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     helper.writeJSONFile(updatePath + filename, newState);
 
     // delete require.cache[require.resolve(getPath + filename)];
@@ -36,7 +36,9 @@ function updateState(newState) {
   });
 }
 
-function deleteState(id) {}
+function deleteState(id) {
+  id;
+}
 
 module.exports = {
   getState,
