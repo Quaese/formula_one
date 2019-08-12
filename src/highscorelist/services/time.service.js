@@ -37,5 +37,12 @@ export default {
           ":" +
           (milliSeconds < 10 ? "00" : milliSeconds < 100 ? "0" : "") +
           milliSeconds;
+  },
+
+  formatDateTime: timestamp => {
+    const date = new Date(timestamp);
+
+    return `${date.getDate()}.${date.getMonth() +
+      1}.${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
   }
 };
