@@ -37,7 +37,7 @@
               <div class="qp-card-footer-actions">
                 <span v-if="modifyState.season !== seasonId">
                   <font-awesome-layers
-                    @click="remove(seasonId)"
+                    @click="removeSeason(seasonId)"
                     title="remove"
                     class="fa-lg qp-action-icon qp-action-icon-layer"
                   >
@@ -118,7 +118,7 @@
             <div class="row mb-1">
               <div class="col-12 d-flex justify-content-center align-items-center">
                 <font-awesome-layers
-                  @click="addSeason(true);"
+                  @click="addSeason();"
                   title="add"
                   class="fa-lg qp-action-icon qp-action-icon-layer qp-card-icon-large"
                 >
@@ -222,6 +222,19 @@ export default {
 
       // reset model
       this.resetModel();
+    },
+
+    addSeason() {
+      this.$store.dispatch("highscorelist/addSeason", {
+        object: "season"
+      });
+    },
+
+    removeSeason(seasonId) {
+      this.$store.dispatch("highscorelist/removeSeason", {
+        id: seasonId,
+        object: "season"
+      });
     }
   }
 };

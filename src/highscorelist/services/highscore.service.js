@@ -79,14 +79,13 @@ export default {
     return [...highscoreList];
   },
 
-  createId: (prefix, resultsList) => {
-    const resultPre = "_result";
-    let id = resultsList.length;
+  createId: (prefix, idList, additionalPre = "") => {
+    let id = idList.length;
 
-    while (resultsList.indexOf(prefix + resultPre + id) > -1 && id < 1000) {
+    while (idList.indexOf(prefix + additionalPre + id) > -1 && id < 1000) {
       id++;
     }
 
-    return prefix + resultPre + id;
+    return prefix + additionalPre + id;
   }
 };

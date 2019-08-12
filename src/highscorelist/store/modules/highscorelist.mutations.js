@@ -93,7 +93,11 @@ const mutations = {
     // 04:16:123
     const race = state.races[payload.raceId];
     // create new id
-    const resultId = HighscoreService.createId(race.id, race.results);
+    const resultId = HighscoreService.createId(
+      race.id,
+      race.results,
+      "_result"
+    );
 
     // set time and time_string properties
     payload.item.time_string = payload.item.time;
@@ -135,6 +139,29 @@ const mutations = {
     state.modify = { ...state.modify, [payload.object]: payload.id };
   },
 
+  addSeasonSuccess: async (state, payload) => {
+    const seasonId = HighscoreService.createId("season", state.seasons.order);
+
+    state.seasons.byId = {
+      ...state.seasons.byId,
+      [seasonId]: {
+        id: seasonId,
+        title: seasonId,
+        created: new Date().getTime(),
+        modified: new Date().getTime(),
+        races: []
+      }
+    };
+    state.seasons.order.push(seasonId);
+
+    try {
+      await HighscoreService.updateState(state);
+      state.modify = { ...state.modify, [payload.object]: null };
+    } catch (err) {
+      console.log("ERROR: Could not update state on server");
+    }
+  },
+
   updateSeasonSuccess: async (state, payload) => {
     // update properties
     state.seasons.byId[payload.id] = {
@@ -142,6 +169,27 @@ const mutations = {
       title: payload.title,
       modified: new Date().getTime()
     };
+
+    try {
+      await HighscoreService.updateState(state);
+      state.modify = { ...state.modify, [payload.object]: null };
+    } catch (err) {
+      console.log("ERROR: Could not update state on server");
+    }
+  },
+
+  removeSeasonSuccess: async (state, payload) => {
+    var seasons = { ...state.seasons };
+
+    // remove season object from state
+    delete seasons.byId[payload.id];
+    // remove season id from order array
+    seasons.order = [
+      ...seasons.order.filter(seasonId => seasonId !== payload.id)
+    ];
+
+    // update seasons
+    state.seasons = { ...seasons };
 
     try {
       await HighscoreService.updateState(state);

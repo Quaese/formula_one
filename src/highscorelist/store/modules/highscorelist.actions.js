@@ -39,8 +39,16 @@ const actions = {
     commit("setModifyStateSuccess", payload);
   },
 
+  addSeason({ commit }, payload) {
+    commit("addSeasonSuccess", payload);
+  },
+
   updateSeason({ commit }, payload) {
     commit("updateSeasonSuccess", payload);
+  },
+
+  removeSeason({ commit }, payload) {
+    commit("removeSeasonSuccess", payload);
   }
 };
 
