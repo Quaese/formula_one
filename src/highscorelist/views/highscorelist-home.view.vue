@@ -18,8 +18,8 @@
               <small class="text-muted">Created: {{formatDateTime(seasons[seasonId].date)}}</small>
             </p>
             <div class="row mb-1">
-              <div class="col-6">Races:</div>
-              <div class="col-6">{{seasons[seasonId].races.length}}</div>
+              <div class="col-4 col-md-6">Races:</div>
+              <div class="col-8 col-md-6">{{seasons[seasonId].races.length}}</div>
             </div>
 
             <div class="qp-card-footer d-flex justify-content-between">

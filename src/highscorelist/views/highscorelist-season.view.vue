@@ -45,17 +45,17 @@
       <li class="mb-4" v-for="raceId in season.races" :key="raceId">
         <div class="card qp-card">
           <div class="card-body">
-            <h5 class="card-title mb-2">{{races[raceId].title}}}</h5>
+            <h5 class="card-title mb-2">{{races[raceId].title}}</h5>
             <p class="card-subtitle mb-3 card-text">
               <small class="text-muted">Created: {{formatDateTime(races[raceId].date)}}</small>
             </p>
             <div class="row mb-1">
-              <div class="col-6">Location:</div>
-              <div class="col-6">{{races[raceId].location}}</div>
+              <div class="col-4 col-md-6">Location:</div>
+              <div class="col-8 col-md-6">{{races[raceId].location}}</div>
             </div>
             <div class="row mb-1">
-              <div class="col-6">Results:</div>
-              <div class="col-6">{{races[raceId].results.length}}</div>
+              <div class="col-4 col-md-6">Results:</div>
+              <div class="col-8 col-md-6">{{races[raceId].results.length}}</div>
             </div>
 
             <div class="qp-card-footer d-flex justify-content-between">
@@ -101,6 +101,36 @@
                   />
                 </font-awesome-layers>
               </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- add race -->
+      <li class="mb-4">
+        <div class="card qp-card">
+          <div class="card-body">
+            <h5 class="card-title mb-2">Add race</h5>
+            <div class="row mb-1">
+              <div class="col-12 d-flex justify-content-center align-items-center">
+                <font-awesome-layers
+                  @click="addSeason(true);"
+                  title="add"
+                  class="fa-lg qp-action-icon qp-action-icon-layer qp-card-icon-large"
+                >
+                  <font-awesome-icon :icon="['far', 'circle']" />
+                  <font-awesome-icon
+                    class="qp-action-icon-primary"
+                    :icon="['fas', 'plus']"
+                    transform="shrink-8"
+                  />
+                </font-awesome-layers>
+              </div>
+            </div>
+
+            <div class="qp-card-footer ep-flex d-flex justify-content-between">
+              <div class="qp-card-footer-actions"></div>
+              <div class="qp-card-footer-navigate"></div>
             </div>
           </div>
         </div>
