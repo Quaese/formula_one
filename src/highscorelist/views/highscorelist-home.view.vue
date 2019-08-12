@@ -73,28 +73,23 @@
       <!-- add season -->
       <li class="mb-4">
         <div class="card qp-card">
-          <div
-            class="card-img-top qp-card-img-bg d-flex justify-content-center align-items-center"
-            style
-          >
-            <font-awesome-layers
-              @click="addSeason(true);"
-              title="add"
-              class="fa-lg qp-action-icon qp-action-icon-layer"
-              style="font-size: 5em;"
-            >
-              <font-awesome-icon :icon="['far', 'circle']" />
-              <font-awesome-icon
-                class="qp-action-icon-primary"
-                :icon="['fas', 'plus']"
-                transform="shrink-8"
-              />
-            </font-awesome-layers>
-          </div>
           <div class="card-body">
             <h5 class="card-title mb-2">Add season</h5>
             <div class="row mb-1">
-              <div class="col-12"></div>
+              <div class="col-12 d-flex justify-content-center align-items-center">
+                <font-awesome-layers
+                  @click="addSeason(true);"
+                  title="add"
+                  class="fa-lg qp-action-icon qp-action-icon-layer qp-card-icon-large"
+                >
+                  <font-awesome-icon :icon="['far', 'circle']" />
+                  <font-awesome-icon
+                    class="qp-action-icon-primary"
+                    :icon="['fas', 'plus']"
+                    transform="shrink-8"
+                  />
+                </font-awesome-layers>
+              </div>
             </div>
 
             <div class="qp-card-footer ep-flex d-flex justify-content-between">
