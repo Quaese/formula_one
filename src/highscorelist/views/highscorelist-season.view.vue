@@ -47,7 +47,7 @@
           <div class="card-body">
             <h5 class="card-title mb-2">{{races[raceId].title}}</h5>
             <p class="card-subtitle mb-3 card-text">
-              <small class="text-muted">Created: {{formatDateTime(races[raceId].date)}}</small>
+              <small class="text-muted">Created: {{formatDateTime(races[raceId].created)}}</small>
             </p>
             <div class="row mb-1">
               <div class="col-4 col-md-6">Location:</div>

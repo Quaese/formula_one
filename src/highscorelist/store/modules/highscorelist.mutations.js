@@ -129,6 +129,26 @@ const mutations = {
 
     // // update state.json file on server
     await HighscoreService.updateState(state);
+  },
+
+  setModifyStateSuccess(state, payload) {
+    state.modify = { ...state.modify, [payload.object]: payload.id };
+  },
+
+  updateSeasonSuccess: async (state, payload) => {
+    // update properties
+    state.seasons.byId[payload.id] = {
+      ...state.seasons.byId[payload.id],
+      title: payload.title,
+      modified: new Date().getTime()
+    };
+
+    try {
+      await HighscoreService.updateState(state);
+      state.modify = { ...state.modify, [payload.object]: null };
+    } catch (err) {
+      console.log("ERROR: Could not update state on server");
+    }
   }
 };
 

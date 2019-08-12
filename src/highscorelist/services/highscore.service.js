@@ -48,6 +48,7 @@ export default {
     let saveState = { ...state };
     delete saveState.loading;
     delete saveState.fields;
+    delete saveState.modify;
 
     const requestOptions = {
       method: "PUT",

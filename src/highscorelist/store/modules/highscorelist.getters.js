@@ -20,6 +20,13 @@ const getters = {
       : null;
 
     return results;
+  },
+
+  /*
+   * Get the current modify state
+   */
+  getModifyState: state => () => {
+    return state.modify;
   }
 };
 
