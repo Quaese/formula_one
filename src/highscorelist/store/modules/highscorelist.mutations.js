@@ -197,6 +197,23 @@ const mutations = {
     } catch (err) {
       console.log("ERROR: Could not update state on server");
     }
+  },
+
+  updateRaceSuccess: async (state, payload) => {
+    // update properties
+    state.races[payload.id] = {
+      ...state.races[payload.id],
+      title: payload.title,
+      location: payload.location,
+      modified: new Date().getTime()
+    };
+
+    try {
+      await HighscoreService.updateState(state);
+      state.modify = { ...state.modify, [payload.object]: null };
+    } catch (err) {
+      console.log("ERROR: Could not update state on server");
+    }
   }
 };
 

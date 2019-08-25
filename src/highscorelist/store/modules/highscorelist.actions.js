@@ -49,6 +49,10 @@ const actions = {
 
   removeSeason({ commit }, payload) {
     commit("removeSeasonSuccess", payload);
+  },
+
+  updateRace({ commit }, payload) {
+    commit("updateRaceSuccess", payload);
   }
 };
 
