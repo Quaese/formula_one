@@ -93,7 +93,11 @@ const mutations = {
     // 04:16:123
     const race = state.races[payload.raceId];
     // create new id
-    const resultId = HighscoreService.createId(race.id, race.results);
+    const resultId = HighscoreService.createId(
+      race.id,
+      race.results,
+      "_result"
+    );
 
     // set time and time_string properties
     payload.item.time_string = payload.item.time;
@@ -129,6 +133,165 @@ const mutations = {
 
     // // update state.json file on server
     await HighscoreService.updateState(state);
+  },
+
+  setModifyStateSuccess(state, payload) {
+    state.modify = { ...state.modify, [payload.object]: payload.id };
+  },
+
+  addSeasonSuccess: async (state, payload) => {
+    const seasonId = HighscoreService.createId("season", state.seasons.order);
+    const date = new Date().getTime();
+
+    state.seasons.byId = {
+      ...state.seasons.byId,
+      [seasonId]: {
+        id: seasonId,
+        title: seasonId,
+        created: date,
+        modified: date,
+        races: []
+      }
+    };
+    state.seasons.order.push(seasonId);
+
+    try {
+      await HighscoreService.updateState(state);
+      state.modify = { ...state.modify, [payload.object]: null };
+    } catch (err) {
+      console.log("ERROR: Could not update state on server");
+    }
+  },
+
+  updateSeasonSuccess: async (state, payload) => {
+    // update properties
+    state.seasons.byId[payload.id] = {
+      ...state.seasons.byId[payload.id],
+      title: payload.title,
+      modified: new Date().getTime()
+    };
+
+    try {
+      await HighscoreService.updateState(state);
+      state.modify = { ...state.modify, [payload.object]: null };
+    } catch (err) {
+      console.log("ERROR: Could not update state on server");
+    }
+  },
+
+  removeSeasonSuccess: async (state, payload) => {
+    var seasons = { ...state.seasons };
+    const season = seasons.byId[payload.id];
+
+    season.races.forEach(raceId => {
+      // get race object from state
+      const race = state.races[raceId];
+
+      // remove all related results
+      race.results.forEach(resultId => delete state.results[resultId]);
+
+      // remove race from state
+      delete state.races[raceId];
+    });
+
+    // remove season object from state
+    delete seasons.byId[payload.id];
+    // remove season id from order array
+    seasons.order = [
+      ...seasons.order.filter(seasonId => seasonId !== payload.id)
+    ];
+
+    // update seasons
+    state.seasons = { ...seasons };
+
+    try {
+      await HighscoreService.updateState(state);
+      state.modify = { ...state.modify, [payload.object]: null };
+    } catch (err) {
+      console.log("ERROR: Could not update state on server");
+    }
+  },
+
+  updateRaceSuccess: async (state, payload) => {
+    // update properties
+    state.races[payload.id] = {
+      ...state.races[payload.id],
+      title: payload.title,
+      location: payload.location,
+      modified: new Date().getTime()
+    };
+
+    try {
+      await HighscoreService.updateState(state);
+      state.modify = { ...state.modify, [payload.object]: null };
+    } catch (err) {
+      console.log("ERROR: Could not update state on server");
+    }
+  },
+
+  addRaceSuccess: async (state, payload) => {
+    const raceId = HighscoreService.createId(
+      payload.seasonId + "_race",
+      state.seasons.byId[payload.seasonId].races
+    );
+    const date = new Date().getTime();
+
+    // add new race to state
+    state.races = {
+      ...state.races,
+      [raceId]: {
+        id: raceId,
+        season_id: payload.seasonId,
+        title: "New Race",
+        location: "New Location",
+        created: date,
+        modified: date,
+        results: []
+      }
+    };
+
+    // add new race id to related season
+    state.seasons.byId[payload.seasonId] = {
+      ...state.seasons.byId[payload.seasonId],
+      races: [...state.seasons.byId[payload.seasonId].races, raceId],
+      modified: date
+    };
+
+    try {
+      await HighscoreService.updateState(state);
+      state.modify = { ...state.modify, [payload.object]: null };
+    } catch (err) {
+      console.log("ERROR: Could not update state on server");
+    }
+  },
+
+  removeRaceSuccess: async (state, payload) => {
+    const race = state.races[payload.id];
+    const date = new Date().getTime();
+
+    // remove race id from related season object
+    state.seasons.byId[race.season_id] = {
+      ...state.seasons.byId[race.season_id],
+      races: [
+        ...state.seasons.byId[race.season_id].races.filter(
+          race => race !== payload.id
+        )
+      ],
+      modified: date
+    };
+
+    // remove related results from state
+    race.results.forEach(resultId => delete state.results[resultId]);
+
+    // remove race from state
+    delete state.races[payload.id];
+
+    try {
+      await HighscoreService.updateState(state);
+      state.modify = { ...state.modify, [payload.object]: null };
+    } catch (err) {
+      console.log("ERROR: Could not update state on server");
+    }
   }
 };
 

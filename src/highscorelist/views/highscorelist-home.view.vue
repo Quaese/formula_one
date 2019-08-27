@@ -13,9 +13,21 @@
             :style="{'background-image': `url(${randomNumber(10)})`}"
           ></div>
           <div class="card-body">
-            <h5 class="card-title mb-2">{{seasons[seasonId].title}}</h5>
-            <p class="card-subtitle mb-3 card-text">
-              <small class="text-muted">Created: {{formatDateTime(seasons[seasonId].date)}}</small>
+            <h5 class="card-title mb-2">
+              <span v-if="modifyState.season !== seasonId">{{seasons[seasonId].title}}</span>
+              <input
+                v-else
+                type="text"
+                class="form-control"
+                v-model="model.title"
+                v-init-input:model="{field: 'title', value: seasons[seasonId].title}"
+                v-bind:placeholder="seasons[seasonId].title"
+              />
+            </h5>
+            <p class="card-subtitle mb-3 card-text" style="line-height: 1.1;">
+              <small class="text-muted">Created: {{formatDateTime(seasons[seasonId].created)}}</small>
+              <br />
+              <small class="text-muted">Modified: {{formatDateTime(seasons[seasonId].modified)}}</small>
             </p>
             <div class="row mb-1">
               <div class="col-4 col-md-6">Races:</div>
@@ -24,31 +36,60 @@
 
             <div class="qp-card-footer d-flex justify-content-between">
               <div class="qp-card-footer-actions">
-                <font-awesome-layers
-                  @click="remove(seasonId)"
-                  title="remove"
-                  class="fa-lg qp-action-icon qp-action-icon-layer"
-                >
-                  <font-awesome-icon :icon="['far', 'circle']" />
-                  <font-awesome-icon
-                    class="qp-action-icon-remove"
-                    :icon="['far', 'trash-alt']"
-                    transform="shrink-8"
-                  />
-                </font-awesome-layers>
+                <span v-if="modifyState.season !== seasonId">
+                  <font-awesome-layers
+                    @click="removeSeason(seasonId)"
+                    title="remove"
+                    class="fa-lg qp-action-icon qp-action-icon-layer"
+                  >
+                    <font-awesome-icon :icon="['far', 'circle']" />
+                    <font-awesome-icon
+                      class="qp-action-icon-remove"
+                      :icon="['far', 'trash-alt']"
+                      transform="shrink-8"
+                    />
+                  </font-awesome-layers>
 
-                <!-- <font-awesome-layers
-                  @click="setEdit(true)"
-                  title="edit"
-                  class="fa-lg qp-action-icon qp-action-icon-layer"
-                >
-                  <font-awesome-icon :icon="['far', 'circle']" />
-                  <font-awesome-icon
-                    class="qp-action-icon-edit"
-                    icon="pencil-alt"
-                    transform="shrink-8"
-                  />
-                </font-awesome-layers>-->
+                  <font-awesome-layers
+                    @click="setModify(seasonId)"
+                    title="edit"
+                    class="fa-lg qp-action-icon qp-action-icon-layer"
+                  >
+                    <font-awesome-icon :icon="['far', 'circle']" />
+                    <font-awesome-icon
+                      class="qp-action-icon-edit"
+                      icon="pencil-alt"
+                      transform="shrink-8"
+                    />
+                  </font-awesome-layers>
+                </span>
+                <span v-if="modifyState.season === seasonId">
+                  <font-awesome-layers
+                    @click="setModify(null);"
+                    title="cancel"
+                    class="fa-lg qp-action-icon qp-action-icon-layer"
+                  >
+                    <font-awesome-icon :icon="['far', 'circle']" />
+                    <font-awesome-icon
+                      class="qp-action-icon-cancel"
+                      :icon="['fas', 'times']"
+                      transform="shrink-8"
+                    />
+                  </font-awesome-layers>
+
+                  <font-awesome-layers
+                    @click="saveModify(seasonId)"
+                    title="save"
+                    class="fa-lg qp-action-icon qp-action-icon-layer"
+                  >
+                    <font-awesome-icon :icon="['far', 'circle']" />
+                    <font-awesome-icon
+                      class="qp-action-icon-success"
+                      icon="check"
+                      transform="shrink-8"
+                    />
+                  </font-awesome-layers>
+                </span>
               </div>
 
               <div class="qp-card-footer-navigate">
@@ -78,7 +119,7 @@
             <div class="row mb-1">
               <div class="col-12 d-flex justify-content-center align-items-center">
                 <font-awesome-layers
-                  @click="addSeason(true);"
+                  @click="addSeason();"
                   title="add"
                   class="fa-lg qp-action-icon qp-action-icon-layer qp-card-icon-large"
                 >
@@ -110,7 +151,11 @@ export default {
   name: "highscorelist-home-view",
 
   data() {
-    return {};
+    return {
+      model: {
+        title: ""
+      }
+    };
   },
 
   computed: {
@@ -121,6 +166,9 @@ export default {
     },
     order() {
       return this.$store.state.highscorelist.seasons.order;
+    },
+    modifyState() {
+      return this.$store.getters["highscorelist/getModifyState"]();
     }
   },
 
@@ -150,6 +198,44 @@ export default {
 
     remove(seasonId) {
       console.log("highscorelist-home.view.vue (remove): ", seasonId);
+    },
+
+    resetModel() {
+      Object.keys(this.model).forEach(key => (this.model[key] = null));
+    },
+
+    setModify(seasonId) {
+      // reset model
+      this.resetModel();
+
+      this.$store.dispatch("highscorelist/setModifyState", {
+        id: seasonId,
+        object: "season"
+      });
+    },
+
+    saveModify(seasonId) {
+      this.$store.dispatch("highscorelist/updateSeason", {
+        id: seasonId,
+        title: this.model.title,
+        object: "season"
+      });
+
+      // reset model
+      this.resetModel();
+    },
+
+    addSeason() {
+      this.$store.dispatch("highscorelist/addSeason", {
+        object: "season"
+      });
+    },
+
+    removeSeason(seasonId) {
+      this.$store.dispatch("highscorelist/removeSeason", {
+        id: seasonId,
+        object: "season"
+      });
     }
   }
 };

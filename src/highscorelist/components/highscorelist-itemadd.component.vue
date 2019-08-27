@@ -3,14 +3,15 @@
     <td v-for="(cell, idxCell) in fields" :key="idxCell" class="align-middle">
       <div v-if="edit">
         <span v-if="cell.name === 'name'">
-          <input ref="name" v-model="itemData.name" placeholder="Name" />
+          <input ref="name" class="form-control" v-model="itemData.name" placeholder="Name" />
         </span>
         <span v-else-if="cell.name === 'time'">
           <input
-            v-model="itemData.time"
+            class="form-control"
             placeholder="mm:ss:ddd"
-            v-bind:class="{error: hasError}"
             pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
+            v-model="itemData.time"
+            v-bind:class="{error: hasError}"
           />
         </span>
         <span v-else-if="cell.name === 'actions'">

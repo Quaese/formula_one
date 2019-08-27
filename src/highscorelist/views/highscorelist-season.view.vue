@@ -45,13 +45,33 @@
       <li class="mb-4" v-for="raceId in season.races" :key="raceId">
         <div class="card qp-card">
           <div class="card-body">
-            <h5 class="card-title mb-2">{{races[raceId].title}}</h5>
+            <h5 class="card-title mb-2">
+              <span v-if="modifyState.race !== raceId">{{races[raceId].title}}</span>
+              <input
+                v-else
+                type="text"
+                class="form-control"
+                v-model="model.title"
+                v-init-input:model="{field: 'title', value: races[raceId].title}"
+                v-bind:placeholder="races[raceId].title"
+              />
+            </h5>
             <p class="card-subtitle mb-3 card-text">
-              <small class="text-muted">Created: {{formatDateTime(races[raceId].date)}}</small>
+              <small class="text-muted">Created: {{formatDateTime(races[raceId].created)}}</small>
             </p>
             <div class="row mb-1">
               <div class="col-4 col-md-6">Location:</div>
-              <div class="col-8 col-md-6">{{races[raceId].location}}</div>
+              <div class="col-8 col-md-6">
+                <span v-if="modifyState.race !== raceId">{{races[raceId].location}}</span>
+                <input
+                  v-else
+                  type="text"
+                  class="form-control"
+                  v-model="model.location"
+                  v-init-input:model="{field: 'location', value: races[raceId].location}"
+                  v-bind:placeholder="races[raceId].location"
+                />
+              </div>
             </div>
             <div class="row mb-1">
               <div class="col-4 col-md-6">Results:</div>
@@ -60,31 +80,60 @@
 
             <div class="qp-card-footer d-flex justify-content-between">
               <div class="qp-card-footer-actions">
-                <font-awesome-layers
-                  @click="remove(raceId)"
-                  title="remove"
-                  class="fa-lg qp-action-icon qp-action-icon-layer"
-                >
-                  <font-awesome-icon :icon="['far', 'circle']" />
-                  <font-awesome-icon
-                    class="qp-action-icon-remove"
-                    :icon="['far', 'trash-alt']"
-                    transform="shrink-8"
-                  />
-                </font-awesome-layers>
+                <span v-if="modifyState.race !== raceId">
+                  <font-awesome-layers
+                    @click="removeRace(raceId)"
+                    title="remove"
+                    class="fa-lg qp-action-icon qp-action-icon-layer"
+                  >
+                    <font-awesome-icon :icon="['far', 'circle']" />
+                    <font-awesome-icon
+                      class="qp-action-icon-remove"
+                      :icon="['far', 'trash-alt']"
+                      transform="shrink-8"
+                    />
+                  </font-awesome-layers>
 
-                <font-awesome-layers
-                  @click="setEdit(true)"
-                  title="edit"
-                  class="fa-lg qp-action-icon qp-action-icon-layer"
-                >
-                  <font-awesome-icon :icon="['far', 'circle']" />
-                  <font-awesome-icon
-                    class="qp-action-icon-edit"
-                    icon="pencil-alt"
-                    transform="shrink-8"
-                  />
-                </font-awesome-layers>
+                  <font-awesome-layers
+                    @click="setModify(raceId)"
+                    title="edit"
+                    class="fa-lg qp-action-icon qp-action-icon-layer"
+                  >
+                    <font-awesome-icon :icon="['far', 'circle']" />
+                    <font-awesome-icon
+                      class="qp-action-icon-edit"
+                      icon="pencil-alt"
+                      transform="shrink-8"
+                    />
+                  </font-awesome-layers>
+                </span>
+                <span v-if="modifyState.race === raceId">
+                  <font-awesome-layers
+                    @click="setModify(null);"
+                    title="cancel"
+                    class="fa-lg qp-action-icon qp-action-icon-layer"
+                  >
+                    <font-awesome-icon :icon="['far', 'circle']" />
+                    <font-awesome-icon
+                      class="qp-action-icon-cancel"
+                      :icon="['fas', 'times']"
+                      transform="shrink-8"
+                    />
+                  </font-awesome-layers>
+
+                  <font-awesome-layers
+                    @click="saveModify(raceId)"
+                    title="save"
+                    class="fa-lg qp-action-icon qp-action-icon-layer"
+                  >
+                    <font-awesome-icon :icon="['far', 'circle']" />
+                    <font-awesome-icon
+                      class="qp-action-icon-success"
+                      icon="check"
+                      transform="shrink-8"
+                    />
+                  </font-awesome-layers>
+                </span>
               </div>
 
               <div class="qp-card-footer-navigate">
@@ -114,7 +163,7 @@
             <div class="row mb-1">
               <div class="col-12 d-flex justify-content-center align-items-center">
                 <font-awesome-layers
-                  @click="addSeason(true);"
+                  @click="addRace(true);"
                   title="add"
                   class="fa-lg qp-action-icon qp-action-icon-layer qp-card-icon-large"
                 >
@@ -145,6 +194,10 @@ export default {
 
   data() {
     return {
+      model: {
+        title: "",
+        location: ""
+      },
       seasonId: this.$route.params.id
     };
   },
@@ -156,6 +209,10 @@ export default {
 
     races() {
       return this.$store.state.highscorelist.races;
+    },
+
+    modifyState() {
+      return this.$store.getters["highscorelist/getModifyState"]();
     }
   },
 
@@ -191,6 +248,46 @@ export default {
 
     remove(raceId) {
       console.log("highscorelist-season.view.vue (remove): ", raceId);
+    },
+
+    resetModel() {
+      Object.keys(this.model).forEach(key => (this.model[key] = null));
+    },
+
+    setModify(raceId) {
+      // reset model
+      this.resetModel();
+
+      this.$store.dispatch("highscorelist/setModifyState", {
+        id: raceId,
+        object: "race"
+      });
+    },
+
+    saveModify(raceId) {
+      this.$store.dispatch("highscorelist/updateRace", {
+        id: raceId,
+        title: this.model.title,
+        location: this.model.location,
+        object: "race"
+      });
+
+      // reset model
+      this.resetModel();
+    },
+
+    addRace() {
+      this.$store.dispatch("highscorelist/addRace", {
+        seasonId: this.seasonId,
+        object: "race"
+      });
+    },
+
+    removeRace(raceId) {
+      this.$store.dispatch("highscorelist/removeRace", {
+        id: raceId,
+        object: "race"
+      });
     }
   }
 };

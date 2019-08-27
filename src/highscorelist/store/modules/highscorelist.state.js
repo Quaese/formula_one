@@ -1,8 +1,12 @@
 const state = {
-  loading: false,
   seasons: null,
   races: null,
   results: null,
+  loading: false,
+  modify: {
+    season: null,
+    race: null
+  },
   fields: null
 };
 

@@ -48,6 +48,7 @@ export default {
     let saveState = { ...state };
     delete saveState.loading;
     delete saveState.fields;
+    delete saveState.modify;
 
     const requestOptions = {
       method: "PUT",
@@ -68,24 +69,24 @@ export default {
     let highscoreList = list.sort(ArrayService.sortObjectByProperty("time"));
 
     // add differences
-    highscoreList.reduce((accu, curr, index, array) => {
-      curr.diff_first = curr.time - array[0].time;
-      curr.diff_prev = curr.time - accu;
+    highscoreList.length &&
+      highscoreList.reduce((accu, curr, index, array) => {
+        curr.diff_first = curr.time - array[0].time;
+        curr.diff_prev = curr.time - accu;
 
-      return curr.time;
-    }, highscoreList[0].time);
+        return curr.time;
+      }, highscoreList[0].time);
 
     return [...highscoreList];
   },
 
-  createId: (prefix, resultsList) => {
-    const resultPre = "_result";
-    let id = resultsList.length;
+  createId: (prefix, idList, additionalPre = "") => {
+    let id = idList.length;
 
-    while (resultsList.indexOf(prefix + resultPre + id) > -1 && id < 1000) {
+    while (idList.indexOf(prefix + additionalPre + id) > -1 && id < 1000) {
       id++;
     }
 
-    return prefix + resultPre + id;
+    return prefix + additionalPre + id;
   }
 };

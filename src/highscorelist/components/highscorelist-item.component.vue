@@ -7,6 +7,7 @@
         <span v-else-if="cell.name === 'name'">
           <input
             ref="name"
+            class="form-control"
             v-model="itemData.name"
             v-init-input:itemData="{field: 'name', value: item[cell.name]}"
             v-bind:placeholder="item[cell.name]"
@@ -14,6 +15,7 @@
         </span>
         <span v-else-if="cell.name === 'time'">
           <input
+            class="form-control"
             v-model="itemData.time"
             v-init-input:itemData="{field: 'time', value: formatTime(item[cell.name])}"
             v-bind:placeholder="formatTime(item[cell.name])"

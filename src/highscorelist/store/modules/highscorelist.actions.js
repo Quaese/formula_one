@@ -33,6 +33,34 @@ const actions = {
 
   removeItem({ commit }, payload) {
     commit("removeItemSuccess", payload);
+  },
+
+  setModifyState({ commit }, payload) {
+    commit("setModifyStateSuccess", payload);
+  },
+
+  addSeason({ commit }, payload) {
+    commit("addSeasonSuccess", payload);
+  },
+
+  updateSeason({ commit }, payload) {
+    commit("updateSeasonSuccess", payload);
+  },
+
+  removeSeason({ commit }, payload) {
+    commit("removeSeasonSuccess", payload);
+  },
+
+  updateRace({ commit }, payload) {
+    commit("updateRaceSuccess", payload);
+  },
+
+  addRace({ commit }, payload) {
+    commit("addRaceSuccess", payload);
+  },
+
+  removeRace({ commit }, payload) {
+    commit("removeRaceSuccess", payload);
   }
 };
 
