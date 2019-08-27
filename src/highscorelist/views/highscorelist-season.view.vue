@@ -50,6 +50,7 @@
               <input
                 v-else
                 type="text"
+                class="form-control"
                 v-model="model.title"
                 v-init-input:model="{field: 'title', value: races[raceId].title}"
                 v-bind:placeholder="races[raceId].title"
@@ -65,6 +66,7 @@
                 <input
                   v-else
                   type="text"
+                  class="form-control"
                   v-model="model.location"
                   v-init-input:model="{field: 'location', value: races[raceId].location}"
                   v-bind:placeholder="races[raceId].location"
@@ -276,6 +278,7 @@ export default {
 
     addRace() {
       this.$store.dispatch("highscorelist/addRace", {
+        seasonId: this.seasonId,
         object: "race"
       });
     },

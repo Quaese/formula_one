@@ -53,6 +53,14 @@ const actions = {
 
   updateRace({ commit }, payload) {
     commit("updateRaceSuccess", payload);
+  },
+
+  addRace({ commit }, payload) {
+    commit("addRaceSuccess", payload);
+  },
+
+  removeRace({ commit }, payload) {
+    commit("removeRaceSuccess", payload);
   }
 };
 

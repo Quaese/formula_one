@@ -18,6 +18,7 @@
               <input
                 v-else
                 type="text"
+                class="form-control"
                 v-model="model.title"
                 v-init-input:model="{field: 'title', value: seasons[seasonId].title}"
                 v-bind:placeholder="seasons[seasonId].title"
