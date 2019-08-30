@@ -10,7 +10,7 @@
         <div class="card qp-card">
           <div
             class="card-img-top qp-card-img-bg"
-            :style="{'background-image': `url(${randomNumber(10)})`}"
+            :style="{'background-image': `url(${getImage(seasons[seasonId].image)})`}"
           ></div>
           <div class="card-body">
             <h5 class="card-title mb-2">
@@ -188,16 +188,16 @@ export default {
       return TimeService.formatDateTime(timestamp);
     },
 
-    randomNumber(border) {
+    getImage(filename) {
+      // from: https://stackoverflow.com/questions/40491506/vue-js-dynamic-images-not-working
+      return require("@/assets/images/cardheader/" + filename);
+    },
+
+    randomImage(border) {
       let rnd = Math.ceil(Math.random() * border);
       rnd = rnd < 10 ? `0${rnd}` : `${rnd}`;
 
-      // from: https://stackoverflow.com/questions/40491506/vue-js-dynamic-images-not-working
-      return require("@/assets/images/cardheader/formula_one_" + rnd + ".jpg");
-    },
-
-    remove(seasonId) {
-      console.log("highscorelist-home.view.vue (remove): ", seasonId);
+      return "formula_one_" + rnd + ".jpg";
     },
 
     resetModel() {
@@ -227,15 +227,18 @@ export default {
 
     addSeason() {
       this.$store.dispatch("highscorelist/addSeason", {
+        image: this.randomImage(10),
         object: "season"
       });
     },
 
     removeSeason(seasonId) {
-      this.$store.dispatch("highscorelist/removeSeason", {
-        id: seasonId,
-        object: "season"
-      });
+      if (window.confirm("Wirklich löschen?")) {
+        this.$store.dispatch("highscorelist/removeSeason", {
+          id: seasonId,
+          object: "season"
+        });
+      }
     }
   }
 };
