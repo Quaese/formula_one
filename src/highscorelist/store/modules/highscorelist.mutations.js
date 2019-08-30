@@ -150,6 +150,7 @@ const mutations = {
         title: seasonId,
         created: date,
         modified: date,
+        image: payload.image,
         races: []
       }
     };
