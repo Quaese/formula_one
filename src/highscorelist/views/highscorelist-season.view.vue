@@ -283,11 +283,33 @@ export default {
       });
     },
 
-    removeRace(raceId) {
-      this.$store.dispatch("highscorelist/removeRace", {
-        id: raceId,
-        object: "race"
-      });
+    async removeRace(raceId) {
+      try {
+        // get season object
+        const race = await this.$store.getters["highscorelist/getRaceById"](
+          raceId
+        );
+
+        // show dialog
+        await this.$dialog.confirm(
+          {
+            title: "Löschen bestätigen",
+            body: `Soll das Rennen "${race.title}" endgültig gelöscht werden?`
+          },
+          {
+            cancelText: "Abbrechen",
+            okText: "Löschen"
+          }
+        );
+
+        // delete race
+        this.$store.dispatch("highscorelist/removeRace", {
+          id: raceId,
+          object: "race"
+        });
+      } catch (error) {
+        console.log("nicht löschen ...");
+      }
     }
   }
 };
