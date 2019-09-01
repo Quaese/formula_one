@@ -3,6 +3,13 @@ import App from "./App.vue";
 import router from "./router/router";
 import store from "./store/index";
 
+// import and register vuejs-dialog module
+import VuejsDialog from "vuejs-dialog";
+// import VuejsDialogMixin from "vuejs-dialog/dist/vuejs-dialog-mixin.min.js"; // only needed in custom components
+import "vuejs-dialog/dist/vuejs-dialog.min.css";
+// import "@/assets/styles/vuejs-dialog.css";
+Vue.use(VuejsDialog);
+
 /* *** import own less files *** */
 import "./assets/style/index.less";
 

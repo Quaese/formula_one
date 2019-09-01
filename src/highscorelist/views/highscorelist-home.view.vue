@@ -232,12 +232,32 @@ export default {
       });
     },
 
-    removeSeason(seasonId) {
-      if (window.confirm("Wirklich löschen?")) {
+    async removeSeason(seasonId) {
+      try {
+        // get season object
+        const season = await this.$store.getters["highscorelist/getSeasonById"](
+          seasonId
+        );
+
+        // show dialog
+        await this.$dialog.confirm(
+          {
+            title: "Löschen bestätigen",
+            body: `Soll die Saison "${season.title}" endgültig gelöscht werden?`
+          },
+          {
+            cancelText: "Abbrechen",
+            okText: "Löschen"
+          }
+        );
+
+        // saison löschen
         this.$store.dispatch("highscorelist/removeSeason", {
           id: seasonId,
           object: "season"
         });
+      } catch (error) {
+        console.log("nicht löschen ...");
       }
     }
   }

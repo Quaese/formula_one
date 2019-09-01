@@ -186,12 +186,33 @@ export default {
       }
     },
 
-    remove: function(id) {
-      console.log("id: ", id);
-      this.$store.dispatch("highscorelist/removeItem", {
-        raceId: this.raceId,
-        resultId: id
-      });
+    remove: async function(id) {
+      try {
+        // get result
+        const result = await this.$store.getters["highscorelist/getResultById"](
+          id
+        );
+
+        // show dialog
+        await this.$dialog.confirm(
+          {
+            title: "Löschen bestätigen",
+            body: `Soll das Ergebnis von "${result.name}" endgültig gelöscht werden?`
+          },
+          {
+            cancelText: "Abbrechen",
+            okText: "Löschen"
+          }
+        );
+
+        // delete result
+        this.$store.dispatch("highscorelist/removeItem", {
+          raceId: this.raceId,
+          resultId: id
+        });
+      } catch (error) {
+        console.log("nicht löschen ...");
+      }
     }
   }
 };

@@ -9,6 +9,24 @@ const getters = {
   },
 
   /*
+   * Get a race by its ID
+   */
+  getResultById: state => id => {
+    const result = state.results !== null ? state.results[id] : null;
+
+    return result;
+  },
+
+  /*
+   * Get a race by its ID
+   */
+  getRaceById: state => id => {
+    const race = state.races !== null ? state.races[id] : null;
+
+    return race;
+  },
+
+  /*
    * Get all results from a race
    */
   getAllRaceResults: state => race => {
