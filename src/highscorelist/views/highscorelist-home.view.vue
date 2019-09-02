@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <h2>Available Seasons</h2>
+        <h2>{{ $t('seasons.availableSeasons') }}</h2>
       </div>
     </div>
     <ol class="row d-flex d-flex-row justify-content-between qp-card-list" v-if="seasons!==null">
@@ -14,7 +14,7 @@
           ></div>
           <div class="card-body">
             <h5 class="card-title mb-2">
-              <span v-if="modifyState.season !== seasonId">{{seasons[seasonId].title}}</span>
+              <span v-if="modifyState.season !== seasonId">{{ seasons[seasonId].title }}</span>
               <input
                 v-else
                 type="text"
@@ -25,12 +25,16 @@
               />
             </h5>
             <p class="card-subtitle mb-3 card-text" style="line-height: 1.1;">
-              <small class="text-muted">Created: {{formatDateTime(seasons[seasonId].created)}}</small>
+              <small
+                class="text-muted"
+              >{{ $t('app.created') }}: {{formatDateTime(seasons[seasonId].created)}}</small>
               <br />
-              <small class="text-muted">Modified: {{formatDateTime(seasons[seasonId].modified)}}</small>
+              <small
+                class="text-muted"
+              >{{ $t('app.modified') }}: {{formatDateTime(seasons[seasonId].modified)}}</small>
             </p>
             <div class="row mb-1">
-              <div class="col-4 col-md-6">Races:</div>
+              <div class="col-4 col-md-6">{{ $t('seasons.races') }}:</div>
               <div class="col-8 col-md-6">{{seasons[seasonId].races.length}}</div>
             </div>
 

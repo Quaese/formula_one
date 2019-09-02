@@ -6,13 +6,24 @@
           <div class="collapse navbar-collapse">
             <ul id="nav" class="navbar-nav">
               <li class="nav-item">
-                <router-link class="nav-link" to="/">Home</router-link>
+                <router-link class="nav-link" to="/">{{ $t('nav.home') }}</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/highscorelist">highscorelist</router-link>
+                <router-link class="nav-link" to="/highscorelist">{{ $t('nav.highscorelist') }}</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/about">About</router-link>
+                <router-link class="nav-link" to="/about">{{ $t('nav.about') }}</router-link>
+              </li>
+              <li class="nav-item dropdown" :class="{'show': show}" @click="toggleDropdown()">
+                <a
+                  class="nav-link dropdown-toggle"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >{{$t('language')}} ({{$t($i18n.locale)}})</a>
+                <language-switcher v-bind:language="language" v-bind:show="show"></language-switcher>
               </li>
             </ul>
           </div>
@@ -29,31 +40,43 @@
 </template>
 
 <script>
+import LanguageSwitcher from "./components/app-languageswitch.component";
+
 export default {
   name: "app",
 
+  components: {
+    "language-switcher": LanguageSwitcher
+  },
+
+  data: function() {
+    return {
+      show: false
+    };
+  },
+
+  computed: {
+    language() {
+      return this.$store.state.app.lang ? this.$store.state.app.lang : "de";
+    }
+  },
+
   created() {
     this.$store.dispatch("app/setupApp", { name: "QPs Highscorelist" });
+  },
+
+  methods: {
+    toggleDropdown() {
+      this.show = !this.show;
+    }
   }
 };
 </script>
 
 <style lang="less">
-// #app {
-//   font-family: "Avenir", Helvetica, Arial, sans-serif;
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-//   text-align: center;
-//   color: #2c3e50;
-// }
-// #nav {
-//   padding: 30px;
-//   a {
-//     font-weight: bold;
-//     color: #2c3e50;
-//     &.router-link-exact-active {
-//       color: #42b983;
-//     }
-//   }
-// }
+.nav-item {
+  &.dropdown:hover {
+    cursor: pointer;
+  }
+}
 </style>
