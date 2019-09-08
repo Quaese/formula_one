@@ -4,7 +4,7 @@
       <div class="col-12">
         <font-awesome-layers
           @click="back()"
-          title="back"
+          :title="$t('common.back')"
           class="fa-lg qp-action-icon qp-action-icon-layer"
         >
           <font-awesome-icon :icon="['far', 'circle']" />
@@ -18,7 +18,7 @@
         <h2 class="qp-breadcrumb-header">
           <font-awesome-layers
             @click="back()"
-            title="back"
+            :title="$t('common.back')"
             class="fa-lg qp-action-icon qp-action-icon-layer"
           >
             <font-awesome-icon :icon="['far', 'circle']" />
@@ -28,7 +28,7 @@
               transform="shrink-8"
             />
           </font-awesome-layers>
-          Season - {{season.title}}
+          {{ $t('seasons.season') }} - {{ season.title }}
         </h2>
       </div>
     </div>
@@ -57,10 +57,12 @@
               />
             </h5>
             <p class="card-subtitle mb-3 card-text">
-              <small class="text-muted">Created: {{formatDateTime(races[raceId].created)}}</small>
+              <small
+                class="text-muted"
+              >{{ $t('app.created') }}: {{formatDateTime(races[raceId].created)}}</small>
             </p>
             <div class="row mb-1">
-              <div class="col-4 col-md-6">Location:</div>
+              <div class="col-4 col-md-6">{{ $t('seasons.location') }}:</div>
               <div class="col-8 col-md-6">
                 <span v-if="modifyState.race !== raceId">{{races[raceId].location}}</span>
                 <input
@@ -74,7 +76,9 @@
               </div>
             </div>
             <div class="row mb-1">
-              <div class="col-4 col-md-6">Results:</div>
+              <div
+                class="col-4 col-md-6"
+              >{{ $tc('seasons.results', races[raceId].results.length) }}:</div>
               <div class="col-8 col-md-6">{{races[raceId].results.length}}</div>
             </div>
 
@@ -83,7 +87,7 @@
                 <span v-if="modifyState.race !== raceId">
                   <font-awesome-layers
                     @click="removeRace(raceId)"
-                    title="remove"
+                    :title="$t('common.delete')"
                     class="fa-lg qp-action-icon qp-action-icon-layer"
                   >
                     <font-awesome-icon :icon="['far', 'circle']" />
@@ -96,7 +100,7 @@
 
                   <font-awesome-layers
                     @click="setModify(raceId)"
-                    title="edit"
+                    :title="$t('common.edit')"
                     class="fa-lg qp-action-icon qp-action-icon-layer"
                   >
                     <font-awesome-icon :icon="['far', 'circle']" />
@@ -110,7 +114,7 @@
                 <span v-if="modifyState.race === raceId">
                   <font-awesome-layers
                     @click="setModify(null);"
-                    title="cancel"
+                    :title="$t('common.cancel')"
                     class="fa-lg qp-action-icon qp-action-icon-layer"
                   >
                     <font-awesome-icon :icon="['far', 'circle']" />
@@ -123,7 +127,7 @@
 
                   <font-awesome-layers
                     @click="saveModify(raceId)"
-                    title="save"
+                    :title="$t('common.save')"
                     class="fa-lg qp-action-icon qp-action-icon-layer"
                   >
                     <font-awesome-icon :icon="['far', 'circle']" />
@@ -139,7 +143,7 @@
               <div class="qp-card-footer-navigate">
                 <font-awesome-layers
                   @click="navigate(raceId)"
-                  title="more"
+                  :title="$t('common.more')"
                   class="fa-lg qp-action-icon qp-action-icon-layer"
                 >
                   <font-awesome-icon :icon="['far', 'circle']" />
@@ -159,12 +163,12 @@
       <li class="mb-4">
         <div class="card qp-card">
           <div class="card-body">
-            <h5 class="card-title mb-2">Add race</h5>
+            <h5 class="card-title mb-2">{{ $t('seasons.addRace') }}</h5>
             <div class="row mb-1">
               <div class="col-12 d-flex justify-content-center align-items-center">
                 <font-awesome-layers
                   @click="addRace(true);"
-                  title="add"
+                  :title="$t('common.add')"
                   class="fa-lg qp-action-icon qp-action-icon-layer qp-card-icon-large"
                 >
                   <font-awesome-icon :icon="['far', 'circle']" />
@@ -293,12 +297,14 @@ export default {
         // show dialog
         await this.$dialog.confirm(
           {
-            title: "Löschen bestätigen",
-            body: `Soll das Rennen "${race.title}" endgültig gelöscht werden?`
+            title: this.$t("dialog.confirmDeleteHeader"),
+            body: this.$t("dialog.confirmDeleteRaceText", {
+              title: race.title
+            })
           },
           {
-            cancelText: "Abbrechen",
-            okText: "Löschen"
+            cancelText: this.$t("dialog.cancelText"),
+            okText: this.$t("dialog.deleteText")
           }
         );
 

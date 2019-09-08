@@ -43,7 +43,7 @@
                 <span v-if="modifyState.season !== seasonId">
                   <font-awesome-layers
                     @click="removeSeason(seasonId)"
-                    title="remove"
+                    :title="$t('common.delete')"
                     class="fa-lg qp-action-icon qp-action-icon-layer"
                   >
                     <font-awesome-icon :icon="['far', 'circle']" />
@@ -56,7 +56,7 @@
 
                   <font-awesome-layers
                     @click="setModify(seasonId)"
-                    title="edit"
+                    :title="$t('common.edit')"
                     class="fa-lg qp-action-icon qp-action-icon-layer"
                   >
                     <font-awesome-icon :icon="['far', 'circle']" />
@@ -70,7 +70,7 @@
                 <span v-if="modifyState.season === seasonId">
                   <font-awesome-layers
                     @click="setModify(null);"
-                    title="cancel"
+                    :title="$t('common.cancel')"
                     class="fa-lg qp-action-icon qp-action-icon-layer"
                   >
                     <font-awesome-icon :icon="['far', 'circle']" />
@@ -83,7 +83,7 @@
 
                   <font-awesome-layers
                     @click="saveModify(seasonId)"
-                    title="save"
+                    :title="$t('common.save')"
                     class="fa-lg qp-action-icon qp-action-icon-layer"
                   >
                     <font-awesome-icon :icon="['far', 'circle']" />
@@ -99,7 +99,7 @@
               <div class="qp-card-footer-navigate">
                 <font-awesome-layers
                   @click="navigate(seasonId)"
-                  title="more"
+                  :title="$t('common.more')"
                   class="fa-lg qp-action-icon qp-action-icon-layer"
                 >
                   <font-awesome-icon :icon="['far', 'circle']" />
@@ -119,12 +119,12 @@
       <li class="mb-4">
         <div class="card qp-card">
           <div class="card-body">
-            <h5 class="card-title mb-2">Add season</h5>
+            <h5 class="card-title mb-2">{{ $t('seasons.addSeason') }}</h5>
             <div class="row mb-1">
               <div class="col-12 d-flex justify-content-center align-items-center">
                 <font-awesome-layers
                   @click="addSeason();"
-                  title="add"
+                  :title="$t('common.add')"
                   class="fa-lg qp-action-icon qp-action-icon-layer qp-card-icon-large"
                 >
                   <font-awesome-icon :icon="['far', 'circle']" />
@@ -246,12 +246,14 @@ export default {
         // show dialog
         await this.$dialog.confirm(
           {
-            title: "Löschen bestätigen",
-            body: `Soll die Saison "${season.title}" endgültig gelöscht werden?`
+            title: this.$t("dialog.confirmDeleteHeader"),
+            body: this.$t("dialog.confirmDeleteSeasonText", {
+              title: season.title
+            })
           },
           {
-            cancelText: "Abbrechen",
-            okText: "Löschen"
+            cancelText: this.$t("dialog.cancelText"),
+            okText: this.$t("dialog.deleteText")
           }
         );
 
