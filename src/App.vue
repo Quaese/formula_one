@@ -3,7 +3,19 @@
     <div class="row">
       <div class="col-12">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <div class="collapse navbar-collapse">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            @click="toggleNavbar($event)"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" :class="{'show': navbarShow}" ref="navbar">
             <ul id="nav" class="navbar-nav">
               <li class="nav-item">
                 <router-link class="nav-link" to="/">{{ $t('nav.home') }}</router-link>
@@ -51,7 +63,8 @@ export default {
 
   data: function() {
     return {
-      show: false
+      show: false,
+      navbarShow: false
     };
   },
 
@@ -68,6 +81,25 @@ export default {
   methods: {
     toggleDropdown() {
       this.show = !this.show;
+    },
+
+    toggleNavbar(evt) {
+      // get event emitter
+      let node = evt.target;
+
+      // bubble upwards until the navbar toggle button is reached
+      while (
+        !node.classList.contains("navbar-toggler") &&
+        node.nodeName.toUpperCase() !== "body"
+      ) {
+        node = node.parentNode;
+      }
+
+      if (node.classList.contains("navbar-toggler")) {
+        node.classList.toggle("collapsed");
+        // set data property to add/remove "show" class name from navbar element
+        this.navbarShow = node.classList.contains("collapsed");
+      }
     }
   }
 };
