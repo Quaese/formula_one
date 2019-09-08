@@ -28,7 +28,7 @@
         <span v-else-if="cell.name === 'actions'">
           <font-awesome-layers
             @click="setEdit(false); save();"
-            title="ok"
+            :title="$t('common.save')"
             class="fa-lg qp-action-icon qp-action-icon-layer"
           >
             <font-awesome-icon :icon="['far', 'circle']" />
@@ -41,7 +41,7 @@
 
           <font-awesome-layers
             @click="setEdit(false);"
-            title="cancel"
+            :title="$t('common.cancel')"
             class="fa-lg qp-action-icon qp-action-icon-layer"
           >
             <font-awesome-icon :icon="['far', 'circle']" />
@@ -64,7 +64,7 @@
         <span v-else-if="cell.name === 'actions'">
           <font-awesome-layers
             @click="setEdit(true)"
-            title="edit"
+            :title="$t('common.edit')"
             class="fa-lg qp-action-icon qp-action-icon-layer"
           >
             <font-awesome-icon :icon="['far', 'circle']" />
@@ -73,7 +73,7 @@
 
           <font-awesome-layers
             @click="remove(item.id)"
-            title="remove"
+            :title="$t('common.delete')"
             class="fa-lg qp-action-icon qp-action-icon-layer"
           >
             <font-awesome-icon :icon="['far', 'circle']" />
@@ -196,12 +196,14 @@ export default {
         // show dialog
         await this.$dialog.confirm(
           {
-            title: "Löschen bestätigen",
-            body: `Soll das Ergebnis von "${result.name}" endgültig gelöscht werden?`
+            title: this.$t("dialog.confirmDeleteHeader"),
+            body: this.$t("dialog.confirmDeleteResultText", {
+              name: result.name
+            })
           },
           {
-            cancelText: "Abbrechen",
-            okText: "Löschen"
+            cancelText: this.$t("dialog.cancelText"),
+            okText: this.$t("dialog.deleteText")
           }
         );
 

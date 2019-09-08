@@ -17,7 +17,7 @@
         <span v-else-if="cell.name === 'actions'">
           <font-awesome-layers
             @click="setEdit(false); save();"
-            title="ok"
+            :title="$t('common.save')"
             class="fa-lg qp-action-icon qp-action-icon-layer"
           >
             <font-awesome-icon :icon="['far', 'circle']" />
@@ -30,7 +30,7 @@
 
           <font-awesome-layers
             @click="setEdit(false);"
-            title="cancel"
+            :title="$t('common.cancel')"
             class="fa-lg qp-action-icon qp-action-icon-layer"
           >
             <font-awesome-icon :icon="['far', 'circle']" />
@@ -48,7 +48,7 @@
         <span v-if="cell.name === 'actions'">
           <font-awesome-layers
             @click="setEdit(true);"
-            title="add"
+            :title="$t('common.add')"
             class="fa-lg qp-action-icon qp-action-icon-layer"
           >
             <font-awesome-icon :icon="['far', 'circle']" />

@@ -15,7 +15,7 @@
               transform="shrink-8"
             />
           </font-awesome-layers>
-          Results{{race!==null && `${" - " + race.title}`}}
+          {{`${$tc('seasons.results', race!==null && race.results.length) + (race!==null ? " - " + race.title: "")}`}}
         </h2>
       </div>
     </div>
