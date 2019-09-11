@@ -81,6 +81,10 @@
               >{{ $tc('seasons.results', races[raceId].results.length) }}:</div>
               <div class="col-8 col-md-6">{{races[raceId].results.length}}</div>
             </div>
+            <div class="row mb-1">
+              <div class="col-4 col-md-6">{{ $t('seasons.highscoreTime') }}:</div>
+              <div class="col-8 col-md-6">{{getResultById(races[raceId].results[0]).name}}</div>
+            </div>
 
             <div class="qp-card-footer d-flex justify-content-between">
               <div class="qp-card-footer-actions">
@@ -237,6 +241,10 @@ export default {
 
       return `${date.getDate()}.${date.getMonth() +
         1}.${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    },
+
+    getResultById: function(id) {
+      return this.$store.getters["highscorelist/getResultById"](id);
     },
 
     navigate(id) {

@@ -1,5 +1,9 @@
 <template>
-  <tr v-bind:id="`item_${item.id}`">
+  <tr
+    v-bind:id="`item_${item.id}`"
+    class="qp-table-results-item-row"
+    :class="{'qp-table-results-item-row-last': last}"
+  >
     <!--  @click="!edit && setEdit(true)" -->
     <td v-for="(cell, idxCell) in fields" :key="idxCell" class="align-middle">
       <div v-if="edit">
@@ -143,6 +147,10 @@ export default {
     idxLine: {
       type: Number,
       default: 0
+    },
+    last: {
+      type: Boolean,
+      default: false
     }
   },
 

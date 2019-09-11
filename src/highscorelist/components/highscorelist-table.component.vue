@@ -1,6 +1,6 @@
 <template>
   <div v-if="results!==null">
-    <table class="table table-hover">
+    <table class="table table-hover qp-table-results">
       <thead>
         <th v-for="(header, index) in fields" :key="index">{{header.value}}</th>
       </thead>
@@ -10,6 +10,7 @@
           v-bind:raceId="race.id"
           v-bind:fields="fields"
           v-bind:item="results[resultId]"
+          v-bind:last="race.results.length-1 === idxLine"
           v-bind:idxLine="idxLine"
           :key="idxLine"
         ></highscorelist-item>

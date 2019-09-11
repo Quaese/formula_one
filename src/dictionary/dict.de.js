@@ -41,6 +41,7 @@ const dictDE = {
       addRace: "Rennen hinzufügen",
       addSeason: "Saison hinzufügen",
       availableSeasons: "Verfügbare Saisons",
+      highscoreTime: "Bestzeit",
       location: "Ort",
       races: "Rennen",
       results: "Ergebnis | Ergebnisse",
