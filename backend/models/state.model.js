@@ -3,7 +3,15 @@ const helper = require("../helpers/helper.js");
 const getPath = "../data/";
 const updatePath = "./data/";
 const filename = "state.json";
-let state = require(getPath + filename);
+const fs = require("fs");
+let state;
+
+if (fs.existsSync(__dirname + "/" + getPath + filename)) {
+  state = require(getPath + filename);
+} else {
+  state = require(getPath + "init.state.json");
+  helper.writeJSONFile(updatePath + filename, state);
+}
 
 function getState() {
   // delete json object from require cache

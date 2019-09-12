@@ -1,0 +1,38 @@
+{
+  "seasons": {
+    "byId": {
+      "season1": {
+        "id": "season1",
+        "title": "Saison 1",
+        "created": 1565173522146,
+        "modified": 1565628451773,
+        "image": "formula_one_01.jpg",
+        "races": ["season1_race1"]
+      }
+    },
+    "order": ["season1"]
+  },
+  "races": {
+    "season1_race1": {
+      "id": "season1_race1",
+      "season_id": "season1",
+      "title": "Rennen 1",
+      "location": "Irgendwo",
+      "created": 1565173522146,
+      "modified": 1568141321839,
+      "results": [
+        "season1_race1_result1"
+      ]
+    }
+  },
+  "results": {
+    "season1_race1_result1": {
+      "id": "season1_race1_result1",
+      "name": "QP",
+      "time": 70123,
+      "time_string": "01:23:456",
+      "diff_first": 0,
+      "diff_prev": 0
+    }
+  }
+}
