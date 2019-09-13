@@ -1,13 +1,19 @@
 <template>
-  <div class="dropdown-menu" :class="{'show': show} " aria-labelledby="navbarDropdown">
+  <div
+    class="dropdown-menu"
+    :class="{ show: show }"
+    aria-labelledby="navbarDropdown"
+  >
     <a
       class="dropdown-item"
       href="#"
       v-for="lang in languages"
       :key="lang"
       @click="changeLang(lang, $event)"
-      v-bind:class="{'qp-languageswitcher-active': lang===mLanguage}"
-    >{{lang}}</a>
+      v-bind:class="{ 'qp-languageswitcher-active': lang === mLanguage }"
+    >
+      {{ lang }}
+    </a>
   </div>
 </template>
 

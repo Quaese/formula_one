@@ -3,7 +3,12 @@
     <td v-for="(cell, idxCell) in fields" :key="idxCell" class="align-middle">
       <div v-if="edit">
         <span v-if="cell.name === 'name'">
-          <input ref="name" class="form-control" v-model="itemData.name" placeholder="Name" />
+          <input
+            ref="name"
+            class="form-control"
+            v-model="itemData.name"
+            placeholder="Name"
+          />
         </span>
         <span v-else-if="cell.name === 'time'">
           <input
@@ -11,12 +16,15 @@
             placeholder="mm:ss:ddd"
             pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
             v-model="itemData.time"
-            v-bind:class="{error: hasError}"
+            v-bind:class="{ error: hasError }"
           />
         </span>
         <span v-else-if="cell.name === 'actions'">
           <font-awesome-layers
-            @click="setEdit(false); save();"
+            @click="
+              setEdit(false);
+              save();
+            "
             :title="$t('common.save')"
             class="fa-lg qp-action-icon qp-action-icon-layer"
           >
@@ -29,7 +37,7 @@
           </font-awesome-layers>
 
           <font-awesome-layers
-            @click="setEdit(false);"
+            @click="setEdit(false)"
             :title="$t('common.cancel')"
             class="fa-lg qp-action-icon qp-action-icon-layer"
           >
@@ -47,7 +55,7 @@
       <div v-else>
         <span v-if="cell.name === 'actions'">
           <font-awesome-layers
-            @click="setEdit(true);"
+            @click="setEdit(true)"
             :title="$t('common.add')"
             class="fa-lg qp-action-icon qp-action-icon-layer"
           >
