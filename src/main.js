@@ -39,6 +39,7 @@ import {
   faEdit,
   faArrowLeft,
   faArrowRight,
+  faHistory,
   faPencilAlt,
   faPlus,
   faTimes,
@@ -48,6 +49,7 @@ import {
 import {
   faCheckCircle as faCheckCircleRegular,
   faCircle as faCircleRegular,
+  faHourglass as faHourglassRegular,
   faTimesCircle as faTimesCircleRegular,
   faTrashAlt as faTrashAltRegular
 } from "@fortawesome/free-regular-svg-icons";
@@ -61,6 +63,7 @@ library.add(
   faEdit,
   faArrowLeft,
   faArrowRight,
+  faHistory,
   faPencilAlt,
   faPlus,
   faTimes,
@@ -68,6 +71,7 @@ library.add(
   faTrashAlt,
   faCheckCircleRegular,
   faCircleRegular,
+  faHourglassRegular,
   faTimesCircleRegular,
   faTrashAltRegular
 );

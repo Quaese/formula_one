@@ -2,7 +2,15 @@
   <div v-if="results!==null">
     <table class="table table-hover qp-table-results">
       <thead>
-        <th v-for="(header, index) in fields" :key="index">{{header.value}}</th>
+        <th v-for="(header, index) in fields" :key="index">
+          <font-awesome-icon
+            v-if="header.icon"
+            class="qp-action-icon-gap"
+            :icon="[header.icon.type, header.icon.name]"
+            transform="shrink-8"
+          />
+          {{ header.dict ? $t(header.dict) : header.value }}
+        </th>
       </thead>
       <tbody>
         <highscorelist-item
