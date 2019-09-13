@@ -38,14 +38,18 @@ const dictEN = {
     },
 
     seasons: {
+      actions: "Actions",
       addRace: "Add Race",
       addSeason: "Add Season",
       availableSeasons: "Available Seasons",
       highscoreTime: "Highscore",
       location: "Location",
+      name: "Name",
+      position: "Position",
       races: "Races",
       results: "Result | Results",
-      season: "Season"
+      season: "Season",
+      time: "Time"
     }
   }
 };

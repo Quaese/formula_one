@@ -15,18 +15,32 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" :class="{'show': navbarShow}" ref="navbar">
+          <div
+            class="collapse navbar-collapse"
+            :class="{ show: navbarShow }"
+            ref="navbar"
+          >
             <ul id="nav" class="navbar-nav">
               <li class="nav-item">
-                <router-link class="nav-link" to="/">{{ $t('nav.home') }}</router-link>
+                <router-link class="nav-link" to="/">{{
+                  $t("nav.home")
+                }}</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/highscorelist">{{ $t('nav.highscorelist') }}</router-link>
+                <router-link class="nav-link" to="/highscorelist">{{
+                  $t("nav.highscorelist")
+                }}</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/about">{{ $t('nav.about') }}</router-link>
+                <router-link class="nav-link" to="/about">{{
+                  $t("nav.about")
+                }}</router-link>
               </li>
-              <li class="nav-item dropdown" :class="{'show': show}" @click="toggleDropdown()">
+              <li
+                class="nav-item dropdown"
+                :class="{ show: show }"
+                @click="toggleDropdown()"
+              >
                 <a
                   class="nav-link dropdown-toggle"
                   id="navbarDropdown"
@@ -34,8 +48,13 @@
                   data-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false"
-                >{{$t('language')}} ({{$t($i18n.locale)}})</a>
-                <language-switcher v-bind:language="language" v-bind:show="show"></language-switcher>
+                >
+                  {{ $t("language") }} ({{ $t($i18n.locale) }})
+                </a>
+                <language-switcher
+                  v-bind:language="language"
+                  v-bind:show="show"
+                ></language-switcher>
               </li>
             </ul>
           </div>

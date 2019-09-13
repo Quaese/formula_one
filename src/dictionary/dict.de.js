@@ -38,14 +38,18 @@ const dictDE = {
     },
 
     seasons: {
+      actions: "Aktionen",
       addRace: "Rennen hinzufügen",
       addSeason: "Saison hinzufügen",
       availableSeasons: "Verfügbare Saisons",
       highscoreTime: "Bestzeit",
       location: "Ort",
+      name: "Name",
+      position: "Platz",
       races: "Rennen",
       results: "Ergebnis | Ergebnisse",
-      season: "Saison"
+      season: "Saison",
+      time: "Zeit"
     }
   }
 };
