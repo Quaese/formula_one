@@ -28,7 +28,7 @@
               transform="shrink-8"
             />
           </font-awesome-layers>
-          {{ $t('seasons.season') }} - {{ season.title }}
+          {{ $t("seasons.season") }} - {{ season.title }}
         </h2>
       </div>
     </div>
@@ -46,44 +46,65 @@
         <div class="card qp-card">
           <div class="card-body">
             <h5 class="card-title mb-2">
-              <span v-if="modifyState.race !== raceId">{{races[raceId].title}}</span>
+              <span v-if="modifyState.race !== raceId">{{
+                races[raceId].title
+              }}</span>
               <input
                 v-else
                 type="text"
                 class="form-control"
                 v-model="model.title"
-                v-init-input:model="{field: 'title', value: races[raceId].title}"
+                v-init-input:model="{
+                  field: 'title',
+                  value: races[raceId].title
+                }"
                 v-bind:placeholder="races[raceId].title"
               />
             </h5>
             <p class="card-subtitle mb-3 card-text">
-              <small
-                class="text-muted"
-              >{{ $t('app.created') }}: {{formatDateTime(races[raceId].created)}}</small>
+              <small class="text-muted"
+                >{{ $t("app.created") }}:
+                {{ formatDateTime(races[raceId].created) }}</small
+              >
             </p>
             <div class="row mb-1">
-              <div class="col-4 col-md-6">{{ $t('seasons.location') }}:</div>
+              <div class="col-4 col-md-6">{{ $t("seasons.location") }}:</div>
               <div class="col-8 col-md-6">
-                <span v-if="modifyState.race !== raceId">{{races[raceId].location}}</span>
+                <span v-if="modifyState.race !== raceId">{{
+                  races[raceId].location
+                }}</span>
                 <input
                   v-else
                   type="text"
                   class="form-control"
                   v-model="model.location"
-                  v-init-input:model="{field: 'location', value: races[raceId].location}"
+                  v-init-input:model="{
+                    field: 'location',
+                    value: races[raceId].location
+                  }"
                   v-bind:placeholder="races[raceId].location"
                 />
               </div>
             </div>
             <div class="row mb-1">
-              <div
-                class="col-4 col-md-6"
-              >{{ $tc('seasons.results', races[raceId].results.length) }}:</div>
-              <div class="col-8 col-md-6">{{races[raceId].results.length}}</div>
+              <div class="col-4 col-md-6">
+                {{ $tc("seasons.results", races[raceId].results.length) }}:
+              </div>
+              <div class="col-8 col-md-6">
+                {{ races[raceId].results.length }}
+              </div>
             </div>
             <div class="row mb-1">
-              <div class="col-4 col-md-6">{{ $t('seasons.highscoreTime') }}:</div>
-              <div class="col-8 col-md-6">{{getResultById(races[raceId].results[0]).name}}</div>
+              <div class="col-4 col-md-6">
+                {{ $t("seasons.highscoreTime") }}:
+              </div>
+              <div class="col-8 col-md-6">
+                {{
+                  getResultById(races[raceId].results[0])
+                    ? getResultById(races[raceId].results[0]).name
+                    : $t("seasons.highscoreNameDefault")
+                }}
+              </div>
             </div>
 
             <div class="qp-card-footer d-flex justify-content-between">
@@ -117,7 +138,7 @@
                 </span>
                 <span v-if="modifyState.race === raceId">
                   <font-awesome-layers
-                    @click="setModify(null);"
+                    @click="setModify(null)"
                     :title="$t('common.cancel')"
                     class="fa-lg qp-action-icon qp-action-icon-layer"
                   >
@@ -167,11 +188,13 @@
       <li class="mb-4">
         <div class="card qp-card">
           <div class="card-body">
-            <h5 class="card-title mb-2">{{ $t('seasons.addRace') }}</h5>
+            <h5 class="card-title mb-2">{{ $t("seasons.addRace") }}</h5>
             <div class="row mb-1">
-              <div class="col-12 d-flex justify-content-center align-items-center">
+              <div
+                class="col-12 d-flex justify-content-center align-items-center"
+              >
                 <font-awesome-layers
-                  @click="addRace(true);"
+                  @click="addRace(true)"
                   :title="$t('common.add')"
                   class="fa-lg qp-action-icon qp-action-icon-layer qp-card-icon-large"
                 >
@@ -329,5 +352,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

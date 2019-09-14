@@ -124,6 +124,11 @@ export default {
     },
 
     setEdit: function(enable) {
+      // disable error first before leaving edit mode
+      if (!enable) {
+        this.hasError = false;
+      }
+      // leave edit mode
       this.edit = enable;
 
       if (enable) {
