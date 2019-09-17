@@ -6,7 +6,20 @@ const filename = __dirname + "/" + "../src/config/" + "env.js";
 const ip = helper.getIPAddress()[0];
 
 let content;
+// server modes:
+// 1 = development (default), 2 = production
+let mode = 1;
 
+// parse arguments
+process.argv.forEach(function(val, index) {
+  // if current argument is *mode* => get following value of argv
+  if (val === "-mode") mode = process.argv[index + 1];
+});
+
+/*
+ * Function to write content to a file.
+ * If file with *filename* doesn't exist it is created.
+ */
 const writeEnvFile = (filename, content) => {
   fs.writeFileSync(
     filename,
@@ -30,7 +43,10 @@ content = `export const env = {"ip": "${ip}"};`;
 writeEnvFile(filename, content);
 
 // start node server
-const nodemon = spawn("node_modules/.bin/nodemon", ["-e", "index.js"]);
+const nodemon =
+  mode === 1
+    ? spawn("node_modules/.bin/nodemon", ["-e", "index.js"])
+    : spawn("node", ["./index.js"]);
 
 // event handler for spawn child processes
 nodemon.stdout.on("data", data => {
