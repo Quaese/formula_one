@@ -46,7 +46,7 @@ const dictEN = {
       highscoreTime: "Highscore",
       location: "Location",
       name: "Name",
-      position: "Position",
+      position: "#",
       races: "Races",
       results: "Result | Results",
       season: "Season",

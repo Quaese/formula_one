@@ -3,13 +3,15 @@
     <table class="table table-hover qp-table-results">
       <thead>
         <th v-for="(header, index) in fields" :key="index">
-          <font-awesome-icon
-            v-if="header.icon"
-            class="qp-action-icon-gap"
-            :icon="[header.icon.type, header.icon.name]"
-            transform="shrink-8"
-          />
-          {{ header.dict ? $t(header.dict) : header.value }}
+          <span>
+            <font-awesome-icon
+              v-if="header.icon"
+              class="qp-action-icon-gap"
+              :icon="[header.icon.type, header.icon.name]"
+              transform="shrink-8"
+            />
+            {{ header.dict ? $t(header.dict) : header.value }}
+          </span>
         </th>
       </thead>
       <tbody>

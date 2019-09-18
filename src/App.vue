@@ -1,5 +1,8 @@
 <template>
-  <div id="app" class="container">
+  <div
+    id="app"
+    :class="{ 'container-fluid': containerFluid, container: !containerFluid }"
+  >
     <div class="row">
       <div class="col-12">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -73,6 +76,31 @@
 <script>
 import LanguageSwitcher from "./components/app-languageswitch.component";
 
+const debounce = (func, delay, immediate) => {
+  var timeout;
+
+  return () => {
+    const context = this,
+      args = arguments;
+
+    const later = function() {
+      timeout = null;
+
+      if (!immediate) func.apply(context, args);
+    };
+
+    const callNow = immediate && !timeout;
+
+    clearTimeout(timeout);
+    timeout = setTimeout(later, delay);
+
+    if (callNow) func.apply(context, args);
+  };
+};
+
+let hResize;
+const maxWidth = 1050;
+
 export default {
   name: "app",
 
@@ -83,7 +111,8 @@ export default {
   data: function() {
     return {
       show: false,
-      navbarShow: false
+      navbarShow: false,
+      containerFluid: this.matchMedia(maxWidth)
     };
   },
 
@@ -95,6 +124,16 @@ export default {
 
   created() {
     this.$store.dispatch("app/setupApp", { name: "QPs Highscorelist" });
+
+    // create debounced resize handler
+    hResize = debounce(this.fnResizeHandler, 200, false);
+    // observe resize event
+    window.addEventListener("resize", hResize, false);
+  },
+
+  destroyed() {
+    // unobserve resize event
+    window.removeEventListener("resize", hResize);
   },
 
   methods: {
@@ -119,6 +158,14 @@ export default {
         // set data property to add/remove "show" class name from navbar element
         this.navbarShow = node.classList.contains("collapsed");
       }
+    },
+
+    fnResizeHandler: function() {
+      this.containerFluid = this.matchMedia(maxWidth);
+    },
+
+    matchMedia(width) {
+      return window.matchMedia(`(max-width: ${width}px)`).matches;
     }
   }
 };

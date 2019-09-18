@@ -46,7 +46,7 @@ const dictDE = {
       highscoreTime: "Bestzeit",
       location: "Ort",
       name: "Name",
-      position: "Platz",
+      position: "#",
       races: "Rennen",
       results: "Ergebnis | Ergebnisse",
       season: "Saison",

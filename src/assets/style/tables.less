@@ -1,47 +1,72 @@
-
 .qp-table {
-    &-results {
-        thead {
-            background-color: @color-dark;
-            color: @color-light;
-        }
-        
-        &-item {
-            &-row {
-                &:nth-child(1),
-                &:nth-child(1):hover {
-                    background: lighten(@color-success, 50%);
-                    // color: @color-light;
-                }
-                &:nth-child(2),
-                &:nth-child(2):hover {
-                    background: lighten(@color-primary, 45%);
-                    // background: @color-success;
-                    // color: @color-light;
-                }
-                &:nth-child(3),
-                &:nth-child(3):hover {
-                    background: lighten(@color-warning, 45%);
-                    // background: darken(@color-success, 15%);
-                    // color: @color-light;
-                }
+  &-results {
+    @media (max-width: @formula-result-max-width) {
+      font-size: 2.2em;
 
-                &-last,
-                &-last&-last:hover {
-                    background-color: lighten(@color-danger, 40%);
-                    // background-color: @color-danger;
-                    // color: @color-light;
-                }
-        
-                // &:nth-child(1),
-                // &:nth-child(2),
-                // &:nth-child(3),
-                // &-last {
-                //     .qp-action-icon {
-                //         color: @color-light;
-                //     }
-                // }
-            }
-        }
+      .qp-action-icon {
+        font-size: 1.3em;
+      }
     }
+
+    thead {
+      background-color: @color-dark;
+      color: @color-light;
+
+      @media (max-width: @formula-result-max-width) {
+        th {
+          font-weight: 500;
+
+          .qp-action-icon-gap {
+            font-size: 1.2em;
+          }
+
+          &:last-child {
+            width: 70px;
+
+            span {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+
+    &-item {
+      &-row {
+        &:nth-child(1),
+        &:nth-child(1):hover {
+          background: lighten(@color-success, 50%);
+          // color: @color-light;
+        }
+        &:nth-child(2),
+        &:nth-child(2):hover {
+          background: lighten(@color-primary, 45%);
+          // background: @color-success;
+          // color: @color-light;
+        }
+        &:nth-child(3),
+        &:nth-child(3):hover {
+          background: lighten(@color-warning, 45%);
+          // background: darken(@color-success, 15%);
+          // color: @color-light;
+        }
+
+        &-last,
+        &-last&-last:hover {
+          background-color: lighten(@color-danger, 40%);
+          // background-color: @color-danger;
+          // color: @color-light;
+        }
+
+        // &:nth-child(1),
+        // &:nth-child(2),
+        // &:nth-child(3),
+        // &-last {
+        //     .qp-action-icon {
+        //         color: @color-light;
+        //     }
+        // }
+      }
+    }
+  }
 }
