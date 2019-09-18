@@ -38,7 +38,7 @@ const dictEN = {
     },
 
     seasons: {
-      actions: "",
+      actions: "Actions",
       addRace: "Add Race",
       addSeason: "Add Season",
       availableSeasons: "Available Seasons",

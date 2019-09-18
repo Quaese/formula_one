@@ -38,7 +38,7 @@ const dictDE = {
     },
 
     seasons: {
-      actions: "",
+      actions: "Aktionen",
       addRace: "Rennen hinzufügen",
       addSeason: "Saison hinzufügen",
       availableSeasons: "Verfügbare Saisons",
