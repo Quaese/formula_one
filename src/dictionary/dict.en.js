@@ -38,7 +38,7 @@ const dictEN = {
     },
 
     seasons: {
-      actions: "Actions",
+      actions: "",
       addRace: "Add Race",
       addSeason: "Add Season",
       availableSeasons: "Available Seasons",
@@ -46,7 +46,7 @@ const dictEN = {
       highscoreTime: "Highscore",
       location: "Location",
       name: "Name",
-      position: "Position",
+      position: "#",
       races: "Races",
       results: "Result | Results",
       season: "Season",
