@@ -2,40 +2,69 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <h2>{{ $t('seasons.availableSeasons') }}</h2>
+        <h2>{{ $t("seasons.availableSeasons") }}</h2>
       </div>
     </div>
-    <ol class="row d-flex d-flex-row justify-content-between qp-card-list" v-if="seasons!==null">
-      <li class="mb-4" v-for="(seasonId) in order" :key="seasonId">
+    <ol
+      class="row d-flex d-flex-row justify-content-between qp-card-list"
+      v-if="seasons !== null"
+    >
+      <li
+        class="mb-4"
+        v-for="seasonId in order"
+        :key="seasonId"
+      >
+        <highscorlist-card
+          v-bind:id="seasonId"
+          v-bind:headerImage="`url(${getImage(seasons[seasonId].image)})`"
+          v-bind:title="seasons[seasonId].title"
+          v-bind:model="model"
+          v-bind:modify="modifyState.season === seasonId"
+          v-bind:created="formatDateTime(seasons[seasonId].created)"
+          v-bind:modified="formatDateTime(seasons[seasonId].modified)"
+          v-bind:amount="seasons[seasonId].races.length"
+          v-bind:translations="translations"
+          @save="hSave"
+        />
         <div class="card qp-card">
           <div
             class="card-img-top qp-card-img-bg"
-            :style="{'background-image': `url(${getImage(seasons[seasonId].image)})`}"
+            :style="{
+              'background-image': `url(${getImage(seasons[seasonId].image)})`
+            }"
           ></div>
           <div class="card-body">
             <h5 class="card-title mb-2">
-              <span v-if="modifyState.season !== seasonId">{{ seasons[seasonId].title }}</span>
-              <input
+              <span v-if="modifyState.season !== seasonId">{{
+                seasons[seasonId].title
+              }}</span>
+              <!-- <input
                 v-else
                 type="text"
                 class="form-control"
                 v-model="model.title"
-                v-init-input:model="{field: 'title', value: seasons[seasonId].title}"
+                v-init-input:model="{
+                  field: 'title',
+                  value: seasons[seasonId].title
+                }"
                 v-bind:placeholder="seasons[seasonId].title"
-              />
+              /> -->
             </h5>
-            <p class="card-subtitle mb-3 card-text" style="line-height: 1.1;">
-              <small
-                class="text-muted"
-              >{{ $t('app.created') }}: {{formatDateTime(seasons[seasonId].created)}}</small>
+            <p
+              class="card-subtitle mb-3 card-text"
+              style="line-height: 1.1;"
+            >
+              <small class="text-muted">{{ $t("app.created") }}:
+                {{ formatDateTime(seasons[seasonId].created) }}</small>
               <br />
-              <small
-                class="text-muted"
-              >{{ $t('app.modified') }}: {{formatDateTime(seasons[seasonId].modified)}}</small>
+              <small class="text-muted">{{ $t("app.modified") }}:
+                {{ formatDateTime(seasons[seasonId].modified) }}</small>
             </p>
             <div class="row mb-1">
-              <div class="col-4 col-md-6">{{ $t('seasons.races') }}:</div>
-              <div class="col-8 col-md-6">{{seasons[seasonId].races.length}}</div>
+              <div class="col-4 col-md-6">{{ $t("seasons.races") }}:</div>
+              <div class="col-8 col-md-6">
+                {{ seasons[seasonId].races.length }}
+              </div>
             </div>
 
             <div class="qp-card-footer d-flex justify-content-between">
@@ -69,7 +98,7 @@
                 </span>
                 <span v-if="modifyState.season === seasonId">
                   <font-awesome-layers
-                    @click="setModify(null);"
+                    @click="setModify(null)"
                     :title="$t('common.cancel')"
                     class="fa-lg qp-action-icon qp-action-icon-layer"
                   >
@@ -119,11 +148,11 @@
       <li class="mb-4">
         <div class="card qp-card">
           <div class="card-body">
-            <h5 class="card-title mb-2">{{ $t('seasons.addSeason') }}</h5>
+            <h5 class="card-title mb-2">{{ $t("seasons.addSeason") }}</h5>
             <div class="row mb-1">
               <div class="col-12 d-flex justify-content-center align-items-center">
                 <font-awesome-layers
-                  @click="addSeason();"
+                  @click="addSeason()"
                   :title="$t('common.add')"
                   class="fa-lg qp-action-icon qp-action-icon-layer qp-card-icon-large"
                 >
@@ -149,34 +178,42 @@
 </template>
 
 <script>
+import HighscorelistCard from "../components/highscorelist-card.component";
 import TimeService from "../services/time.service";
 
 export default {
   name: "highscorelist-home-view",
 
-  data() {
+  components: {
+    "highscorlist-card": HighscorelistCard
+  },
+
+  data () {
     return {
       model: {
         title: ""
+      },
+      translations: {
+        amount: this.$t("seasons.races")
       }
     };
   },
 
   computed: {
-    seasons() {
+    seasons () {
       return this.$store.state.highscorelist.seasons
         ? this.$store.state.highscorelist.seasons.byId
         : null;
     },
-    order() {
+    order () {
       return this.$store.state.highscorelist.seasons.order;
     },
-    modifyState() {
+    modifyState () {
       return this.$store.getters["highscorelist/getModifyState"]();
     }
   },
 
-  created() {
+  created () {
     // get seasons
     if (this.$store.state.highscorelist.seasons === null) {
       this.$store.dispatch("highscorelist/fetchState");
@@ -184,31 +221,31 @@ export default {
   },
 
   methods: {
-    navigate(id) {
+    navigate (id) {
       this.$router.push(`/highscorelist/season/${id}`);
     },
 
-    formatDateTime(timestamp) {
+    formatDateTime (timestamp) {
       return TimeService.formatDateTime(timestamp);
     },
 
-    getImage(filename) {
+    getImage (filename) {
       // from: https://stackoverflow.com/questions/40491506/vue-js-dynamic-images-not-working
       return require("@/assets/images/cardheader/" + filename);
     },
 
-    randomImage(border) {
+    randomImage (border) {
       let rnd = Math.ceil(Math.random() * border);
       rnd = rnd < 10 ? `0${rnd}` : `${rnd}`;
 
       return "formula_one_" + rnd + ".jpg";
     },
 
-    resetModel() {
+    resetModel () {
       Object.keys(this.model).forEach(key => (this.model[key] = null));
     },
 
-    setModify(seasonId) {
+    setModify (seasonId) {
       // reset model
       this.resetModel();
 
@@ -218,7 +255,12 @@ export default {
       });
     },
 
-    saveModify(seasonId) {
+    hSave (evt, id) {
+      this.saveModify(id);
+    },
+    saveModify (seasonId) {
+      console.log("abc", seasonId, this.model.title);
+      return;
       this.$store.dispatch("highscorelist/updateSeason", {
         id: seasonId,
         title: this.model.title,
@@ -229,14 +271,14 @@ export default {
       this.resetModel();
     },
 
-    addSeason() {
+    addSeason () {
       this.$store.dispatch("highscorelist/addSeason", {
         image: this.randomImage(10),
         object: "season"
       });
     },
 
-    async removeSeason(seasonId) {
+    async removeSeason (seasonId) {
       try {
         // get season object
         const season = await this.$store.getters["highscorelist/getSeasonById"](
@@ -270,5 +312,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
