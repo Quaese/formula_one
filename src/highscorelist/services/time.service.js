@@ -41,8 +41,16 @@ export default {
 
   formatDateTime: timestamp => {
     const date = new Date(timestamp);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
 
-    return `${date.getDate()}.${date.getMonth() +
-      1}.${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    return `${(day < 10 ? "0" : "") + day}.${(month < 10 ? "0" : "") +
+      month}.${date.getFullYear()}, ${(hours < 10 ? "0" : "") +
+      hours}:${(minutes < 10 ? "0" : "") + minutes}:${(seconds < 10
+      ? "0"
+      : "") + seconds}`;
   }
 };
