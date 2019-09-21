@@ -37,7 +37,7 @@ const writeEnvFile = (filename, content) => {
 };
 
 // create content for environment file
-content = `export const env = {"ip": "${ip}"};`;
+content = `/* eslint-disable */\nexport const env = {"ip": "${ip}"};`;
 
 // write environment file
 writeEnvFile(filename, content);
