@@ -24,19 +24,52 @@
             v-bind:placeholder="title"
           />
         </h5>
+
         <p class="card-subtitle mb-3 card-text" style="line-height: 1.1;">
-          <small class="text-muted" v-if="created"
-            >{{ $t("app.created") }}: {{ created }}</small
-          >
+          <small class="text-muted" v-if="created">
+            {{ $t("app.created") }}: {{ created }}
+          </small>
           <br />
-          <small class="text-muted" v-if="modified"
-            >{{ $t("app.modified") }}: {{ modified }}</small
-          >
+          <small class="text-muted" v-if="modified">
+            {{ $t("app.modified") }}: {{ modified }}
+          </small>
         </p>
-        <div class="row mb-1" if="amount">
-          <div class="col-4 col-md-6">{{ translations.amount }}:</div>
+
+        <div class="row mb-1" v-if="location">
+          <div class="col-4 col-md-6">
+            {{ this.$t(translations.location) }}:
+          </div>
+          <div class="col-8 col-md-6">
+            <span v-if="!modify">{{ location }}</span>
+            <input
+              v-else
+              type="text"
+              class="form-control"
+              v-model="model.location"
+              v-init-input:model="{
+                field: 'location',
+                value: location
+              }"
+              v-bind:placeholder="location"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-1" v-if="amount">
+          <div class="col-4 col-md-6">
+            {{ $tc(translations.amount, amount) }}:
+          </div>
           <div class="col-8 col-md-6">
             {{ amount }}
+          </div>
+        </div>
+
+        <div class="row mb-1" v-if="highscore">
+          <div class="col-4 col-md-6">
+            {{ this.$t(translations.highscoreLabel) }}:
+          </div>
+          <div class="col-8 col-md-6">
+            {{ highscore }}
           </div>
         </div>
 
@@ -149,8 +182,14 @@ export default {
     modified: {
       type: String
     },
+    location: {
+      type: String
+    },
     amount: {
       type: Number
+    },
+    highscore: {
+      type: String
     },
     actions: {
       type: Object

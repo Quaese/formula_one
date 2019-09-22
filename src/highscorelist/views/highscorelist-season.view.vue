@@ -1,18 +1,5 @@
 <template>
   <div class="container-fluid" v-if="season">
-    <!-- <div class="row mb-4">
-      <div class="col-12">
-        <font-awesome-layers
-          @click="back()"
-          :title="$t('common.back')"
-          class="fa-lg qp-action-icon qp-action-icon-layer"
-        >
-          <font-awesome-icon :icon="['far', 'circle']" />
-          <font-awesome-icon class="qp-action-icon-primary" icon="arrow-left" transform="shrink-8" />
-        </font-awesome-layers>
-      </div>
-    </div>-->
-
     <div class="row">
       <div class="col-12">
         <h2 class="qp-breadcrumb-header">
@@ -32,196 +19,55 @@
         </h2>
       </div>
     </div>
-    <!-- <ol class="row">
-      <li
-        class="col-12"
-        v-for="raceId in season.races"
-        :key="raceId"
-        @click="navigate(raceId)"
-      >{{races[raceId].title}}</li>
-    </ol>-->
 
     <ol class="row d-flex d-flex-row justify-content-between qp-card-list">
       <li class="mb-4" v-for="raceId in season.races" :key="raceId">
-        <div class="card qp-card">
-          <div class="card-body">
-            <h5 class="card-title mb-2">
-              <span v-if="modifyState.race !== raceId">{{
-                races[raceId].title
-              }}</span>
-              <input
-                v-else
-                type="text"
-                class="form-control"
-                v-model="model.title"
-                v-init-input:model="{
-                  field: 'title',
-                  value: races[raceId].title
-                }"
-                v-bind:placeholder="races[raceId].title"
-              />
-            </h5>
-            <p class="card-subtitle mb-3 card-text">
-              <small class="text-muted"
-                >{{ $t("app.created") }}:
-                {{ formatDateTime(races[raceId].created) }}</small
-              >
-            </p>
-            <div class="row mb-1">
-              <div class="col-4 col-md-6">{{ $t("seasons.location") }}:</div>
-              <div class="col-8 col-md-6">
-                <span v-if="modifyState.race !== raceId">{{
-                  races[raceId].location
-                }}</span>
-                <input
-                  v-else
-                  type="text"
-                  class="form-control"
-                  v-model="model.location"
-                  v-init-input:model="{
-                    field: 'location',
-                    value: races[raceId].location
-                  }"
-                  v-bind:placeholder="races[raceId].location"
-                />
-              </div>
-            </div>
-            <div class="row mb-1">
-              <div class="col-4 col-md-6">
-                {{ $tc("seasons.results", races[raceId].results.length) }}:
-              </div>
-              <div class="col-8 col-md-6">
-                {{ races[raceId].results.length }}
-              </div>
-            </div>
-            <div class="row mb-1">
-              <div class="col-4 col-md-6">
-                {{ $t("seasons.highscoreTime") }}:
-              </div>
-              <div class="col-8 col-md-6">
-                {{
-                  getResultById(races[raceId].results[0])
-                    ? getResultById(races[raceId].results[0]).name
-                    : $t("seasons.highscoreNameDefault")
-                }}
-              </div>
-            </div>
-
-            <div class="qp-card-footer d-flex justify-content-between">
-              <div class="qp-card-footer-actions">
-                <span v-if="modifyState.race !== raceId">
-                  <font-awesome-layers
-                    @click="removeRace(raceId)"
-                    :title="$t('common.delete')"
-                    class="fa-lg qp-action-icon qp-action-icon-layer"
-                  >
-                    <font-awesome-icon :icon="['far', 'circle']" />
-                    <font-awesome-icon
-                      class="qp-action-icon-remove"
-                      :icon="['far', 'trash-alt']"
-                      transform="shrink-8"
-                    />
-                  </font-awesome-layers>
-
-                  <font-awesome-layers
-                    @click="setModify(raceId)"
-                    :title="$t('common.edit')"
-                    class="fa-lg qp-action-icon qp-action-icon-layer"
-                  >
-                    <font-awesome-icon :icon="['far', 'circle']" />
-                    <font-awesome-icon
-                      class="qp-action-icon-edit"
-                      icon="pencil-alt"
-                      transform="shrink-8"
-                    />
-                  </font-awesome-layers>
-                </span>
-                <span v-if="modifyState.race === raceId">
-                  <font-awesome-layers
-                    @click="setModify(null)"
-                    :title="$t('common.cancel')"
-                    class="fa-lg qp-action-icon qp-action-icon-layer"
-                  >
-                    <font-awesome-icon :icon="['far', 'circle']" />
-                    <font-awesome-icon
-                      class="qp-action-icon-cancel"
-                      :icon="['fas', 'times']"
-                      transform="shrink-8"
-                    />
-                  </font-awesome-layers>
-
-                  <font-awesome-layers
-                    @click="saveModify(raceId)"
-                    :title="$t('common.save')"
-                    class="fa-lg qp-action-icon qp-action-icon-layer"
-                  >
-                    <font-awesome-icon :icon="['far', 'circle']" />
-                    <font-awesome-icon
-                      class="qp-action-icon-success"
-                      icon="check"
-                      transform="shrink-8"
-                    />
-                  </font-awesome-layers>
-                </span>
-              </div>
-
-              <div class="qp-card-footer-navigate">
-                <font-awesome-layers
-                  @click="navigate(raceId)"
-                  :title="$t('common.more')"
-                  class="fa-lg qp-action-icon qp-action-icon-layer"
-                >
-                  <font-awesome-icon :icon="['far', 'circle']" />
-                  <font-awesome-icon
-                    class="qp-action-icon-primary"
-                    icon="arrow-right"
-                    transform="shrink-8"
-                  />
-                </font-awesome-layers>
-              </div>
-            </div>
-          </div>
-        </div>
+        <highscorlist-card
+          v-bind:id="raceId"
+          v-bind:title="races[raceId].title"
+          v-bind:model="model"
+          v-bind:modify="modifyState.race === raceId"
+          v-bind:created="formatDateTime(races[raceId].created)"
+          v-bind:modified="formatDateTime(races[raceId].modified)"
+          v-bind:location="races[raceId].location"
+          v-bind:amount="races[raceId].results.length"
+          v-bind:highscore="
+            getResultById(races[raceId].results[0])
+              ? getResultById(races[raceId].results[0]).name
+              : $t('seasons.highscoreNameDefault')
+          "
+          v-bind:translations="translations"
+          v-bind:actions="actions"
+          @edit="hEdit"
+          @cancel="hEdit"
+          @delete="hRemove"
+          @navigate="hNavigate"
+          @save="hSave"
+        />
       </li>
 
       <!-- add race -->
       <li class="mb-4">
-        <div class="card qp-card">
-          <div class="card-body">
-            <h5 class="card-title mb-2">{{ $t("seasons.addRace") }}</h5>
-            <div class="row mb-1">
-              <div
-                class="col-12 d-flex justify-content-center align-items-center"
-              >
-                <font-awesome-layers
-                  @click="addRace(true)"
-                  :title="$t('common.add')"
-                  class="fa-lg qp-action-icon qp-action-icon-layer qp-card-icon-large"
-                >
-                  <font-awesome-icon :icon="['far', 'circle']" />
-                  <font-awesome-icon
-                    class="qp-action-icon-primary"
-                    :icon="['fas', 'plus']"
-                    transform="shrink-8"
-                  />
-                </font-awesome-layers>
-              </div>
-            </div>
-
-            <div class="qp-card-footer ep-flex d-flex justify-content-between">
-              <div class="qp-card-footer-actions"></div>
-              <div class="qp-card-footer-navigate"></div>
-            </div>
-          </div>
-        </div>
+        <highscorlist-card-add
+          v-bind:title="$t('seasons.addRace')"
+          @add="hAdd"
+        />
       </li>
     </ol>
   </div>
 </template>
 
 <script>
+import HighscorelistCard from "../components/highscorelist-card.component";
+import HighscorelistCardAdd from "../components/highscorelist-cardadd.component";
+
 export default {
   name: "highscorelist-season-view",
+
+  components: {
+    "highscorlist-card": HighscorelistCard,
+    "highscorlist-card-add": HighscorelistCardAdd
+  },
 
   data() {
     return {
@@ -229,7 +75,21 @@ export default {
         title: "",
         location: ""
       },
-      seasonId: this.$route.params.id
+      seasonId: this.$route.params.id,
+      // translation keys for card component
+      translations: {
+        highscoreLabel: "seasons.highscoreTime",
+        location: "seasons.location",
+        amount: "seasons.results"
+      },
+      // actions for card component
+      actions: {
+        cancel: true,
+        delete: true,
+        edit: true,
+        navigate: true,
+        save: true
+      }
     };
   },
 
@@ -255,6 +115,14 @@ export default {
   },
 
   methods: {
+    hNavigate(evt, id) {
+      this.navigate(id);
+    },
+    navigate(id) {
+      // navigate to requested race
+      this.$router.push(`/highscorelist/season/${this.seasonId}/race/${id}`);
+    },
+
     back() {
       this.$router.push(`/highscorelist/`);
     },
@@ -270,25 +138,17 @@ export default {
       return this.$store.getters["highscorelist/getResultById"](id);
     },
 
-    navigate(id) {
-      // // set id's of current objects (season, race)
-      // this.$store.dispatch("highscorelist/setCurrent", {
-      //   seasonId: this.seasonId,
-      //   raceId: id
-      // });
-
-      // navigate to requested race
-      this.$router.push(`/highscorelist/season/${this.seasonId}/race/${id}`);
-    },
-
-    remove(raceId) {
-      console.log("highscorelist-season.view.vue (remove): ", raceId);
-    },
+    // remove(raceId) {
+    //   console.log("highscorelist-season.view.vue (remove): ", raceId);
+    // },
 
     resetModel() {
       Object.keys(this.model).forEach(key => (this.model[key] = null));
     },
 
+    hEdit(evt, id) {
+      this.setModify(id);
+    },
     setModify(raceId) {
       // reset model
       this.resetModel();
@@ -299,6 +159,9 @@ export default {
       });
     },
 
+    hSave(evt, id) {
+      this.saveModify(id);
+    },
     saveModify(raceId) {
       this.$store.dispatch("highscorelist/updateRace", {
         id: raceId,
@@ -311,6 +174,9 @@ export default {
       this.resetModel();
     },
 
+    hAdd() {
+      this.addRace();
+    },
     addRace() {
       this.$store.dispatch("highscorelist/addRace", {
         seasonId: this.seasonId,
@@ -318,7 +184,10 @@ export default {
       });
     },
 
-    async removeRace(raceId) {
+    hRemove(evt, id) {
+      this.remove(id);
+    },
+    async remove(raceId) {
       try {
         // get season object
         const race = await this.$store.getters["highscorelist/getRaceById"](

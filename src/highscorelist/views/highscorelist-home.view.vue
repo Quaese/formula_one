@@ -58,9 +58,11 @@ export default {
       model: {
         title: ""
       },
+      // translation keys for card component
       translations: {
-        amount: this.$t("seasons.races")
+        amount: "seasons.races"
       },
+      // actions for card component
       actions: {
         cancel: true,
         delete: true,
@@ -147,7 +149,7 @@ export default {
       this.resetModel();
     },
 
-    hAdd(evt, id) {
+    hAdd() {
       this.addSeason();
     },
     addSeason() {
@@ -158,9 +160,9 @@ export default {
     },
 
     hRemove(evt, id) {
-      this.removeSeason(id);
+      this.remove(id);
     },
-    async removeSeason(seasonId) {
+    async remove(seasonId) {
       try {
         // get season object
         const season = await this.$store.getters["highscorelist/getSeasonById"](
