@@ -3,25 +3,30 @@
     <div class="row">
       <div class="col-12">
         <h2 class="qp-breadcrumb-header">
-          <font-awesome-layers
+          <action-icon
             @click="back()"
-            title="back"
-            class="fa-lg qp-action-icon qp-action-icon-layer"
-          >
-            <font-awesome-icon :icon="['far', 'circle']" />
-            <font-awesome-icon
-              class="qp-action-icon-primary"
-              icon="arrow-left"
-              transform="shrink-8"
-            />
-          </font-awesome-layers>
-          {{`${$tc('seasons.results', race!==null && race.results.length) + (race!==null ? " - " + race.title: "")}`}}
+            :wrapper="{
+              title: $t('common.more')
+            }"
+            :actions="{
+              class: 'qp-action-icon-primary',
+              icon: ['fas', 'arrow-left']
+            }"
+          />
+          {{
+            `${$tc("seasons.results", race !== null && race.results.length) +
+              (race !== null ? " - " + race.title : "")}`
+          }}
         </h2>
       </div>
     </div>
     <div class="row">
       <div class="col-12">
-        <highscorelist-table v-bind:race="race" v-bind:fields="fields" v-bind:seasonId="seasonId"></highscorelist-table>
+        <highscorelist-table
+          v-bind:race="race"
+          v-bind:fields="fields"
+          v-bind:seasonId="seasonId"
+        ></highscorelist-table>
       </div>
     </div>
   </div>
@@ -29,10 +34,13 @@
 
 <script>
 import HighscorelistTable from "../components/highscorelist-table.component.vue";
+import ActionIconLayered from "../components/actionicon-layered.component";
+
 export default {
   name: "highscorelist-view",
 
   components: {
+    "action-icon": ActionIconLayered,
     "highscorelist-table": HighscorelistTable
   },
 
@@ -76,17 +84,8 @@ export default {
     back() {
       this.$router.push(`/highscorelist/season/${this.seasonId}`);
     }
-
-    // getRaceById() {
-    //   return this.$store.getters["highscorelist/getRaceById"]({
-    //     raceId: this.raceId,
-    //     // seasonId: this.$route.params.seasonId,
-    //     seasonId: this.seasonId
-    //   });
-    // }
   }
 };
 </script>
 
-<style>
-</style>
+<style></style>

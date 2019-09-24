@@ -37,34 +37,30 @@
           formatTime(item[cell.name])
         }}</span>
         <span v-else-if="cell.name === 'actions'">
-          <font-awesome-layers
+          <action-icon
             @click="
               setEdit(false);
               save();
             "
-            :title="$t('common.save')"
-            class="fa-lg qp-action-icon qp-action-icon-layer"
-          >
-            <font-awesome-icon :icon="['far', 'circle']" />
-            <font-awesome-icon
-              class="qp-action-icon-ok"
-              :icon="['fas', 'check']"
-              transform="shrink-8"
-            />
-          </font-awesome-layers>
+            :wrapper="{
+              title: $t('common.save')
+            }"
+            :actions="{
+              class: 'qp-action-icon-ok',
+              icon: ['fas', 'check']
+            }"
+          />
 
-          <font-awesome-layers
+          <action-icon
             @click="setEdit(false)"
-            :title="$t('common.cancel')"
-            class="fa-lg qp-action-icon qp-action-icon-layer"
-          >
-            <font-awesome-icon :icon="['far', 'circle']" />
-            <font-awesome-icon
-              class="qp-action-icon-cancel"
-              :icon="['fas', 'times']"
-              transform="shrink-8"
-            />
-          </font-awesome-layers>
+            :wrapper="{
+              title: $t('common.cancel')
+            }"
+            :actions="{
+              class: 'qp-action-icon-cancel',
+              icon: ['fas', 'times']
+            }"
+          />
         </span>
         <span v-else>{{ item[cell.name] }}</span>
       </div>
@@ -82,31 +78,27 @@
           formatTime(item[cell.name])
         }}</span>
         <span v-else-if="cell.name === 'actions'">
-          <font-awesome-layers
+          <action-icon
             @click="setEdit(true)"
-            :title="$t('common.edit')"
-            class="fa-lg qp-action-icon qp-action-icon-layer"
-          >
-            <font-awesome-icon :icon="['far', 'circle']" />
-            <font-awesome-icon
-              class="qp-action-icon-edit"
-              icon="pencil-alt"
-              transform="shrink-8"
-            />
-          </font-awesome-layers>
+            :wrapper="{
+              title: $t('common.edit')
+            }"
+            :actions="{
+              class: 'qp-action-icon-edit',
+              icon: ['fas', 'pencil-alt']
+            }"
+          />
 
-          <font-awesome-layers
+          <action-icon
             @click="remove(item.id)"
-            :title="$t('common.delete')"
-            class="fa-lg qp-action-icon qp-action-icon-layer"
-          >
-            <font-awesome-icon :icon="['far', 'circle']" />
-            <font-awesome-icon
-              class="qp-action-icon-remove"
-              :icon="['far', 'trash-alt']"
-              transform="shrink-8"
-            />
-          </font-awesome-layers>
+            :wrapper="{
+              title: $t('common.delete')
+            }"
+            :actions="{
+              class: 'qp-action-icon-remove',
+              icon: ['far', 'trash-alt']
+            }"
+          />
         </span>
         <span v-else>{{ item[cell.name] }}</span>
       </div>
@@ -117,10 +109,15 @@
 <script>
 // InitInput from "../../directives/init-input.directive" is globally registered in main.js
 
+import ActionIconLayered from "./actionicon-layered.component";
 import TimeService from "../services/time.service";
 
 export default {
   name: "highscorelist-item",
+
+  components: {
+    "action-icon": ActionIconLayered
+  },
 
   data() {
     return {

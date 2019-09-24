@@ -79,79 +79,69 @@
       <div class="qp-card-footer d-flex justify-content-between">
         <div class="qp-card-footer-actions">
           <span v-if="!modify">
-            <font-awesome-layers
+            <action-icon
               v-if="actions.delete"
               @click="$emit('delete', $event, id)"
-              :title="$t('common.delete')"
-              class="fa-lg qp-action-icon qp-action-icon-layer"
-            >
-              <font-awesome-icon :icon="['far', 'circle']" />
-              <font-awesome-icon
-                class="qp-action-icon-remove"
-                :icon="['far', 'trash-alt']"
-                transform="shrink-8"
-              />
-            </font-awesome-layers>
+              :wrapper="{
+                title: $t('common.delete')
+              }"
+              :actions="{
+                class: 'qp-action-icon-remove',
+                icon: ['far', 'trash-alt']
+              }"
+            />
 
-            <font-awesome-layers
+            <action-icon
               v-if="actions.edit"
               @click="$emit('edit', $event, id)"
-              :title="$t('common.edit')"
-              class="fa-lg qp-action-icon qp-action-icon-layer"
-            >
-              <font-awesome-icon :icon="['far', 'circle']" />
-              <font-awesome-icon
-                class="qp-action-icon-edit"
-                icon="pencil-alt"
-                transform="shrink-8"
-              />
-            </font-awesome-layers>
+              :wrapper="{
+                title: $t('common.edit')
+              }"
+              :actions="{
+                class: 'qp-action-icon-edit',
+                icon: ['fas', 'pencil-alt']
+              }"
+            />
           </span>
           <span v-if="modify">
-            <font-awesome-layers
+            <action-icon
               v-if="actions.cancel"
               @click="$emit('cancel', $event, null)"
-              :title="$t('common.cancel')"
-              class="fa-lg qp-action-icon qp-action-icon-layer"
-            >
-              <font-awesome-icon :icon="['far', 'circle']" />
-              <font-awesome-icon
-                class="qp-action-icon-cancel"
-                :icon="['fas', 'times']"
-                transform="shrink-8"
-              />
-            </font-awesome-layers>
+              :wrapper="{
+                title: $t('common.cancel')
+              }"
+              :actions="{
+                class: 'qp-action-icon-cancel',
+                icon: ['fas', 'times']
+              }"
+            />
 
-            <font-awesome-layers
+            <action-icon
               v-if="actions.save"
               @click="$emit('save', $event, id)"
-              :title="$t('common.save')"
-              class="fa-lg qp-action-icon qp-action-icon-layer"
-            >
-              <font-awesome-icon :icon="['far', 'circle']" />
-              <font-awesome-icon
-                class="qp-action-icon-success"
-                icon="check"
-                transform="shrink-8"
-              />
-            </font-awesome-layers>
+              :wrapper="{
+                title: $t('common.save')
+              }"
+              :actions="{
+                class: 'qp-action-icon-success',
+                icon: ['fas', 'check']
+              }"
+            />
           </span>
         </div>
 
         <div class="qp-card-footer-navigate" v-if="actions.navigate">
-          <font-awesome-layers
+          <action-icon
             v-if="actions.navigate"
             @click="$emit('navigate', $event, id)"
-            :title="$t('common.more')"
-            class="fa-lg qp-action-icon qp-action-icon-layer"
-          >
-            <font-awesome-icon :icon="['far', 'circle']" />
-            <font-awesome-icon
-              class="qp-action-icon-primary"
-              icon="arrow-right"
-              transform="shrink-8"
-            />
-          </font-awesome-layers>
+            :wrapper="{
+              title: $t('common.more')
+            }"
+            :actions="{
+              class: 'qp-action-icon-primary',
+              icon: ['fas', 'arrow-right']
+            }"
+          />
         </div>
       </div>
     </div>
@@ -159,8 +149,14 @@
 </template>
 
 <script>
+import ActionIconLayered from "./actionicon-layered.component";
+
 export default {
   name: "highscorelist-card",
+
+  components: {
+    "action-icon": ActionIconLayered
+  },
 
   props: {
     id: {
