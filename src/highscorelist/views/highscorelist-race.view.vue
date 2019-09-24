@@ -33,14 +33,14 @@
 </template>
 
 <script>
+// import ActionIconLayered from "./actionicon-layered.component" is globally registered in main.js
+
 import HighscorelistTable from "../components/highscorelist-table.component.vue";
-import ActionIconLayered from "../components/actionicon-layered.component";
 
 export default {
   name: "highscorelist-view",
 
   components: {
-    "action-icon": ActionIconLayered,
     "highscorelist-table": HighscorelistTable
   },
 

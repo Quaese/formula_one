@@ -149,14 +149,10 @@
 </template>
 
 <script>
-import ActionIconLayered from "./actionicon-layered.component";
+// import ActionIconLayered from "./actionicon-layered.component" is globally registered in main.js
 
 export default {
   name: "highscorelist-card",
-
-  components: {
-    "action-icon": ActionIconLayered
-  },
 
   props: {
     id: {

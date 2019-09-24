@@ -79,6 +79,10 @@ library.add(
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.component("font-awesome-layers", FontAwesomeLayers);
 
+/* *** register action icon component globally *** */
+import ActionIconLabeled from "./highscorelist/components/actionicon-layered.component.vue";
+Vue.component("action-icon", ActionIconLabeled);
+
 Vue.config.productionTip = false;
 
 new Vue({

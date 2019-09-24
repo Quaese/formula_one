@@ -56,15 +56,15 @@
 </template>
 
 <script>
+// import ActionIconLayered from "./actionicon-layered.component" is globally registered in main.js
+
 import HighscorelistCard from "../components/highscorelist-card.component";
 import HighscorelistCardAdd from "../components/highscorelist-cardadd.component";
-import ActionIconLayered from "../components/actionicon-layered.component";
 
 export default {
   name: "highscorelist-season-view",
 
   components: {
-    "action-icon": ActionIconLayered,
     "highscorlist-card": HighscorelistCard,
     "highscorlist-card-add": HighscorelistCardAdd
   },

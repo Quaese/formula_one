@@ -108,16 +108,12 @@
 
 <script>
 // InitInput from "../../directives/init-input.directive" is globally registered in main.js
+// import ActionIconLayered from "./actionicon-layered.component" is globally registered in main.js
 
-import ActionIconLayered from "./actionicon-layered.component";
 import TimeService from "../services/time.service";
 
 export default {
   name: "highscorelist-item",
-
-  components: {
-    "action-icon": ActionIconLayered
-  },
 
   data() {
     return {
