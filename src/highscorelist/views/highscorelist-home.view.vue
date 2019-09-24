@@ -26,7 +26,9 @@
           @delete="hRemove"
           @navigate="hNavigate"
           @save="hSave"
-        />
+        >
+          <!-- <p slot="description">Hier kommt eine fette Beschreibung</p> -->
+        </highscorlist-card>
       </li>
 
       <!-- add season -->
