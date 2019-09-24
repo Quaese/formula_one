@@ -6,7 +6,7 @@
           <action-icon
             @click="back()"
             :wrapper="{
-              title: $t('common.more')
+              title: $t('common.back')
             }"
             :actions="{
               class: 'qp-action-icon-primary',
