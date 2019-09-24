@@ -60,7 +60,6 @@ export default {
       : `${apiUrl}/api/v1/state`;
 
     return await fetch(requestUrl, requestOptions).then(response => {
-      console.log(response);
       return response.status;
     });
   },

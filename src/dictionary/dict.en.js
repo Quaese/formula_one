@@ -47,7 +47,7 @@ const dictEN = {
       location: "Location",
       name: "Name",
       position: "#",
-      races: "Races",
+      races: "Race | Races",
       results: "Result | Results",
       season: "Season",
       time: "Time"

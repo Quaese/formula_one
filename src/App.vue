@@ -81,6 +81,7 @@ const debounce = (func, delay, immediate) => {
 
   return () => {
     const context = this,
+      // eslint-disable-next-line
       args = arguments;
 
     const later = function() {

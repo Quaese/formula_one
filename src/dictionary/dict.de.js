@@ -47,7 +47,7 @@ const dictDE = {
       location: "Ort",
       name: "Name",
       position: "#",
-      races: "Rennen",
+      races: "Rennen | Rennen",
       results: "Ergebnis | Ergebnisse",
       season: "Saison",
       time: "Zeit"
