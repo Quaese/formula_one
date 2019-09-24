@@ -20,52 +20,46 @@
           />
         </span>
         <span v-else-if="cell.name === 'actions'">
-          <font-awesome-layers
+          <action-icon
             @click="
               setEdit(false);
               save();
             "
-            :title="$t('common.save')"
-            class="fa-lg qp-action-icon qp-action-icon-layer"
-          >
-            <font-awesome-icon :icon="['far', 'circle']" />
-            <font-awesome-icon
-              class="qp-action-icon-ok"
-              :icon="['fas', 'check']"
-              transform="shrink-8"
-            />
-          </font-awesome-layers>
+            :wrapper="{
+              title: $t('common.save')
+            }"
+            :actions="{
+              class: 'qp-action-icon-ok',
+              icon: ['fas', 'check']
+            }"
+          />
 
-          <font-awesome-layers
+          <action-icon
             @click="setEdit(false)"
-            :title="$t('common.cancel')"
-            class="fa-lg qp-action-icon qp-action-icon-layer"
-          >
-            <font-awesome-icon :icon="['far', 'circle']" />
-            <font-awesome-icon
-              class="qp-action-icon-cancel"
-              :icon="['fas', 'times']"
-              transform="shrink-8"
-            />
-          </font-awesome-layers>
+            :wrapper="{
+              title: $t('common.cancel')
+            }"
+            :actions="{
+              class: 'qp-action-icon-cancel',
+              icon: ['fas', 'times']
+            }"
+          />
         </span>
         <span v-else></span>
       </div>
 
       <div v-else>
         <span v-if="cell.name === 'actions'">
-          <font-awesome-layers
+          <action-icon
             @click="setEdit(true)"
-            :title="$t('common.add')"
-            class="fa-lg qp-action-icon qp-action-icon-layer"
-          >
-            <font-awesome-icon :icon="['far', 'circle']" />
-            <font-awesome-icon
-              class="qp-action-icon-primary"
-              :icon="['fas', 'plus']"
-              transform="shrink-8"
-            />
-          </font-awesome-layers>
+            :wrapper="{
+              title: $t('common.add')
+            }"
+            :actions="{
+              class: 'qp-action-icon-primary',
+              icon: ['fas', 'plus']
+            }"
+          />
         </span>
         <span v-else></span>
       </div>
@@ -75,6 +69,7 @@
 
 <script>
 // InitInput from "../../directives/init-input.directive" is globally registered in main.js
+// import ActionIconLayered from "./actionicon-layered.component" is globally registered in main.js
 
 import TimeService from "../services/time.service";
 

@@ -3,18 +3,16 @@
     <div class="row">
       <div class="col-12">
         <h2 class="qp-breadcrumb-header">
-          <font-awesome-layers
+          <action-icon
             @click="back()"
-            :title="$t('common.back')"
-            class="fa-lg qp-action-icon qp-action-icon-layer"
-          >
-            <font-awesome-icon :icon="['far', 'circle']" />
-            <font-awesome-icon
-              class="qp-action-icon-primary"
-              icon="arrow-left"
-              transform="shrink-8"
-            />
-          </font-awesome-layers>
+            :wrapper="{
+              title: $t('common.back')
+            }"
+            :actions="{
+              class: 'qp-action-icon-primary',
+              icon: ['fas', 'arrow-left']
+            }"
+          />
           {{ $t("seasons.season") }} - {{ season.title }}
         </h2>
       </div>
@@ -58,6 +56,8 @@
 </template>
 
 <script>
+// import ActionIconLayered from "./actionicon-layered.component" is globally registered in main.js
+
 import HighscorelistCard from "../components/highscorelist-card.component";
 import HighscorelistCardAdd from "../components/highscorelist-cardadd.component";
 
@@ -137,10 +137,6 @@ export default {
     getResultById: function(id) {
       return this.$store.getters["highscorelist/getResultById"](id);
     },
-
-    // remove(raceId) {
-    //   console.log("highscorelist-season.view.vue (remove): ", raceId);
-    // },
 
     resetModel() {
       Object.keys(this.model).forEach(key => (this.model[key] = null));

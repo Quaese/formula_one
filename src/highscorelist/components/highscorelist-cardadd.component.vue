@@ -4,18 +4,17 @@
       <h5 class="card-title mb-2" v-if="title">{{ title }}</h5>
       <div class="row mb-1">
         <div class="col-12 d-flex justify-content-center align-items-center">
-          <font-awesome-layers
+          <action-icon
             @click="$emit('add', $event)"
-            :title="$t('common.add')"
-            class="fa-lg qp-action-icon qp-action-icon-layer qp-card-icon-large"
-          >
-            <font-awesome-icon :icon="['far', 'circle']" />
-            <font-awesome-icon
-              class="qp-action-icon-primary"
-              :icon="['fas', 'plus']"
-              transform="shrink-8"
-            />
-          </font-awesome-layers>
+            :wrapper="{
+              class: 'qp-card-icon-large',
+              title: $t('common.add')
+            }"
+            :actions="{
+              class: 'qp-action-icon-primary',
+              icon: ['fas', 'plus']
+            }"
+          />
         </div>
       </div>
 
@@ -28,6 +27,8 @@
 </template>
 
 <script>
+// import ActionIconLayered from "./actionicon-layered.component" is globally registered in main.js
+
 export default {
   name: "highscorelist-card-add",
 
