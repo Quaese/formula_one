@@ -34,7 +34,9 @@ export default {
   name: "highscorelist-card-add",
 
   props: {
-    title: { type: String },
+    title: {
+      type: String
+    },
     actions: {
       type: Object
     }

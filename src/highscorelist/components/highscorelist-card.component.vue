@@ -175,7 +175,9 @@ export default {
     headerImage: {
       type: String
     },
-    title: { type: String },
+    title: {
+      type: String
+    },
     created: {
       type: String
     },
