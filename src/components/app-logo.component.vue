@@ -1,14 +1,14 @@
 <template>
-  <div id="qp-formula-one-car">
-    <div id="qp-spoiler_wrapper"></div>
-    <div id="qp-rearwheel_wrapper"></div>
-    <div id="qp-monocock_wrapper"></div>
-    <div id="qp-side_wrapper"></div>
-    <div id="qp-front_wrapper"></div>
-    <div id="qp-bottom_wrapper"></div>
-    <div id="qp-frontwheel_wrapper"></div>
-    <div id="qp-formulaonefont_wrapper"></div>
-    <div id="qp-qp_wrapper"></div>
+  <div class="qp-logo-wrapper">
+    <div class="qp-logo-part-spoiler"></div>
+    <div class="qp-logo-part-rearwheel"></div>
+    <div class="qp-logo-part-monocock"></div>
+    <div class="qp-logo-part-sclasse"></div>
+    <div class="qp-logo-part-front"></div>
+    <div class="qp-logo-part-bottom"></div>
+    <div class="qp-logo-part-frontwheel"></div>
+    <div class="qp-logo-part-formulaonefont"></div>
+    <div class="qp-logo-part-qp"></div>
   </div>
 </template>
 

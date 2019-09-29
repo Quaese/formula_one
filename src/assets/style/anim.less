@@ -1,87 +1,100 @@
-#qp-formula-one-car {
-  position: relative;
-  width: 580px;
-  height: 160px;
-}
-
-#qp-spoiler_wrapper,
-#qp-rearwheel_wrapper,
-#qp-monocock_wrapper,
-#qp-side_wrapper,
-#qp-front_wrapper,
-#qp-bottom_wrapper,
-#qp-frontwheel_wrapper,
-#qp-formulaonefont_wrapper,
-#qp-qp_wrapper {
+/* Mixins */
+.qp-logo-part-mixin {
   position: absolute;
 
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 
-#qp-spoiler_wrapper {
-  width: 17%;
-  height: 40%;
-  transform: translate(9%, 34%);
+/* Logo */
+.qp-logo {
+  &-wrapper {
+    position: relative;
+    width: 580px;
+    height: 160px;
+  }
 
-  background-image: url("~@/assets/images/logo/spoiler.svg");
-}
-#qp-rearwheel_wrapper {
-  width: 17%;
-  height: 63%;
-  transform: translate(46%, 46%);
+  &-part {
+    &-spoiler {
+      .qp-logo-part-mixin;
 
-  background-image: url("~@/assets/images/logo/rear_wheel.svg");
-}
-#qp-monocock_wrapper {
-  width: 47%;
-  height: 61%;
-  transform: translate(49%, 8%);
+      width: 17%;
+      height: 40%;
+      transform: translate(9%, 34%);
 
-  background-image: url("~@/assets/images/logo/monocock.svg");
-}
-#qp-side_wrapper {
-  width: 39%;
-  height: 19%;
-  transform: translate(72%, 320%);
+      background-image: url("~@/assets/images/logo/spoiler.svg");
+    }
+    &-rearwheel {
+      .qp-logo-part-mixin;
 
-  background-image: url("~@/assets/images/logo/side.svg");
-}
+      width: 17%;
+      height: 63%;
+      transform: translate(46%, 46%);
 
-#qp-front_wrapper {
-  width: 38%;
-  height: 56%;
-  transform: translate(160%, 58%);
+      background-image: url("~@/assets/images/logo/rear_wheel.svg");
+    }
+    &-monocock {
+      .qp-logo-part-mixin;
 
-  background-image: url("~@/assets/images/logo/front.svg");
-}
+      width: 47%;
+      height: 61%;
+      transform: translate(49%, 8%);
 
-#qp-bottom_wrapper {
-  width: 42%;
-  height: 30%;
-  transform: translate(70%, 226%);
+      background-image: url("~@/assets/images/logo/monocock.svg");
+    }
+    &-side {
+      .qp-logo-part-mixin;
 
-  background-image: url("~@/assets/images/logo/bottom.svg");
-}
+      width: 39%;
+      height: 19%;
+      transform: translate(72%, 320%);
 
-#qp-frontwheel_wrapper {
-  width: 17%;
-  height: 62%;
-  transform: translate(402%, 55%);
+      background-image: url("~@/assets/images/logo/side.svg");
+    }
+    &-front {
+      .qp-logo-part-mixin;
 
-  background-image: url("~@/assets/images/logo/front_wheel.svg");
-}
-#qp-formulaonefont_wrapper {
-  width: 38%;
-  height: 42%;
-  transform: translate(161%, 30%);
+      width: 38%;
+      height: 56%;
+      transform: translate(160%, 58%);
 
-  background-image: url("~@/assets/images/logo/formula_one_font.svg");
-}
-#qp-qp_wrapper {
-  width: 15%;
-  height: 29%;
-  transform: translate(307%, 41%);
+      background-image: url("~@/assets/images/logo/front.svg");
+    }
+    &-bottom {
+      .qp-logo-part-mixin;
 
-  background-image: url("~@/assets/images/logo/qp.svg");
+      width: 42%;
+      height: 30%;
+      transform: translate(70%, 226%);
+
+      background-image: url("~@/assets/images/logo/bottom.svg");
+    }
+    &-frontwheel {
+      .qp-logo-part-mixin;
+
+      width: 17%;
+      height: 62%;
+      transform: translate(402%, 55%);
+
+      background-image: url("~@/assets/images/logo/front_wheel.svg");
+    }
+    &-formulaonefont {
+      .qp-logo-part-mixin;
+
+      width: 38%;
+      height: 42%;
+      transform: translate(161%, 30%);
+
+      background-image: url("~@/assets/images/logo/formula_one_font.svg");
+    }
+    &-qp {
+      .qp-logo-part-mixin;
+
+      width: 15%;
+      height: 29%;
+      transform: translate(307%, 41%);
+
+      background-image: url("~@/assets/images/logo/qp.svg");
+    }
+  }
 }
