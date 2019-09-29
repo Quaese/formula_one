@@ -1,0 +1,15 @@
+<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1">
+   <g id="rear_wheel">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="m46.794996,15.434c20.292,0 36.741,16.451 36.741,36.743s-16.45,36.742 -36.741,36.742s-36.741,-16.45 -36.741,-36.742s16.449,-36.743 36.741,-36.743zm-4.119,6.56c17.978,0 32.552,14.518 32.552,32.426c0,17.909 -14.574,32.427 -32.552,32.427s-32.552,-14.518 -32.552,-32.427c0,-17.909 14.574,-32.426 32.552,-32.426z" id="rear_wheel_inner"/>
+   </g>
+  </g>
+ </g>
+</svg>
