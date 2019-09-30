@@ -1,5 +1,5 @@
 <template>
-  <div class="qp-logo-wrapper">
+  <div class="qp-logo-wrapper" ref="wrapper">
     <transition name="qp-logo-part-spoiler">
       <div v-if="start" class="qp-logo-part-spoiler"></div>
     </transition>
@@ -41,7 +41,15 @@ export default {
   },
 
   mounted() {
+    this.calculateHeight();
     this.start = true;
+  },
+
+  methods: {
+    calculateHeight: function() {
+      this.$refs.wrapper.style.height =
+        parseInt((8 / 29) * this.$refs.wrapper.offsetWidth) + "px";
+    }
   }
 };
 </script>
