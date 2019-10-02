@@ -1,5 +1,5 @@
 <template>
-  <div class="qp-logo-wrapper" ref="wrapper">
+  <div class="qp-logo-wrapper" ref="wrapper" v-resize-observer="observe">
     <transition name="qp-logo-part-spoiler">
       <div v-if="start" class="qp-logo-part-spoiler"></div>
     </transition>
@@ -35,20 +35,29 @@ export default {
   name: "app-logo",
 
   data() {
+    const self = this;
+
     return {
-      start: false
+      start: false,
+      observe: {
+        handler: function(entry) {
+          self.calculateHeight(entry.target);
+        }
+      }
     };
   },
 
   mounted() {
-    this.calculateHeight();
+    if (!ResizeObserver) {
+      console.log("ResizeObserver undefined!");
+      this.calculateHeight(this.$refs.wrapper);
+    }
     this.start = true;
   },
 
   methods: {
-    calculateHeight: function() {
-      this.$refs.wrapper.style.height =
-        parseInt((8 / 29) * this.$refs.wrapper.offsetWidth) + "px";
+    calculateHeight: function(el) {
+      el.style.height = parseInt((8 / 29) * el.offsetWidth) + "px";
     }
   }
 };

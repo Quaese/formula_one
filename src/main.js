@@ -25,8 +25,13 @@ if (config.fakeBackend) {
   configureFakeBackend();
 }
 
-/* *** register input initializer globally *** */
+/* ***
+   register directives globally:
+   - input initializer
+   - resize observer
+   *** */
 import "./directives/init-input.directive";
+import "./directives/resize.directive";
 
 /* *** bootstrap *** */
 import "bootstrap/dist/css/bootstrap.css";
