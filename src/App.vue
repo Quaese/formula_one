@@ -25,19 +25,19 @@
           >
             <ul id="nav" class="navbar-nav">
               <li class="nav-item">
-                <router-link class="nav-link" to="/">{{
-                  $t("nav.home")
-                }}</router-link>
+                <router-link class="nav-link" to="/">
+                  {{ $t("nav.home") }}
+                </router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/highscorelist">{{
-                  $t("nav.highscorelist")
-                }}</router-link>
+                <router-link class="nav-link" to="/highscorelist">
+                  {{ $t("nav.highscorelist") }}
+                </router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/about">{{
-                  $t("nav.about")
-                }}</router-link>
+                <router-link class="nav-link" to="/about">
+                  {{ $t("nav.about") }}
+                </router-link>
               </li>
               <li
                 class="nav-item dropdown"
@@ -62,7 +62,7 @@
             </ul>
           </div>
           <div class="navbar-brand navbar-brand-width">
-            <logo v-bind:handler="false"></logo>
+            <logo @click.native="navigate('/')" v-bind:handler="false"></logo>
           </div>
         </nav>
       </div>
@@ -143,6 +143,11 @@ export default {
   },
 
   methods: {
+    navigate(target) {
+      // navigate to start page
+      this.$router.push(target);
+    },
+
     toggleDropdown() {
       this.show = !this.show;
     },
@@ -186,5 +191,6 @@ export default {
 
 .navbar-brand-width {
   width: 150px;
+  cursor: pointer;
 }
 </style>
