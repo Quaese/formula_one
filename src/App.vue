@@ -25,19 +25,19 @@
           >
             <ul id="nav" class="navbar-nav">
               <li class="nav-item">
-                <router-link class="nav-link" to="/">{{
-                  $t("nav.home")
-                }}</router-link>
+                <router-link class="nav-link" to="/">
+                  {{ $t("nav.home") }}
+                </router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/highscorelist">{{
-                  $t("nav.highscorelist")
-                }}</router-link>
+                <router-link class="nav-link" to="/highscorelist">
+                  {{ $t("nav.highscorelist") }}
+                </router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/about">{{
-                  $t("nav.about")
-                }}</router-link>
+                <router-link class="nav-link" to="/about">
+                  {{ $t("nav.about") }}
+                </router-link>
               </li>
               <li
                 class="nav-item dropdown"
@@ -61,6 +61,9 @@
               </li>
             </ul>
           </div>
+          <div class="navbar-brand navbar-brand-width">
+            <logo @click.native="navigate('/')" v-bind:handler="false"></logo>
+          </div>
         </nav>
       </div>
     </div>
@@ -75,6 +78,7 @@
 
 <script>
 import LanguageSwitcher from "./components/app-languageswitch.component";
+import AppLogo from "./components/app-logo.component";
 
 const debounce = (func, delay, immediate) => {
   var timeout;
@@ -106,6 +110,7 @@ export default {
   name: "app",
 
   components: {
+    logo: AppLogo,
     "language-switcher": LanguageSwitcher
   },
 
@@ -138,6 +143,11 @@ export default {
   },
 
   methods: {
+    navigate(target) {
+      // navigate to start page
+      this.$router.push(target);
+    },
+
     toggleDropdown() {
       this.show = !this.show;
     },
@@ -172,10 +182,15 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .nav-item {
   &.dropdown:hover {
     cursor: pointer;
   }
+}
+
+.navbar-brand-width {
+  width: 150px;
+  cursor: pointer;
 }
 </style>

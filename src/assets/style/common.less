@@ -1,6 +1,34 @@
-/* *** Breadcrumb *** */
-.qp-breadcrumb {
-  &-header {
-    margin-left: -15px;
+/* *** Variables *** */
+@qp-logo-background-color-1: #efefef;
+@qp-logo-background-color-2: transparent;
+
+.qp {
+  /* *** Breadcrumb *** */
+  &-breadcrumb {
+    &-header {
+      margin-left: -15px;
+    }
+  }
+
+  /* *** Logo *** */
+  &-logo {
+    &-holder {
+      width: 80%;
+      padding: 2em;
+      margin: 2em auto;
+
+      // border: 1px solid #efefef;
+      // background: conic-gradient(
+      //   @qp-logo-background-color-1,
+      //   @qp-logo-background-color-1 25%,
+      //   @qp-logo-background-color-2 25%,
+      //   @qp-logo-background-color-2 50%,
+      //   @qp-logo-background-color-1 50%,
+      //   @qp-logo-background-color-1 75%,
+      //   @qp-logo-background-color-2 75%,
+      //   @qp-logo-background-color-2
+      // );
+      // background-size: 100px 100px;
+    }
   }
 }
