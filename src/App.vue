@@ -61,6 +61,9 @@
               </li>
             </ul>
           </div>
+          <div class="navbar-brand navbar-brand-width">
+            <logo v-bind:handler="false"></logo>
+          </div>
         </nav>
       </div>
     </div>
@@ -75,6 +78,7 @@
 
 <script>
 import LanguageSwitcher from "./components/app-languageswitch.component";
+import AppLogo from "./components/app-logo.component";
 
 const debounce = (func, delay, immediate) => {
   var timeout;
@@ -106,6 +110,7 @@ export default {
   name: "app",
 
   components: {
+    logo: AppLogo,
     "language-switcher": LanguageSwitcher
   },
 
@@ -172,10 +177,14 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .nav-item {
   &.dropdown:hover {
     cursor: pointer;
   }
+}
+
+.navbar-brand-width {
+  width: 150px;
 }
 </style>

@@ -3,21 +3,21 @@ import Vue from "vue";
 let observer;
 
 export const QPResizeObserver = {
+  // eslint-disable-next-line
   bind: function(el, binding, vnode) {
     const handler =
       binding.value && binding.value.handler
         ? binding.value.handler
         : undefined;
 
-    vnode;
-
-    // if resize observe is supported
-    if (ResizeObserver) {
+    // if ResizeObserver API is supported
+    if (ResizeObserver && handler) {
       // register observer
       observer = new ResizeObserver(entries => {
         for (let entry of entries) {
           if (entry.target === el) {
-            handler(entry);
+            // entry.target is equal to el (observed element)
+            handler(entry, el);
           }
         }
       });
@@ -25,8 +25,6 @@ export const QPResizeObserver = {
       // observe element
       observer.observe(el);
     }
-
-    // vnode.context[binding.arg][binding.value.field] = binding.value.value;
   },
 
   unbind: function(el) {

@@ -31,7 +31,7 @@ if (config.fakeBackend) {
    - resize observer
    *** */
 import "./directives/init-input.directive";
-import "./directives/resize.directive";
+import "./directives/resize-observer.directive";
 
 /* *** bootstrap *** */
 import "bootstrap/dist/css/bootstrap.css";

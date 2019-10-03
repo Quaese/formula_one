@@ -1,3 +1,16 @@
+<!--
+  This component renders an animated logo. For the animation vue's *transition* and
+  CSS animation (transition) are used. Background images for the animated parts are SVGs.
+
+  @Uses
+  - resize.oberserver directive to handle resizing of the logo
+
+  @Props
+  - handler - [Function, Boolean] if a function it will be used as callback for the resize oberver,
+                                  otherwise the element is not observed by the ResizeObserver and
+                                  the dimension get only calculated on the *mounted* hook
+-->
+
 <template>
   <div class="qp-logo-wrapper" ref="wrapper" v-resize-observer="observe">
     <transition name="qp-logo-part-spoiler">
@@ -31,6 +44,8 @@
 </template>
 
 <script>
+import "../directives/resize-observer.directive";
+
 export default {
   name: "app-logo",
 
@@ -40,18 +55,28 @@ export default {
     return {
       start: false,
       observe: {
-        handler: function(entry) {
-          self.calculateHeight(entry.target);
-        }
+        handler:
+          typeof self.handler === "function" ? self.handler.bind(self) : false
       }
     };
   },
 
+  props: {
+    handler: {
+      type: [Function, Boolean],
+      // eslint-disable-next-line
+      default: function (entry, observedElement) {
+        this.calculateHeight(entry.target);
+      }
+    }
+  },
+
   mounted() {
-    if (!ResizeObserver) {
-      console.log("ResizeObserver undefined!");
+    // use resize observer if ResizeObserver API exists OR prop to handle resize is not a function (=> element is not observed by the ResizeObserver)
+    if (!ResizeObserver || typeof this.handler !== "function") {
       this.calculateHeight(this.$refs.wrapper);
     }
+
     this.start = true;
   },
 
