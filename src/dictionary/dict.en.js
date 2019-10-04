@@ -33,8 +33,7 @@ const dictEN = {
 
     nav: {
       home: "Home",
-      highscorelist: "Seasons & Highscorelist",
-      about: "About"
+      highscorelist: "Seasons & Highscorelist"
     },
 
     seasons: {

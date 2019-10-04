@@ -33,8 +33,7 @@ const dictDE = {
 
     nav: {
       home: "Home",
-      highscorelist: "Saisons & Highscoreliste",
-      about: "Über"
+      highscorelist: "Saisons & Highscoreliste"
     },
 
     seasons: {

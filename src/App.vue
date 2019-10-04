@@ -35,11 +35,6 @@
                   {{ $t("nav.highscorelist") }}
                 </router-link>
               </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="/about">
-                  {{ $t("nav.about") }}
-                </router-link>
-              </li>
               <li
                 class="nav-item dropdown"
                 :class="{ show: show }"
