@@ -3,6 +3,7 @@
     id="app"
     :class="{ 'container-fluid': containerFluid, container: !containerFluid }"
   >
+    <github-corner />
     <div class="row">
       <div class="col-12">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -79,6 +80,7 @@
 <script>
 import LanguageSwitcher from "./components/app-languageswitch.component";
 import AppLogo from "./components/app-logo.component";
+import GithubCorner from "./components/github-corner.component";
 
 const debounce = (func, delay, immediate) => {
   var timeout;
@@ -111,6 +113,7 @@ export default {
 
   components: {
     logo: AppLogo,
+    "github-corner": GithubCorner,
     "language-switcher": LanguageSwitcher
   },
 
