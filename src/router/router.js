@@ -19,9 +19,7 @@ export default new Router({
       // this generates a separate chunk (highscorelist.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(
-          /* webpackChunkName: "highscorelist" */ "../highscorelist/views/highscorelist-home.view.vue"
-        )
+        import(/* webpackChunkName: "highscorelist" */ "../highscorelist/views/highscorelist-home.view.vue")
     },
     {
       path: "/highscorelist/season/:seasonId/race/:id",
@@ -30,9 +28,7 @@ export default new Router({
       // this generates a separate chunk (highscorelist.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(
-          /* webpackChunkName: "highscorelist" */ "../highscorelist/views/highscorelist-race.view.vue"
-        )
+        import(/* webpackChunkName: "highscorelist" */ "../highscorelist/views/highscorelist-race.view.vue")
     },
     {
       path: "/highscorelist/season/:id",
@@ -41,10 +37,8 @@ export default new Router({
       // this generates a separate chunk (highscorelist.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(
-          /* webpackChunkName: "highscorelist" */ "../highscorelist/views/highscorelist-season.view.vue"
-        )
-    },
+        import(/* webpackChunkName: "highscorelist" */ "../highscorelist/views/highscorelist-season.view.vue")
+    }
     // {
     //   path: "/highscorelist/:id",
     //   name: "highscorelist",
@@ -56,14 +50,5 @@ export default new Router({
     //       /* webpackChunkName: "highscorelist" */ "../highscorelist/views/highscorelist.view.vue"
     //     )
     // },
-    {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "../about/views/About.vue")
-    }
   ]
 });

@@ -31,10 +31,23 @@ const dictEN = {
       deleteText: "Delete"
     },
 
+    home: {
+      headline: "Administration tool for highscore lists",
+      description: {
+        headline: "Description",
+        text: `
+        <p>
+          The tool can be used to manage events that run longer and have their own subevents (e.g. Formula One season and the subordinate Grand Prix').
+        </p>
+        <p>
+          Results lists can be assigned to the subevents. These lists contain the times reached and are sorted in ascending order.
+        </p>`
+      }
+    },
+
     nav: {
       home: "Home",
-      highscorelist: "Seasons & Highscorelist",
-      about: "About"
+      highscorelist: "Seasons & Highscorelist"
     },
 
     seasons: {

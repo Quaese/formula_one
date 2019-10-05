@@ -1,6 +1,8 @@
 /* *** Variables *** */
-@qp-logo-background-color-1: #efefef;
+// @qp-logo-background-color-1: #efefef;
+@qp-logo-background-color-1: rgba(239, 239, 239, 1);
 @qp-logo-background-color-2: transparent;
+@qp-logo-background-color-3: rgba(0, 0, 0, 1);
 
 .qp {
   /* *** Breadcrumb *** */
@@ -17,7 +19,7 @@
       padding: 2em;
       margin: 2em auto;
 
-      // border: 1px solid #efefef;
+      // // border: 1px solid #efefef;
       // background: conic-gradient(
       //   @qp-logo-background-color-1,
       //   @qp-logo-background-color-1 25%,
@@ -29,6 +31,28 @@
       //   @qp-logo-background-color-2
       // );
       // background-size: 100px 100px;
+
+      // -webkit-mask-image: -webkit-linear-gradient(
+      //   top,
+      //   rgba(255, 255, 255, 0),
+      //   rgba(255, 255, 255, 1)
+      // );
     }
   }
+
+  /* *** Root Route *** */
+  // &-home-wrapper-row {
+  //   background: conic-gradient(
+  //       @qp-logo-background-color-1,
+  //       @qp-logo-background-color-1 25%,
+  //       @qp-logo-background-color-2 25%,
+  //       @qp-logo-background-color-2 50%,
+  //       @qp-logo-background-color-1 50%,
+  //       @qp-logo-background-color-1 75%,
+  //       @qp-logo-background-color-2 75%,
+  //       @qp-logo-background-color-2
+  //     ),
+  //     linear-gradient(top, @qp-logo-background-color-1, rgba(255, 255, 255, 0));
+  //   background-size: 100px 100px, 100% 100%;
+  // }
 }
