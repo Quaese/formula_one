@@ -31,6 +31,23 @@ const dictDE = {
       deleteText: "Löschen"
     },
 
+    home: {
+      headline: "Verwaltungs-Tool für Highscore-Listen",
+      description: {
+        headline: "Beschreibung",
+        text: `
+        <p>
+          Mit dem Tool können Veranstaltungen verwaltet werden, die länger
+          laufen und selbst eigene Unterveranstaltungen besitzt (z.B. Formel
+          Eins Saison und die untergeordneten Grand Prix').
+        </p>
+        <p>
+          Den Unterveranstaltungen können Ergebnislisten zugeordnet werden.
+          Diese enthalten die erreichten Zeiten und werden aufsteigend sortiert.
+        </p>`
+      }
+    },
+
     nav: {
       home: "Home",
       highscorelist: "Saisons & Highscoreliste"

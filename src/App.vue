@@ -63,7 +63,10 @@
         </nav>
       </div>
     </div>
-    <div class="row my-5">
+    <div
+      class="row my-5"
+      :class="{ 'qp-home-wrapper-row': $route.name === 'home' }"
+    >
       <div class="col-12">
         <router-view />
       </div>
