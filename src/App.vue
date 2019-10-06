@@ -79,6 +79,7 @@
 import LanguageSwitcher from "./components/app-languageswitch.component";
 import AppLogo from "./components/app-logo.component";
 import GithubCorner from "./components/github-corner.component";
+// import QResizeObserver from "../directives/resize-observer.directive";
 
 const debounce = (func, delay, immediate) => {
   var timeout;

@@ -4,6 +4,9 @@ import App from "./App.vue";
 import router from "./router/router";
 import store from "./store/index";
 
+// import on/off properties to register namespaced events
+import "./_tools/events.namespace";
+
 // import and register vuejs-dialog module
 import VuejsDialog from "vuejs-dialog";
 // import VuejsDialogMixin from "vuejs-dialog/dist/vuejs-dialog-mixin.min.js"; // only needed in custom components
