@@ -57,8 +57,6 @@ export default {
       observe: {
         handler:
           typeof self.handler === "function" ? self.handler.bind(self) : false
-        //, namespace: 'unique_namespace'
-        //, delay: 200
       }
     };
   },

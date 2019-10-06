@@ -2,6 +2,7 @@
   <div
     id="app"
     :class="{ 'container-fluid': containerFluid, container: !containerFluid }"
+    v-resize-observer="observe"
   >
     <github-corner />
     <div class="row">
@@ -79,32 +80,8 @@
 import LanguageSwitcher from "./components/app-languageswitch.component";
 import AppLogo from "./components/app-logo.component";
 import GithubCorner from "./components/github-corner.component";
-// import QResizeObserver from "../directives/resize-observer.directive";
+import "./directives/resize-observer.directive";
 
-const debounce = (func, delay, immediate) => {
-  var timeout;
-
-  return () => {
-    const context = this,
-      // eslint-disable-next-line
-      args = arguments;
-
-    const later = function() {
-      timeout = null;
-
-      if (!immediate) func.apply(context, args);
-    };
-
-    const callNow = immediate && !timeout;
-
-    clearTimeout(timeout);
-    timeout = setTimeout(later, delay);
-
-    if (callNow) func.apply(context, args);
-  };
-};
-
-let hResize;
 const maxWidth = 1050;
 
 export default {
@@ -117,10 +94,21 @@ export default {
   },
 
   data: function() {
+    var _this = this;
+
     return {
       show: false,
       navbarShow: false,
-      containerFluid: this.matchMedia(maxWidth)
+      containerFluid: this.matchMedia(maxWidth),
+
+      // observe object for the ResizeObserver
+      observe: {
+        handler: function() {
+          _this.setContainerFluid();
+        },
+        delay: 200,
+        elem: window
+      }
     };
   },
 
@@ -132,16 +120,6 @@ export default {
 
   created() {
     this.$store.dispatch("app/setupApp", { name: "QPs Highscorelist" });
-
-    // create debounced resize handler
-    hResize = debounce(this.fnResizeHandler, 200, false);
-    // observe resize event
-    window.addEventListener("resize", hResize, false);
-  },
-
-  destroyed() {
-    // unobserve resize event
-    window.removeEventListener("resize", hResize);
   },
 
   methods: {
@@ -173,7 +151,7 @@ export default {
       }
     },
 
-    fnResizeHandler: function() {
+    setContainerFluid: function() {
       this.containerFluid = this.matchMedia(maxWidth);
     },
 
