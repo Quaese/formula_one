@@ -21,12 +21,22 @@ export const QPResizeObserver = {
     if (handler) {
       // if ResizeObserver API is supported AND observed
       if (ResizeObserver && isElement(elem)) {
+        // debounced handler function
+        const fnObserverHandler = debounce(
+          function() {
+            handler(elem);
+          },
+          delay,
+          false
+        );
+
         // register observer
         observer = new ResizeObserver(entries => {
           for (let entry of entries) {
             // entry.target is equal to el (observed element)
             if (entry.target === elem) {
-              handler(elem);
+              // handler(elem);
+              fnObserverHandler(elem);
             }
           }
         });
