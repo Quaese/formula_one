@@ -65,8 +65,8 @@ export default {
     handler: {
       type: [Function, Boolean],
       // eslint-disable-next-line
-      default: function (entry, observedElement) {
-        this.calculateHeight(entry.target);
+      default: function (observedElement) {
+        this.calculateHeight(observedElement);
       }
     }
   },
