@@ -38,7 +38,7 @@ const dictDE = {
         text: `
         <p>
           Mit dem Tool können Veranstaltungen verwaltet werden, die länger
-          laufen und selbst eigene Unterveranstaltungen besitzt (z.B. Formel
+          laufen und selbst eigene Unterveranstaltungen besitzen (z.B. Formel
           Eins Saison und die untergeordneten Grand Prix').
         </p>
         <p>

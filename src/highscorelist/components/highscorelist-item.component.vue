@@ -13,6 +13,7 @@
             ref="name"
             class="form-control"
             v-model="itemData.name"
+            v-on:keyup="onKeyUp"
             v-init-input:itemData="{ field: 'name', value: item[cell.name] }"
             v-bind:placeholder="item[cell.name]"
           />
@@ -21,6 +22,7 @@
           <input
             class="form-control"
             v-model="itemData.time"
+            v-on:keyup="onKeyUp"
             v-init-input:itemData="{
               field: 'time',
               value: formatTime(item[cell.name])
@@ -179,6 +181,13 @@ export default {
       return TimeService.secondsToString(time);
     },
 
+    onKeyUp: function(evt) {
+      if (evt.keyCode === 13) {
+        this.setEdit(false);
+        this.save();
+      }
+    },
+
     setEdit: function(enable) {
       // disable error first before leaving edit mode
       if (!enable) {
@@ -196,6 +205,11 @@ export default {
 
     save: function() {
       const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
+
+      if (this.itemData.name.length === 0) {
+        this.hasError = true;
+        return;
+      }
 
       if (this.itemData.time && pattern.test(this.itemData.time)) {
         this.hasError = false;

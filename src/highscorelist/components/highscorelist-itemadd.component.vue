@@ -7,6 +7,7 @@
             ref="name"
             class="form-control"
             v-model="itemData.name"
+            v-on:keyup="onKeyUp"
             placeholder="Name"
           />
         </span>
@@ -16,6 +17,7 @@
             placeholder="mm:ss:ddd"
             pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
             v-model="itemData.time"
+            v-on:keyup="onKeyUp"
             v-bind:class="{ error: hasError }"
           />
         </span>
@@ -135,10 +137,18 @@ export default {
       }
     },
 
+    onKeyUp: function(evt) {
+      if (evt.keyCode === 13) {
+        this.setEdit(false);
+        this.save();
+      }
+    },
+
     save: function() {
       const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
 
-      if (this.itemData.time.length === 0 && this.itemData.name.length === 0) {
+      if (this.itemData.name.length === 0) {
+        this.hasError = true;
         return;
       }
 
