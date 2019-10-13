@@ -3,12 +3,28 @@
     <td v-for="(cell, idxCell) in fields" :key="idxCell" class="align-middle">
       <div v-if="edit">
         <span v-if="cell.name === 'name'">
-          <input
+          <!-- <input
             ref="name"
             class="form-control"
             v-model="itemData.name"
             v-on:keyup="onKeyUp"
             placeholder="Name"
+            name="name"
+          /> -->
+
+          <field-validation
+            name="name"
+            v-model="itemData.name"
+            @keyup="onKeyUp"
+            :css="{ input: 'form-control', error: 'form-error' }"
+            :error="{
+              text: 'fetter fehler',
+              validator: val => {
+                return val.length > 0;
+              }
+            }"
+            placeholder="Name"
+            label="Label"
           />
         </span>
         <span v-else-if="cell.name === 'time'">
@@ -74,6 +90,7 @@
 // import ActionIconLayered from "./actionicon-layered.component" is globally registered in main.js
 
 import TimeService from "../services/time.service";
+import FieldValidation from "../../components/field-validation.component";
 
 export default {
   name: "highscorelist-item-add",
@@ -109,6 +126,10 @@ export default {
     }
   },
 
+  components: {
+    "field-validation": FieldValidation
+  },
+
   updated() {
     if (this.hasError) {
       this.edit = true;
@@ -132,12 +153,13 @@ export default {
         this.itemData.name = "";
         this.itemData.time = "";
         this.$nextTick(() => {
-          this.$refs["name"][0].focus();
+          // this.$refs["name"][0].focus();
         });
       }
     },
 
     onKeyUp: function(evt) {
+      console.log(evt);
       if (evt.keyCode === 13) {
         this.setEdit(false);
         this.save();
@@ -145,6 +167,7 @@ export default {
     },
 
     save: function() {
+      // debugger;
       const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
 
       if (this.itemData.name.length === 0) {
