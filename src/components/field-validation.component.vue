@@ -16,7 +16,9 @@
       @keyup="$emit('keyup', $event)"
       @blur="$emit('blur', $event)"
     />
-    <span v-if="!valid" :class="[valid ? '' : classes.error]">{{ error.text }}</span>
+    <span v-if="!valid" :class="[valid ? '' : classes.error]">
+      {{ error.text }}
+    </span>
   </fieldset>
 </template>
 
@@ -81,8 +83,8 @@ export default {
 
   watch: {
     val(newVal) {
-      this.valid = this.error.validator(newVal);
-      this.$emit("input", newVal);
+      this.valid = this.error.validator ? this.error.validator(newVal) : true;
+      this.$emit("input", { value: newVal, valid: this.valid });
     }
 
     // invalid(newVal) {
