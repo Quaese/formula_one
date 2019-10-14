@@ -31,6 +31,12 @@ const dictEN = {
       deleteText: "Delete"
     },
 
+    error: {
+      required: {
+        name: "Name required"
+      }
+    },
+
     home: {
       headline: "Administration tool for highscore lists",
       description: {

@@ -10,21 +10,22 @@
             v-on:keyup="onKeyUp"
             placeholder="Name"
             name="name"
-          /> -->
+          />-->
 
           <field-validation
-            name="name"
+            fieldName="name"
             v-model="itemData.name"
             @keyup="onKeyUp"
-            :css="{ input: 'form-control', error: 'form-error' }"
+            :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
+            :focus="true"
             :error="{
-              text: 'fetter fehler',
+              text: $t('error.required.name'),
               validator: val => {
                 return val.length > 0;
               }
             }"
             placeholder="Name"
-            label="Label"
+            label_="Label"
           />
         </span>
         <span v-else-if="cell.name === 'time'">
@@ -165,6 +166,10 @@ export default {
         this.save();
       }
     },
+
+    // validate: function() {
+    //   return true;
+    // },
 
     save: function() {
       // debugger;

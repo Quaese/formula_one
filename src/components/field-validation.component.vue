@@ -1,21 +1,22 @@
 <template>
-  <fieldset :class="css.fieldset">
+  <fieldset :class="[classes.fieldset, valid ? '' : classes.error]">
     <label v-if="label !== null" :class="css.label">{{ label }}</label>
     <input
       type="text"
+      v-model="val"
+      :name="fieldName"
+      :ref="fieldName"
       :class="[
+        'form-control',
         classes.input,
         valid ? '' : classes.error,
         { 'dummy-class': !valid }
       ]"
       :placeholder="placeholder"
-      name="fieldName"
-      v-model="val"
       @keyup="$emit('keyup', $event)"
+      @blur="$emit('blur', $event)"
     />
-    <span v-if="!valid" :class="[valid ? '' : classes.error]">{{
-      error.text
-    }}</span>
+    <span v-if="!valid" :class="[valid ? '' : classes.error]">{{ error.text }}</span>
   </fieldset>
 </template>
 
@@ -26,13 +27,14 @@ export default {
   data() {
     return {
       val: this.value,
-      valid: this.error.validator ? this.error.validator(this.value) : "true",
+      valid: true,
+      // valid: this.error.validator ? this.error.validator(this.value) : "true",
       classes: (function(css) {
         let obj = {
-            fieldset: "form-fieldset",
-            input: "form-control",
-            lable: "form-label",
-            error: "form-error"
+            fieldset: "qp-form-fieldset",
+            input: "qp-form-control",
+            lable: "qp-form-label",
+            error: "qp-form-error"
           },
           _key;
 
@@ -66,7 +68,15 @@ export default {
     },
     error: {
       type: Object
+    },
+    focus: {
+      type: Boolean,
+      default: false
     }
+  },
+
+  mounted() {
+    this.focus && this.$refs[this.fieldName].focus(); //[this.fieldName][0]);
   },
 
   watch: {
@@ -84,7 +94,27 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.form-error {
-  border: 1px solid red;
+@import url("../assets/style/variables.less");
+
+.qp-form-error {
+  fieldset& {
+    position: relative;
+  }
+
+  input {
+    // border: 1px solid @color-danger;
+    background: lighten(@color-danger, 40%);
+  }
+
+  span& {
+    position: absolute;
+    left: 0;
+    right: 0;
+    padding: 2px 5px;
+    background: #fff;
+    border: 1px solid @color-danger;
+    font-size: 0.8em;
+    color: @color-danger;
+  }
 }
 </style>
