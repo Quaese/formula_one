@@ -31,6 +31,12 @@ const dictDE = {
       deleteText: "Löschen"
     },
 
+    error: {
+      required: {
+        name: "Name erforderlich"
+      }
+    },
+
     home: {
       headline: "Verwaltungs-Tool für Highscore-Listen",
       description: {
