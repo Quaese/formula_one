@@ -33,7 +33,8 @@ const dictDE = {
 
     error: {
       required: {
-        name: "Name erforderlich"
+        name: "Name erforderlich",
+        time: "Falsches Zeitformat (mm:ss:dd)"
       }
     },
 

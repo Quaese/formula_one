@@ -33,7 +33,8 @@ const dictEN = {
 
     error: {
       required: {
-        name: "Name required"
+        name: "Name required",
+        time: "Wrong time format (mm:ss:dd)"
       }
     },
 

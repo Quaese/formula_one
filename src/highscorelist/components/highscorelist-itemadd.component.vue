@@ -6,7 +6,7 @@
           <!-- <input
             ref="name"
             class="form-control"
-            v-model="itemData.name"
+            v-model="itemData.name.value"
             v-on:keyup="onKeyUp"
             placeholder="Name"
             name="name"
@@ -14,7 +14,8 @@
 
           <field-validation
             fieldName="name"
-            v-model="itemData.name"
+            v-bind:value="itemData.name.value"
+            v-on:input="evt => (itemData.name = evt)"
             @keyup="onKeyUp"
             :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
             :focus="true"
@@ -29,13 +30,29 @@
           />
         </span>
         <span v-else-if="cell.name === 'time'">
-          <input
+          <!-- <input
             class="form-control"
             placeholder="mm:ss:ddd"
             pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
-            v-model="itemData.time"
+            v-model="itemData.time.value"
             v-on:keyup="onKeyUp"
             v-bind:class="{ error: hasError }"
+          /> -->
+          <field-validation
+            fieldName="time"
+            v-bind:value="itemData.time.value"
+            v-on:input="evt => (itemData.time = evt)"
+            @keyup="onKeyUp"
+            :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
+            :error="{
+              text: $t('error.required.time'),
+              validator: val => {
+                const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
+                return val.length > 0 && pattern.test(val);
+              }
+            }"
+            placeholder="mm:ss:ddd"
+            label_="Label"
           />
         </span>
         <span v-else-if="cell.name === 'actions'">
@@ -101,8 +118,8 @@ export default {
       edit: false,
       hasError: false,
       itemData: {
-        name: "",
-        time: ""
+        name: { value: "", valid: true, required: true },
+        time: { value: "", valid: true, required: true }
       }
     };
   },
@@ -151,11 +168,12 @@ export default {
       this.edit = enable;
 
       if (enable) {
-        this.itemData.name = "";
-        this.itemData.time = "";
-        this.$nextTick(() => {
-          // this.$refs["name"][0].focus();
-        });
+        // reset name
+        this.itemData.name.value = "";
+        this.itemData.name.valid = true;
+        // reset time
+        this.itemData.time.value = "";
+        this.itemData.time.valid = true;
       }
     },
 
@@ -167,25 +185,43 @@ export default {
       }
     },
 
-    // validate: function() {
-    //   return true;
-    // },
+    validate: function(evt) {
+      return true;
+    },
 
     save: function() {
+      // const isValid = true,
+      //   _this = this;
+
+      // Object.keys(this.itemData).reduce((accu, key) => {
+      //   const valid = _this.itemData[key].required
+      //     ? _this.itemData[key].valid
+      //     : true;
+      //   return accu && valid;
+      // }, isValid);
+      // console.log("isValid: ", isValid);
+      // return;
+
+      console.log(this.itemData.name.value);
       // debugger;
       const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
 
-      if (this.itemData.name.length === 0) {
+      if (this.itemData.name.value.length === 0) {
         this.hasError = true;
         return;
       }
 
-      if (this.itemData.time.length > 0 && pattern.test(this.itemData.time)) {
+      if (
+        this.itemData.time.value.length > 0 &&
+        pattern.test(this.itemData.time.value)
+      ) {
         this.hasError = false;
         this.$store.dispatch("highscorelist/addItem", {
           raceId: this.raceId,
           item: {
-            ...this.itemData
+            //...this.itemData
+            time: this.itemData.time.value,
+            name: this.itemData.name.value
           }
         });
       } else {
