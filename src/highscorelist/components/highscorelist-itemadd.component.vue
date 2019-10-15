@@ -187,10 +187,6 @@ export default {
       }
     },
 
-    validate: function(evt) {
-      return true;
-    },
-
     save: function() {
       let isValid = true,
         _this = this;

@@ -1,5 +1,5 @@
 <template>
-  <fieldset :class="[classes.fieldset, (initial || valid) ? '' : classes.error]">
+  <fieldset :class="[classes.fieldset, initial || valid ? '' : classes.error]">
     <label v-if="label !== null" :class="css.label">{{ label }}</label>
     <input
       type="text"
@@ -9,7 +9,7 @@
       :class="[
         'form-control',
         classes.input,
-        (initial || valid) ? '' : classes.error,
+        initial || valid ? '' : classes.error,
         { 'dummy-class': !initial && !valid }
       ]"
       :placeholder="placeholder"
@@ -18,8 +18,10 @@
     />
     <span
       v-if="!initial && !valid"
-      :class="[(initial || valid) ? '' : classes.error]"
-    >{{ error.text }}</span>
+      :class="[initial || valid ? '' : classes.error]"
+    >
+      {{ error.text }}
+    </span>
   </fieldset>
 </template>
 
