@@ -28,12 +28,13 @@ export default {
   name: "field-validation",
 
   data() {
-    console.log("this.value.valid: ", this.value);
     return {
-      initial: this.value.initial,
-      val: this.value.value,
-      valid: this.value.valid,
-      // valid: this.error.validator ? this.error.validator(this.value) : "true",
+      initial: this.model.initial,
+      val: this.model.value,
+      // valid: this.model.valid,
+      valid: this.model.validator
+        ? this.model.validator(this.model.value)
+        : true,
       classes: (function(css) {
         let obj = {
             fieldset: "qp-form-fieldset",
@@ -53,7 +54,7 @@ export default {
   },
 
   props: {
-    value: {
+    model: {
       type: Object
     },
     css: {
@@ -61,7 +62,7 @@ export default {
     },
     placeholder: {
       type: String,
-      deafault: ""
+      default: ""
     },
     fieldName: {
       type: String,
@@ -82,30 +83,20 @@ export default {
 
   mounted() {
     this.focus && this.$refs[this.fieldName].focus();
-
-    // this.$emit("input", {
-    //   value: this.val,
-    //   valid: this.valid,
-    //   required: this.value.required || false
-    // });
   },
 
   watch: {
     val(newVal) {
       this.initial = false;
-      this.valid = this.error.validator ? this.error.validator(newVal) : true;
+      this.valid = this.model.validator ? this.model.validator(newVal) : true;
 
       this.$emit("input", {
+        ...this.model,
         value: newVal,
         valid: this.valid,
-        required: this.value.required || false
+        required: this.model.required || false
       });
     }
-
-    // invalid(newVal) {
-    //   console.log("validator: ", this.error.validator(newVal));
-    //   return this.error.validator(newVal);
-    // }
   }
 };
 </script>

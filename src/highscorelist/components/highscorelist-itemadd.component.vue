@@ -3,30 +3,18 @@
     <td v-for="(cell, idxCell) in fields" :key="idxCell" class="align-middle">
       <div v-if="edit">
         <span v-if="cell.name === 'name'">
-          <!-- <input
-            ref="name"
-            class="form-control"
-            v-model="itemData.name.value"
-            v-on:keyup="onKeyUp"
-            placeholder="Name"
-            name="name"
-          />-->
-
           <field-validation
             fieldName="name"
-            v-bind:value="itemData.name"
-            v-on:input="evt => (itemData.name = evt)"
-            @keyup="onKeyUp"
-            :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
-            :focus="true"
-            :error="{
-              text: $t('error.required.name'),
-              validator: val => {
-                return val.length > 0;
-              }
-            }"
-            placeholder="Name"
             label_="Label"
+            placeholder="Name"
+            :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
+            :error="{
+              text: $t('error.required.name')
+            }"
+            :focus="true"
+            :model="model.name"
+            @input="evt => (model.name = evt)"
+            @keyup="onKeyUp"
           />
         </span>
         <span v-else-if="cell.name === 'time'">
@@ -34,25 +22,21 @@
             class="form-control"
             placeholder="mm:ss:ddd"
             pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
-            v-model="itemData.time.value"
+            v-model="model.time.value"
             v-on:keyup="onKeyUp"
             v-bind:class="{ error: hasError }"
           />-->
           <field-validation
             fieldName="time"
-            v-bind:value="itemData.time"
-            v-on:input="evt => (itemData.time = evt)"
-            @keyup="onKeyUp"
+            label_="Label"
+            placeholder="mm:ss:ddd"
             :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
             :error="{
-              text: $t('error.required.time'),
-              validator: val => {
-                const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
-                return val.length > 0 && pattern.test(val);
-              }
+              text: $t('error.required.time')
             }"
-            placeholder="mm:ss:ddd"
-            label_="Label"
+            :model="model.time"
+            @input="evt => (model.time = evt)"
+            @keyup="onKeyUp"
           />
         </span>
         <span v-else-if="cell.name === 'actions'">
@@ -117,9 +101,26 @@ export default {
     return {
       edit: false,
       hasError: false,
-      itemData: {
-        name: { value: "", valid: false, required: true, initial: true },
-        time: { value: "", valid: false, required: true, initial: true }
+      model: {
+        name: {
+          value: "",
+          valid: false,
+          required: true,
+          initial: true,
+          validator: val => {
+            return val.length > 0;
+          }
+        },
+        time: {
+          value: "",
+          valid: false,
+          required: true,
+          initial: true,
+          validator: val => {
+            const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
+            return val.length > 0 && pattern.test(val);
+          }
+        }
       }
     };
   },
@@ -169,18 +170,17 @@ export default {
 
       if (enable) {
         // reset name
-        this.itemData.name.value = "";
-        this.itemData.name.valid = false;
-        this.itemData.name.initial = true;
+        this.model.name.value = "";
+        this.model.name.valid = false;
+        this.model.name.initial = true;
         // reset time
-        this.itemData.time.value = "";
-        this.itemData.time.valid = false;
-        this.itemData.time.initial = true;
+        this.model.time.value = "";
+        this.model.time.valid = false;
+        this.model.time.initial = true;
       }
     },
 
     onKeyUp: function(evt) {
-      console.log(evt);
       if (evt.keyCode === 13) {
         this.setEdit(false);
         this.save();
@@ -195,42 +195,26 @@ export default {
       let isValid = true,
         _this = this;
 
-      isValid = Object.keys(this.itemData).reduce((accu, key) => {
-        const valid = _this.itemData[key].required
-          ? _this.itemData[key].valid
-          : true;
+      isValid = Object.keys(this.model).reduce((accu, key) => {
+        const valid = _this.model[key].required ? _this.model[key].valid : true;
         return accu && valid;
       }, isValid);
-      console.log("isValid: ", isValid);
-      // return;
-
-      // console.log(this.itemData.name.value);
-      // // debugger;
-      // const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
-
-      // if (this.itemData.name.value.length === 0) {
-      //   this.hasError = true;
-      //   return;
-      // }
 
       if (isValid) {
         this.hasError = false;
-        console.log("dispatch: ", {
-          time: this.itemData.time.value,
-          name: this.itemData.name.value
+
+        this.$store.dispatch("highscorelist/addItem", {
+          raceId: this.raceId,
+          item: {
+            //...this.model
+            time: this.model.time.value,
+            name: this.model.name.value
+          }
         });
-        // this.$store.dispatch("highscorelist/addItem", {
-        //   raceId: this.raceId,
-        //   item: {
-        //     //...this.itemData
-        //     time: this.itemData.time.value,
-        //     name: this.itemData.name.value
-        //   }
-        // });
       } else {
-        console.log("error");
-        this.itemData.name.initial = false;
-        this.itemData.time.initial = false;
+        this.model.name.initial = false;
+        this.model.time.initial = false;
+
         this.hasError = true;
       }
     }
