@@ -37,7 +37,7 @@
             v-model="itemData.time.value"
             v-on:keyup="onKeyUp"
             v-bind:class="{ error: hasError }"
-          /> -->
+          />-->
           <field-validation
             fieldName="time"
             v-bind:value="itemData.time"
@@ -118,8 +118,8 @@ export default {
       edit: false,
       hasError: false,
       itemData: {
-        name: { value: "", valid: true, required: true },
-        time: { value: "", valid: true, required: true }
+        name: { value: "", valid: false, required: true, initial: true },
+        time: { value: "", valid: false, required: true, initial: true }
       }
     };
   },
@@ -170,10 +170,12 @@ export default {
       if (enable) {
         // reset name
         this.itemData.name.value = "";
-        this.itemData.name.valid = true;
+        this.itemData.name.valid = false;
+        this.itemData.name.initial = true;
         // reset time
         this.itemData.time.value = "";
-        this.itemData.time.valid = true;
+        this.itemData.time.valid = false;
+        this.itemData.time.initial = true;
       }
     },
 
@@ -200,31 +202,35 @@ export default {
         return accu && valid;
       }, isValid);
       console.log("isValid: ", isValid);
-      return;
+      // return;
 
-      console.log(this.itemData.name.value);
-      // debugger;
-      const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
+      // console.log(this.itemData.name.value);
+      // // debugger;
+      // const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
 
-      if (this.itemData.name.value.length === 0) {
-        this.hasError = true;
-        return;
-      }
+      // if (this.itemData.name.value.length === 0) {
+      //   this.hasError = true;
+      //   return;
+      // }
 
-      if (
-        this.itemData.time.value.length > 0 &&
-        pattern.test(this.itemData.time.value)
-      ) {
+      if (isValid) {
         this.hasError = false;
-        this.$store.dispatch("highscorelist/addItem", {
-          raceId: this.raceId,
-          item: {
-            //...this.itemData
-            time: this.itemData.time.value,
-            name: this.itemData.name.value
-          }
+        console.log("dispatch: ", {
+          time: this.itemData.time.value,
+          name: this.itemData.name.value
         });
+        // this.$store.dispatch("highscorelist/addItem", {
+        //   raceId: this.raceId,
+        //   item: {
+        //     //...this.itemData
+        //     time: this.itemData.time.value,
+        //     name: this.itemData.name.value
+        //   }
+        // });
       } else {
+        console.log("error");
+        this.itemData.name.initial = false;
+        this.itemData.time.initial = false;
         this.hasError = true;
       }
     }

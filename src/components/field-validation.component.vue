@@ -1,5 +1,5 @@
 <template>
-  <fieldset :class="[classes.fieldset, valid ? '' : classes.error]">
+  <fieldset :class="[classes.fieldset, (initial || valid) ? '' : classes.error]">
     <label v-if="label !== null" :class="css.label">{{ label }}</label>
     <input
       type="text"
@@ -9,16 +9,17 @@
       :class="[
         'form-control',
         classes.input,
-        valid ? '' : classes.error,
-        { 'dummy-class': !valid }
+        (initial || valid) ? '' : classes.error,
+        { 'dummy-class': !initial && !valid }
       ]"
       :placeholder="placeholder"
       @keyup="$emit('keyup', $event)"
       @blur="$emit('blur', $event)"
     />
-    <span v-if="!valid" :class="[valid ? '' : classes.error]">
-      {{ error.text }}
-    </span>
+    <span
+      v-if="!initial && !valid"
+      :class="[(initial || valid) ? '' : classes.error]"
+    >{{ error.text }}</span>
   </fieldset>
 </template>
 
@@ -27,9 +28,11 @@ export default {
   name: "field-validation",
 
   data() {
+    console.log("this.value.valid: ", this.value);
     return {
+      initial: this.value.initial,
       val: this.value.value,
-      valid: true,
+      valid: this.value.valid,
       // valid: this.error.validator ? this.error.validator(this.value) : "true",
       classes: (function(css) {
         let obj = {
@@ -78,12 +81,20 @@ export default {
   },
 
   mounted() {
-    this.focus && this.$refs[this.fieldName].focus(); //[this.fieldName][0]);
+    this.focus && this.$refs[this.fieldName].focus();
+
+    // this.$emit("input", {
+    //   value: this.val,
+    //   valid: this.valid,
+    //   required: this.value.required || false
+    // });
   },
 
   watch: {
     val(newVal) {
+      this.initial = false;
       this.valid = this.error.validator ? this.error.validator(newVal) : true;
+
       this.$emit("input", {
         value: newVal,
         valid: this.valid,
