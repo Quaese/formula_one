@@ -28,7 +28,7 @@ export default {
 
   data() {
     return {
-      val: this.value,
+      val: this.value.value,
       valid: true,
       // valid: this.error.validator ? this.error.validator(this.value) : "true",
       classes: (function(css) {
@@ -51,7 +51,7 @@ export default {
 
   props: {
     value: {
-      type: String
+      type: Object
     },
     css: {
       type: Object
@@ -84,7 +84,11 @@ export default {
   watch: {
     val(newVal) {
       this.valid = this.error.validator ? this.error.validator(newVal) : true;
-      this.$emit("input", { value: newVal, valid: this.valid });
+      this.$emit("input", {
+        value: newVal,
+        valid: this.valid,
+        required: this.value.required || false
+      });
     }
 
     // invalid(newVal) {
