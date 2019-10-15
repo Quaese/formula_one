@@ -14,7 +14,7 @@
 
           <field-validation
             fieldName="name"
-            v-bind:value="itemData.name.value"
+            v-bind:value="itemData.name"
             v-on:input="evt => (itemData.name = evt)"
             @keyup="onKeyUp"
             :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
@@ -40,7 +40,7 @@
           /> -->
           <field-validation
             fieldName="time"
-            v-bind:value="itemData.time.value"
+            v-bind:value="itemData.time"
             v-on:input="evt => (itemData.time = evt)"
             @keyup="onKeyUp"
             :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
@@ -190,17 +190,17 @@ export default {
     },
 
     save: function() {
-      // const isValid = true,
-      //   _this = this;
+      let isValid = true,
+        _this = this;
 
-      // Object.keys(this.itemData).reduce((accu, key) => {
-      //   const valid = _this.itemData[key].required
-      //     ? _this.itemData[key].valid
-      //     : true;
-      //   return accu && valid;
-      // }, isValid);
-      // console.log("isValid: ", isValid);
-      // return;
+      isValid = Object.keys(this.itemData).reduce((accu, key) => {
+        const valid = _this.itemData[key].required
+          ? _this.itemData[key].valid
+          : true;
+        return accu && valid;
+      }, isValid);
+      console.log("isValid: ", isValid);
+      return;
 
       console.log(this.itemData.name.value);
       // debugger;
