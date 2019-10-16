@@ -4,7 +4,7 @@
     <input
       type="text"
       v-model="val"
-      :name="fieldName"
+      v-init-input:model="{ field: fieldName, value: val }"
       :ref="fieldName"
       :class="[
         'form-control',
@@ -19,24 +19,25 @@
     <span
       v-if="!initial && !valid"
       :class="[initial || valid ? '' : classes.error]"
-    >
-      {{ error.text }}
-    </span>
+    >{{ error.text }}</span>
   </fieldset>
 </template>
 
 <script>
+import "../directives/init-input.directive"; //"./directives/init-input.directive";
+
 export default {
   name: "field-validation",
 
   data() {
+    const value =
+      this.init && this.init.value ? this.init.value : this.model.value;
+
     return {
       initial: this.model.initial,
-      val: this.model.value,
+      val: value,
       // valid: this.model.valid,
-      valid: this.model.validator
-        ? this.model.validator(this.model.value)
-        : true,
+      valid: this.model.validator ? this.model.validator(value) : true,
       classes: (function(css) {
         let obj = {
             fieldset: "qp-form-fieldset",
@@ -56,6 +57,10 @@ export default {
   },
 
   props: {
+    init: {
+      type: Object,
+      default: null
+    },
     model: {
       type: Object
     },
