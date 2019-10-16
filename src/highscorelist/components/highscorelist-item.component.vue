@@ -9,17 +9,31 @@
       <div v-if="edit">
         <span v-if="cell.name === 'place'">{{ idxLine + 1 }}</span>
         <span v-else-if="cell.name === 'name'">
-          <input
+          <!-- <input
             ref="name"
             class="form-control"
             v-model="itemData.name"
             v-on:keyup="onKeyUp"
             v-init-input:itemData="{ field: 'name', value: item[cell.name] }"
             v-bind:placeholder="item[cell.name]"
+          />-->
+          <field-validation
+            fieldName="name"
+            label_="Label"
+            placeholder="Name"
+            :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
+            :error="{
+              text: $t('error.required.name')
+            }"
+            :focus="true"
+            :init="{value: item[cell.name]}"
+            :model="model.name"
+            @input="evt => (model.name = evt)"
+            @keyup="onKeyUp"
           />
         </span>
         <span v-else-if="cell.name === 'time'">
-          <input
+          <!-- <input
             class="form-control"
             v-model="itemData.time"
             v-on:keyup="onKeyUp"
@@ -30,14 +44,31 @@
             v-bind:placeholder="formatTime(item[cell.name])"
             v-bind:class="{ error: hasError }"
             pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
+          />-->
+          <field-validation
+            fieldName="time"
+            label_="Label"
+            placeholder="formatTime(item[cell.name])"
+            :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
+            :error="{
+              text: $t('error.required.time')
+            }"
+            :init="{value: formatTime(item[cell.name])}"
+            :model="model.time"
+            @input="evt => (model.time = evt)"
+            @keyup="onKeyUp"
           />
         </span>
-        <span v-else-if="cell.name === 'diff_first'">{{
+        <span v-else-if="cell.name === 'diff_first'">
+          {{
           formatTime(item[cell.name])
-        }}</span>
-        <span v-else-if="cell.name === 'diff_prev'">{{
+          }}
+        </span>
+        <span v-else-if="cell.name === 'diff_prev'">
+          {{
           formatTime(item[cell.name])
-        }}</span>
+          }}
+        </span>
         <span v-else-if="cell.name === 'actions'">
           <action-icon
             @click="
@@ -70,15 +101,21 @@
       <div v-else>
         <span v-if="cell.name === 'place'">{{ idxLine + 1 }}</span>
         <span v-else-if="cell.name === 'name'">{{ item[cell.name] }}</span>
-        <span v-else-if="cell.name === 'time'">{{
+        <span v-else-if="cell.name === 'time'">
+          {{
           formatTime(item[cell.name])
-        }}</span>
-        <span v-else-if="cell.name === 'diff_first'">{{
+          }}
+        </span>
+        <span v-else-if="cell.name === 'diff_first'">
+          {{
           formatTime(item[cell.name])
-        }}</span>
-        <span v-else-if="cell.name === 'diff_prev'">{{
+          }}
+        </span>
+        <span v-else-if="cell.name === 'diff_prev'">
+          {{
           formatTime(item[cell.name])
-        }}</span>
+          }}
+        </span>
         <span v-else-if="cell.name === 'actions'">
           <action-icon
             @click="setEdit(true)"
@@ -113,18 +150,45 @@
 // import ActionIconLayered from "./actionicon-layered.component" is globally registered in main.js
 
 import TimeService from "../services/time.service";
+import FieldValidation from "../../components/field-validation.component";
 
 export default {
   name: "highscorelist-item",
+
+  components: {
+    "field-validation": FieldValidation
+  },
 
   data() {
     return {
       edit: false,
       hasError: false,
-      itemData: {
-        name: "",
-        time: ""
+      model: {
+        name: {
+          value: "",
+          valid: false,
+          required: true,
+          initial: true,
+          validator: val => {
+            return val.length > 0;
+          }
+        },
+        time: {
+          value: "",
+          valid: false,
+          required: true,
+          initial: true,
+          validator: val => {
+            const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
+            return val.length > 0 && pattern.test(val);
+          }
+        }
       }
+      // ,
+      // itemData: {
+      //   name: "",
+      //   time: ""
+      // }
     };
   },
 
@@ -197,33 +261,75 @@ export default {
       this.edit = enable;
 
       if (enable) {
-        this.$nextTick(() => {
-          this.$refs["name"][0].focus();
-        });
+        //   this.$nextTick(() => {
+        //     this.$refs["name"][0].focus();
+        //   });
+        // // reset name
+        // this.model.name.value = "";
+        // this.model.name.valid = false;
+        // this.model.name.initial = true;
+        // // reset time
+        // this.model.time.value = "";
+        // this.model.time.valid = false;
+        // this.model.time.initial = true;
       }
     },
 
     save: function() {
-      const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
+      let isValid = true,
+        _this = this;
 
-      if (this.itemData.name.length === 0) {
-        this.hasError = true;
-        return;
-      }
-
-      if (this.itemData.time && pattern.test(this.itemData.time)) {
+      isValid = Object.keys(this.model).reduce((accu, key) => {
+        const valid = _this.model[key].required ? _this.model[key].valid : true;
+        return accu && valid;
+      }, isValid);
+      console.log("isValid: ", isValid);
+      if (isValid) {
         this.hasError = false;
 
+        console.log(
+          "dispatch (highscorelist/modifyItem)",
+          this.model.time.value,
+          this.model.name.value
+        );
+        return;
         this.$store.dispatch("highscorelist/modifyItem", {
           raceId: this.raceId,
           item: {
             id: this.item.id,
-            ...this.itemData
+            time: this.model.time.value,
+            name: this.model.name.value
+            // ...this.itemData
           }
         });
       } else {
+        this.model.name.initial = false;
+        this.model.time.initial = false;
+
         this.hasError = true;
       }
+
+      // return;
+      // const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
+
+      // if (this.itemData.name.length === 0) {
+      //   this.hasError = true;
+      //   return;
+      // }
+
+      // if (this.itemData.time && pattern.test(this.itemData.time)) {
+      //   this.hasError = false;
+
+      //   this.$store.dispatch("highscorelist/modifyItem", {
+      //     raceId: this.raceId,
+      //     item: {
+      //       id: this.item.id,
+      //       ...this.itemData
+      //     }
+      //   });
+      // } else {
+      //   this.hasError = true;
+      // }
     },
 
     remove: async function(id) {
