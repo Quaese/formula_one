@@ -12,6 +12,7 @@
               text: $t('error.required.name')
             }"
             :focus="true"
+            :init="{}"
             :model="model.name"
             @input="evt => (model.name = evt)"
             @keyup="onKeyUp"
@@ -97,6 +98,10 @@ import FieldValidation from "../../components/field-validation.component";
 export default {
   name: "highscorelist-item-add",
 
+  components: {
+    "field-validation": FieldValidation
+  },
+
   data() {
     return {
       edit: false,
@@ -145,10 +150,6 @@ export default {
     }
   },
 
-  components: {
-    "field-validation": FieldValidation
-  },
-
   updated() {
     if (this.hasError) {
       this.edit = true;
@@ -158,6 +159,13 @@ export default {
   methods: {
     formatTime: function(time) {
       return TimeService.secondsToString(time);
+    },
+
+    onKeyUp: function(evt) {
+      if (evt.keyCode === 13) {
+        this.setEdit(false);
+        this.save();
+      }
     },
 
     setEdit: function(enable) {
@@ -177,13 +185,6 @@ export default {
         this.model.time.value = "";
         this.model.time.valid = false;
         this.model.time.initial = true;
-      }
-    },
-
-    onKeyUp: function(evt) {
-      if (evt.keyCode === 13) {
-        this.setEdit(false);
-        this.save();
       }
     },
 
