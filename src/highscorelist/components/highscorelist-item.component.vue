@@ -26,7 +26,7 @@
               text: $t('error.required.name')
             }"
             :focus="true"
-            :init="{value: item[cell.name]}"
+            :init="{ value: item[cell.name] }"
             :model="model.name"
             @input="evt => (model.name = evt)"
             @keyup="onKeyUp"
@@ -53,21 +53,17 @@
             :error="{
               text: $t('error.required.time')
             }"
-            :init="{value: formatTime(item[cell.name])}"
+            :init="{ value: formatTime(item[cell.name]) }"
             :model="model.time"
             @input="evt => (model.time = evt)"
             @keyup="onKeyUp"
           />
         </span>
         <span v-else-if="cell.name === 'diff_first'">
-          {{
-          formatTime(item[cell.name])
-          }}
+          {{ formatTime(item[cell.name]) }}
         </span>
         <span v-else-if="cell.name === 'diff_prev'">
-          {{
-          formatTime(item[cell.name])
-          }}
+          {{ formatTime(item[cell.name]) }}
         </span>
         <span v-else-if="cell.name === 'actions'">
           <action-icon
@@ -102,19 +98,13 @@
         <span v-if="cell.name === 'place'">{{ idxLine + 1 }}</span>
         <span v-else-if="cell.name === 'name'">{{ item[cell.name] }}</span>
         <span v-else-if="cell.name === 'time'">
-          {{
-          formatTime(item[cell.name])
-          }}
+          {{ formatTime(item[cell.name]) }}
         </span>
         <span v-else-if="cell.name === 'diff_first'">
-          {{
-          formatTime(item[cell.name])
-          }}
+          {{ formatTime(item[cell.name]) }}
         </span>
         <span v-else-if="cell.name === 'diff_prev'">
-          {{
-          formatTime(item[cell.name])
-          }}
+          {{ formatTime(item[cell.name]) }}
         </span>
         <span v-else-if="cell.name === 'actions'">
           <action-icon
@@ -237,7 +227,6 @@ export default {
     if (this.hasError) {
       this.edit = true;
     }
-    // if (this.edit) this.$refs["name"][0].focus();
   },
 
   methods: {
@@ -246,9 +235,16 @@ export default {
     },
 
     onKeyUp: function(evt) {
-      if (evt.keyCode === 13) {
-        this.setEdit(false);
-        this.save();
+      switch (evt.keyCode) {
+        // enter
+        case 13:
+          this.setEdit(false);
+          this.save();
+          break;
+        // escape
+        case 27:
+          this.setEdit(false);
+          break;
       }
     },
 
@@ -283,16 +279,10 @@ export default {
         const valid = _this.model[key].required ? _this.model[key].valid : true;
         return accu && valid;
       }, isValid);
-      console.log("isValid: ", isValid);
+
       if (isValid) {
         this.hasError = false;
 
-        console.log(
-          "dispatch (highscorelist/modifyItem)",
-          this.model.time.value,
-          this.model.name.value
-        );
-        return;
         this.$store.dispatch("highscorelist/modifyItem", {
           raceId: this.raceId,
           item: {
@@ -308,28 +298,6 @@ export default {
 
         this.hasError = true;
       }
-
-      // return;
-      // const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
-
-      // if (this.itemData.name.length === 0) {
-      //   this.hasError = true;
-      //   return;
-      // }
-
-      // if (this.itemData.time && pattern.test(this.itemData.time)) {
-      //   this.hasError = false;
-
-      //   this.$store.dispatch("highscorelist/modifyItem", {
-      //     raceId: this.raceId,
-      //     item: {
-      //       id: this.item.id,
-      //       ...this.itemData
-      //     }
-      //   });
-      // } else {
-      //   this.hasError = true;
-      // }
     },
 
     remove: async function(id) {

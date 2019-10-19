@@ -162,9 +162,16 @@ export default {
     },
 
     onKeyUp: function(evt) {
-      if (evt.keyCode === 13) {
-        this.setEdit(false);
-        this.save();
+      switch (evt.keyCode) {
+        // enter
+        case 13:
+          this.setEdit(false);
+          this.save();
+          break;
+        // escape
+        case 27:
+          this.setEdit(false);
+          break;
       }
     },
 
