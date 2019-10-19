@@ -19,12 +19,14 @@
     <span
       v-if="!initial && !valid"
       :class="[initial || valid ? '' : classes.error]"
-    >{{ error.text }}</span>
+    >
+      {{ error.text }}
+    </span>
   </fieldset>
 </template>
 
 <script>
-import "../directives/init-input.directive"; //"./directives/init-input.directive";
+import "../directives/init-input.directive";
 
 export default {
   name: "field-validation",
@@ -90,6 +92,18 @@ export default {
 
   mounted() {
     this.focus && this.$refs[this.fieldName].focus();
+
+    // validate if initial value exists
+    // emit input event with current values to trigger reactive elements
+    if (this.init && this.init.value) {
+      this.valid = this.model.validator ? this.model.validator(this.val) : true;
+      this.$emit("input", {
+        ...this.model,
+        value: this.val,
+        valid: this.valid,
+        required: this.model.required || false
+      });
+    }
   },
 
   watch: {
