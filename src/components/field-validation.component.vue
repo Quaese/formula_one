@@ -40,6 +40,9 @@ export default {
       val: value,
       // valid: this.model.valid,
       valid: this.model.validator ? this.model.validator(value) : true,
+      fieldName: this.model.fieldName
+        ? this.model.fieldName
+        : new Date().getTime(),
       classes: (function(css) {
         let obj = {
             fieldset: "qp-form-fieldset",
@@ -59,10 +62,17 @@ export default {
   },
 
   props: {
+    // Eventbus
+    bus: {
+      type: Object,
+      default: null
+    },
+    // initial object (properties: value)
     init: {
       type: Object,
       default: null
     },
+    // mode for input (properties: fieldName, initial, required, valid, value, validator)
     model: {
       type: Object
     },
@@ -70,10 +80,6 @@ export default {
       type: Object
     },
     placeholder: {
-      type: String,
-      default: ""
-    },
-    fieldName: {
       type: String,
       default: ""
     },
@@ -93,11 +99,11 @@ export default {
   mounted() {
     this.focus && this.$refs[this.fieldName].focus();
 
-    // validate if initial value exists
+    // register bus if instantiated in parent component
+    this.bus && this.bus.$on("save", this.onSave);
+
     // emit input event with current values to trigger reactive elements
-    // if (this.init && this.init.value) {
     this.fnValueWatcher(this.val);
-    // }
   },
 
   watch: {
@@ -122,16 +128,21 @@ export default {
     },
 
     hKeyUp: function(evt) {
-      if (this.initial) {
-        this.initial = false;
-        this.fnValueWatcher(this.val);
-      }
+      this.onSave();
 
       this.$emit("keyup", evt);
     },
 
     hBlur: function(evt) {
       this.$emit("blur", evt);
+    },
+
+    onSave: function() {
+      // if component is still in initial state
+      if (this.initial) {
+        this.initial = false;
+        this.fnValueWatcher(this.val);
+      }
     }
   }
 };
