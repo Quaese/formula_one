@@ -149,27 +149,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import url("../assets/style/variables.less");
-
-.qp-form-error {
-  fieldset& {
-    position: relative;
-  }
-
-  input {
-    // border: 1px solid @color-danger;
-    background: lighten(@color-danger, 40%);
-  }
-
-  span& {
-    position: absolute;
-    left: 0;
-    right: 0;
-    padding: 2px 5px;
-    background: #fff;
-    border: 1px solid @color-danger;
-    font-size: 0.8em;
-    color: @color-danger;
-  }
-}
+@import url("../assets/style/form.less");
 </style>
