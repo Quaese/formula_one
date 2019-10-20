@@ -5,7 +5,11 @@
     :class="{ 'qp-table-results-item-row-last': last }"
   >
     <!--  @click="!edit && setEdit(true)" -->
-    <td v-for="(cell, idxCell) in fields" :key="idxCell" class="align-middle">
+    <td
+      v-for="(cell, idxCell) in fields"
+      :key="idxCell"
+      class="align-middle"
+    >
       <div v-if="edit">
         <span v-if="cell.name === 'place'">{{ idxLine + 1 }}</span>
         <span v-else-if="cell.name === 'name'">
@@ -67,10 +71,7 @@
         </span>
         <span v-else-if="cell.name === 'actions'">
           <action-icon
-            @click="
-              setEdit(false);
-              save();
-            "
+            @click="save()"
             :wrapper="{
               title: $t('common.save')
             }"
@@ -149,7 +150,7 @@ export default {
     "field-validation": FieldValidation
   },
 
-  data() {
+  data () {
     return {
       edit: false,
       hasError: false,
@@ -174,18 +175,13 @@ export default {
           }
         }
       }
-      // ,
-      // itemData: {
-      //   name: "",
-      //   time: ""
-      // }
     };
   },
 
   props: {
     fields: {
       type: Array,
-      default() {
+      default () {
         return [
           { name: "place", value: "Platz" },
           { name: "name", value: "Name" },
@@ -204,7 +200,7 @@ export default {
     },
     item: {
       type: Object,
-      default() {
+      default () {
         return {
           id: 1,
           name: "Quaese",
@@ -223,22 +219,21 @@ export default {
     }
   },
 
-  updated() {
+  updated () {
     if (this.hasError) {
       this.edit = true;
     }
   },
 
   methods: {
-    formatTime: function(time) {
+    formatTime: function (time) {
       return TimeService.secondsToString(time);
     },
 
-    onKeyUp: function(evt) {
+    onKeyUp: function (evt) {
       switch (evt.keyCode) {
         // enter
         case 13:
-          this.setEdit(false);
           this.save();
           break;
         // escape
@@ -248,30 +243,16 @@ export default {
       }
     },
 
-    setEdit: function(enable) {
+    setEdit: function (enable) {
       // disable error first before leaving edit mode
       if (!enable) {
         this.hasError = false;
       }
       // leave edit mode
       this.edit = enable;
-
-      if (enable) {
-        //   this.$nextTick(() => {
-        //     this.$refs["name"][0].focus();
-        //   });
-        // // reset name
-        // this.model.name.value = "";
-        // this.model.name.valid = false;
-        // this.model.name.initial = true;
-        // // reset time
-        // this.model.time.value = "";
-        // this.model.time.valid = false;
-        // this.model.time.initial = true;
-      }
     },
 
-    save: function() {
+    save: function () {
       let isValid = true,
         _this = this;
 
@@ -289,9 +270,9 @@ export default {
             id: this.item.id,
             time: this.model.time.value,
             name: this.model.name.value
-            // ...this.itemData
           }
         });
+        this.setEdit(false);
       } else {
         this.model.name.initial = false;
         this.model.time.initial = false;
@@ -300,7 +281,7 @@ export default {
       }
     },
 
-    remove: async function(id) {
+    remove: async function (id) {
       try {
         // get result
         const result = await this.$store.getters["highscorelist/getResultById"](

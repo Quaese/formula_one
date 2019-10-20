@@ -210,7 +210,6 @@ export default {
         this.$store.dispatch("highscorelist/addItem", {
           raceId: this.raceId,
           item: {
-            //...this.model
             time: this.model.time.value,
             name: this.model.name.value
           }
