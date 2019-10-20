@@ -13,8 +13,8 @@
         { 'dummy-class': !initial && !valid }
       ]"
       :placeholder="placeholder"
-      @keyup="$emit('keyup', $event)"
-      @blur="$emit('blur', $event)"
+      @keyup="$event => hKeyUp($event)"
+      @blur="$event => hBlur($event)"
     />
     <span
       v-if="!initial && !valid"
@@ -95,28 +95,43 @@ export default {
 
     // validate if initial value exists
     // emit input event with current values to trigger reactive elements
-    if (this.init && this.init.value) {
-      this.valid = this.model.validator ? this.model.validator(this.val) : true;
-      this.$emit("input", {
-        ...this.model,
-        value: this.val,
-        valid: this.valid,
-        required: this.model.required || false
-      });
-    }
+    // if (this.init && this.init.value) {
+    this.fnValueWatcher(this.val);
+    // }
   },
 
   watch: {
     val(newVal) {
+      // set initial flag to false if value changes
       this.initial = false;
-      this.valid = this.model.validator ? this.model.validator(newVal) : true;
+      // execute value watchter method to validate and emit changed model
+      this.fnValueWatcher(newVal);
+    }
+  },
+
+  methods: {
+    fnValueWatcher: function(value) {
+      this.valid = this.model.validator ? this.model.validator(value) : true;
 
       this.$emit("input", {
         ...this.model,
-        value: newVal,
+        value: value,
         valid: this.valid,
         required: this.model.required || false
       });
+    },
+
+    hKeyUp: function(evt) {
+      if (this.initial) {
+        this.initial = false;
+        this.fnValueWatcher(this.val);
+      }
+
+      this.$emit("keyup", evt);
+    },
+
+    hBlur: function(evt) {
+      this.$emit("blur", evt);
     }
   }
 };

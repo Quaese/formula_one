@@ -5,11 +5,7 @@
     :class="{ 'qp-table-results-item-row-last': last }"
   >
     <!--  @click="!edit && setEdit(true)" -->
-    <td
-      v-for="(cell, idxCell) in fields"
-      :key="idxCell"
-      class="align-middle"
-    >
+    <td v-for="(cell, idxCell) in fields" :key="idxCell" class="align-middle">
       <div v-if="edit">
         <span v-if="cell.name === 'place'">{{ idxLine + 1 }}</span>
         <span v-else-if="cell.name === 'name'">
@@ -150,7 +146,7 @@ export default {
     "field-validation": FieldValidation
   },
 
-  data () {
+  data() {
     return {
       edit: false,
       hasError: false,
@@ -181,7 +177,7 @@ export default {
   props: {
     fields: {
       type: Array,
-      default () {
+      default() {
         return [
           { name: "place", value: "Platz" },
           { name: "name", value: "Name" },
@@ -200,7 +196,7 @@ export default {
     },
     item: {
       type: Object,
-      default () {
+      default() {
         return {
           id: 1,
           name: "Quaese",
@@ -219,18 +215,18 @@ export default {
     }
   },
 
-  updated () {
+  updated() {
     if (this.hasError) {
       this.edit = true;
     }
   },
 
   methods: {
-    formatTime: function (time) {
+    formatTime: function(time) {
       return TimeService.secondsToString(time);
     },
 
-    onKeyUp: function (evt) {
+    onKeyUp: function(evt) {
       switch (evt.keyCode) {
         // enter
         case 13:
@@ -243,7 +239,7 @@ export default {
       }
     },
 
-    setEdit: function (enable) {
+    setEdit: function(enable) {
       // disable error first before leaving edit mode
       if (!enable) {
         this.hasError = false;
@@ -252,7 +248,7 @@ export default {
       this.edit = enable;
     },
 
-    save: function () {
+    save: function() {
       let isValid = true,
         _this = this;
 
@@ -281,7 +277,7 @@ export default {
       }
     },
 
-    remove: async function (id) {
+    remove: async function(id) {
       try {
         // get result
         const result = await this.$store.getters["highscorelist/getResultById"](
