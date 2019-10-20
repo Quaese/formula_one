@@ -18,9 +18,8 @@
             v-bind:placeholder="item[cell.name]"
           />-->
           <field-validation
-            fieldName="name"
             label_="Label"
-            placeholder="Name"
+            :bus="bus"
             :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
             :error="{
               text: $t('error.required.name')
@@ -28,6 +27,7 @@
             :focus="true"
             :init="{ value: item[cell.name] }"
             :model="model.name"
+            :placeholder="item[cell.name]"
             @input="evt => (model.name = evt)"
             @keyup="onKeyUp"
           />
@@ -46,15 +46,15 @@
             pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
           />-->
           <field-validation
-            fieldName="time"
             label_="Label"
-            placeholder="formatTime(item[cell.name])"
+            :bus="bus"
             :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
             :error="{
               text: $t('error.required.time')
             }"
             :init="{ value: formatTime(item[cell.name]) }"
             :model="model.time"
+            :placeholder="formatTime(item[cell.name])"
             @input="evt => (model.time = evt)"
             @keyup="onKeyUp"
           />
@@ -136,6 +136,7 @@
 // InitInput from "../../directives/init-input.directive" is globally registered in main.js
 // import ActionIconLayered from "./actionicon-layered.component" is globally registered in main.js
 
+import Vue from "vue";
 import TimeService from "../services/time.service";
 import FieldValidation from "../../components/field-validation.component";
 
@@ -147,24 +148,32 @@ export default {
   },
 
   data() {
+    // event bus (using Vue instance to use $emit as event emitter)
+    const bus = new Vue();
+
     return {
+      bus: bus,
       edit: false,
       hasError: false,
       model: {
         name: {
-          value: "",
-          valid: false,
-          required: true,
+          fieldName: "name",
           initial: true,
+          required: true,
+          valid: false,
+          value: "",
+
           validator: val => {
             return val.length > 0;
           }
         },
         time: {
-          value: "",
-          valid: false,
-          required: true,
+          fieldName: "time",
           initial: true,
+          required: true,
+          valid: false,
+          value: "",
+
           validator: val => {
             const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
             return val.length > 0 && pattern.test(val);
@@ -252,6 +261,9 @@ export default {
       let isValid = true,
         _this = this;
 
+      // trigger save event on event bus
+      this.bus.$emit("save");
+
       isValid = Object.keys(this.model).reduce((accu, key) => {
         const valid = _this.model[key].required ? _this.model[key].valid : true;
         return accu && valid;
@@ -270,9 +282,6 @@ export default {
         });
         this.setEdit(false);
       } else {
-        this.model.name.initial = false;
-        this.model.time.initial = false;
-
         this.hasError = true;
       }
     },
