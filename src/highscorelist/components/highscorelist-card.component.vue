@@ -11,7 +11,7 @@
     <div class="card-body">
       <h5 class="card-title mb-2" v-if="title">
         <span v-if="!modify">{{ title }}</span>
-        <input
+        <!-- <input
           v-else
           type="text"
           class="form-control"
@@ -21,6 +21,30 @@
             value: title
           }"
           v-bind:placeholder="title"
+        /> -->
+        <field-validation
+          v-else
+          :bus="bus"
+          :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
+          :error="{
+            text: $t('error.required.name')
+          }"
+          :focus="true"
+          :init="{ value: title }"
+          :model="{
+            fieldName: 'title',
+            initial: true,
+            required: true,
+            valid: false,
+            value: title,
+
+            validator: val => {
+              return val.length > 0;
+            }
+          }"
+          :placeholder="title"
+          @input="evt => onInput(evt)"
+          @keyup="$emit('keyup', $event)"
         />
       </h5>
 
@@ -118,7 +142,11 @@
 
             <action-icon
               v-if="actions.save"
-              @click="$emit('save', $event, id)"
+              @click="
+                $event => {
+                  emitSave($event); /* $emit('save', $event, id)*/
+                }
+              "
               :wrapper="{
                 title: $t('common.save')
               }"
@@ -151,8 +179,31 @@
 <script>
 // import ActionIconLayered from "./actionicon-layered.component" is globally registered in main.js
 
+import Vue from "vue";
+import FieldValidation from "../../components/field-validation.component";
+
+const inputs = ["title", "location"];
+
 export default {
   name: "highscorelist-card",
+
+  components: {
+    "field-validation": FieldValidation
+  },
+
+  data() {
+    // event bus (using Vue instance to use $emit as event emitter)
+    const bus = new Vue(),
+      _this = this;
+
+    return {
+      bus,
+      validates: inputs.reduce((accu, curr) => {
+        if (_this[curr] !== undefined) accu[curr] = false;
+        return accu;
+      }, {})
+    };
+  },
 
   props: {
     id: {
@@ -189,6 +240,23 @@ export default {
     },
     actions: {
       type: Object
+    }
+  },
+
+  methods: {
+    onInput: function(evt) {
+      console.log("onInput: ", evt, this.validates[evt.fieldName], evt.valid);
+      if (this.validates[evt.fieldName] !== undefined) {
+        this.validates[evt.fieldName] = evt.valid;
+      }
+    },
+
+    emitSave: function() {
+      // console.log(this.validates.title);
+      this.bus.$emit("validate");
+      // this.$nextTick(() => {
+      //   console.log(this.validates.title);
+      // });
     }
   }
 };
