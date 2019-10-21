@@ -33,7 +33,11 @@ export default {
 
   data() {
     const value =
-      this.init && this.init.value ? this.init.value : this.model.value;
+      this.init && this.init.value
+        ? this.init.value
+        : this.model.value
+        ? this.model.value
+        : "";
 
     return {
       initial: this.model.initial,
@@ -101,6 +105,7 @@ export default {
 
     // register bus if instantiated in parent component
     this.bus && this.bus.$on("save", this.onSave);
+    this.bus && this.bus.$on("validate", this.onValidate);
 
     // emit input event with current values to trigger reactive elements
     this.fnValueWatcher(this.val);
@@ -143,6 +148,15 @@ export default {
         this.initial = false;
         this.fnValueWatcher(this.val);
       }
+    },
+
+    onValidate: function() {
+      // if component is still in initial state
+      if (this.initial) {
+        this.initial = false;
+      }
+      // validate and emit 'input' event from parent
+      this.fnValueWatcher(this.val);
     }
   }
 };
