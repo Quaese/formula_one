@@ -73,7 +73,7 @@ export default {
 
   mounted() {
     // use resize observer if ResizeObserver API exists OR prop to handle resize is not a function (=> element is not observed by the ResizeObserver)
-    if (!ResizeObserver || typeof this.handler !== "function") {
+    if (!window.ResizeObserver || typeof this.handler !== "function") {
       this.calculateHeight(this.$refs.wrapper);
     }
 

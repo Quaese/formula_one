@@ -20,7 +20,7 @@ export const QPResizeObserver = {
     // observe only if a handler is present
     if (handler) {
       // if ResizeObserver API is supported AND observed
-      if (ResizeObserver && isElement(elem)) {
+      if (window.ResizeObserver !== undefined && isElement(elem)) {
         // debounced handler function
         const fnObserverHandler = debounce(
           function() {
@@ -71,7 +71,7 @@ export const QPResizeObserver = {
     const elem = binding.value && binding.value.elem ? binding.value.elem : el;
 
     if (observer) {
-      if (ResizeObserver && isElement(elem)) {
+      if (window.ResizeObserver !== undefined && isElement(elem)) {
         observer.unobserve && observer.unobserve(elem);
       } else {
         window.off("resize." + observer);
