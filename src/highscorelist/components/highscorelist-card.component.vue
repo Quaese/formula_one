@@ -44,7 +44,7 @@
           }"
           :placeholder="title"
           @input="evt => onInput(evt)"
-          @keyup="$emit('keyup', $event)"
+          @keyup="onKeyUp"
         />
       </h5>
 
@@ -59,10 +59,10 @@
       </p>
 
       <div class="row mb-1" v-if="location">
-        <div class="col-4 col-md-6">{{ this.$t(translations.location) }}:</div>
+        <div class="col-4 col-md-6">{{ $t(translations.location) }}:</div>
         <div class="col-8 col-md-6">
           <span v-if="!modify">{{ location }}</span>
-          <input
+          <!-- <input
             v-else
             type="text"
             class="form-control"
@@ -72,6 +72,29 @@
               value: location
             }"
             v-bind:placeholder="location"
+          /> -->
+          <field-validation
+            v-else
+            :bus="bus"
+            :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
+            :error="{
+              text: $t(translations.location)
+            }"
+            :init="{ value: location }"
+            :model="{
+              fieldName: 'location',
+              initial: true,
+              required: true,
+              valid: false,
+              value: location,
+
+              validator: val => {
+                return val.length > 0;
+              }
+            }"
+            :placeholder="location"
+            @input="evt => onInput(evt)"
+            @keyup="onKeyUp"
           />
         </div>
       </div>
@@ -144,7 +167,7 @@
               v-if="actions.save"
               @click="
                 $event => {
-                  emitSave($event); /* $emit('save', $event, id)*/
+                  emitSave($event);
                 }
               "
               :wrapper="{
@@ -244,16 +267,46 @@ export default {
   },
 
   methods: {
-    onInput: function(evt) {
-      console.log("onInput: ", evt, this.validates[evt.fieldName], evt.valid);
-      if (this.validates[evt.fieldName] !== undefined) {
-        this.validates[evt.fieldName] = evt.valid;
+    onKeyUp: function(evt) {
+      switch (evt.keyCode) {
+        // enter
+        case 13:
+          this.emitSave(evt);
+          break;
+        // escape
+        case 27:
+          this.$emit("cancel", evt, null);
+          break;
       }
     },
 
-    emitSave: function() {
-      // console.log(this.validates.title);
+    onInput: function(evt) {
+      // if current field name exists in input validation hash
+      if (this.validates[evt.fieldName] !== undefined) {
+        // set validation state (true/false)
+        this.validates[evt.fieldName] = evt.valid;
+        // set current value to model
+        this.model[evt.fieldName] = evt.valid
+          ? evt.value
+          : this.model[evt.fieldName];
+      }
+    },
+
+    emitSave: function(evt) {
+      // trigger validate on event bus (=> this triggers 'onInput' event inside the child component)
       this.bus.$emit("validate");
+
+      const _this = this,
+        // check if all inputs are valid
+        valid = Object.keys(this.validates).reduce((accu, _key) => {
+          return accu && _this.validates[_key];
+        }, true);
+
+      // all inputs are valid
+      if (valid) {
+        this.$emit("save", evt, this.id);
+      }
+
       // this.$nextTick(() => {
       //   console.log(this.validates.title);
       // });
