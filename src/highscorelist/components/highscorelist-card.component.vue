@@ -11,17 +11,6 @@
     <div class="card-body">
       <h5 class="card-title mb-2" v-if="title">
         <span v-if="!modify">{{ title }}</span>
-        <!-- <input
-          v-else
-          type="text"
-          class="form-control"
-          v-model="model.title"
-          v-init-input:model="{
-            field: 'title',
-            value: title
-          }"
-          v-bind:placeholder="title"
-        /> -->
         <field-validation
           v-else
           :bus="bus"
@@ -62,17 +51,6 @@
         <div class="col-4 col-md-6">{{ $t(translations.location) }}:</div>
         <div class="col-8 col-md-6">
           <span v-if="!modify">{{ location }}</span>
-          <!-- <input
-            v-else
-            type="text"
-            class="form-control"
-            v-model="model.location"
-            v-init-input:model="{
-              field: 'location',
-              value: location
-            }"
-            v-bind:placeholder="location"
-          /> -->
           <field-validation
             v-else
             :bus="bus"
@@ -205,8 +183,6 @@
 import Vue from "vue";
 import FieldValidation from "../../components/field-validation.component";
 
-const inputs = ["title", "location"];
-
 export default {
   name: "highscorelist-card",
 
@@ -216,13 +192,13 @@ export default {
 
   data() {
     // event bus (using Vue instance to use $emit as event emitter)
-    const bus = new Vue(),
-      _this = this;
+    const bus = new Vue();
 
     return {
       bus,
-      validates: inputs.reduce((accu, curr) => {
-        if (_this[curr] !== undefined) accu[curr] = false;
+      // loop over models and set it false initially
+      validates: Object.keys(this.model).reduce((accu, curr) => {
+        accu[curr] = false;
         return accu;
       }, {})
     };
@@ -306,10 +282,6 @@ export default {
       if (valid) {
         this.$emit("save", evt, this.id);
       }
-
-      // this.$nextTick(() => {
-      //   console.log(this.validates.title);
-      // });
     }
   }
 };
