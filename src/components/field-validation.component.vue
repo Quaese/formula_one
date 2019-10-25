@@ -40,9 +40,10 @@ export default {
         : "";
 
     return {
+      // observed properties:
       initial: this.model.initial,
       val: value,
-      // valid: this.model.valid,
+      // validate value on init
       valid: this.model.validator ? this.model.validator(value) : true,
       fieldName: this.model.fieldName
         ? this.model.fieldName
@@ -76,7 +77,7 @@ export default {
       type: Object,
       default: null
     },
-    // mode for input (properties: fieldName, initial, required, valid, value, validator)
+    // model for input (properties: fieldName, initial, required, valid, value, validator)
     model: {
       type: Object
     },
@@ -104,8 +105,10 @@ export default {
     this.focus && this.$refs[this.fieldName].focus();
 
     // register bus if instantiated in parent component
-    this.bus && this.bus.$on("save", this.onSave);
-    this.bus && this.bus.$on("validate", this.onValidate);
+    if (this.bus) {
+      this.bus.$on("save", this.onSave);
+      this.bus.$on("validate", this.onValidate);
+    }
 
     // emit input event with current values to trigger reactive elements
     this.fnValueWatcher(this.val);
