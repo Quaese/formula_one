@@ -31,6 +31,13 @@ const dictEN = {
       deleteText: "Delete"
     },
 
+    error: {
+      required: {
+        name: "Name required",
+        time: "Wrong time format (mm:ss:dd)"
+      }
+    },
+
     home: {
       headline: "Administration tool for highscore lists",
       description: {

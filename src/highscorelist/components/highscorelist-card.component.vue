@@ -11,16 +11,29 @@
     <div class="card-body">
       <h5 class="card-title mb-2" v-if="title">
         <span v-if="!modify">{{ title }}</span>
-        <input
+        <field-validation
           v-else
-          type="text"
-          class="form-control"
-          v-model="model.title"
-          v-init-input:model="{
-            field: 'title',
-            value: title
+          :bus="bus"
+          :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
+          :error="{
+            text: $t('error.required.name')
           }"
-          v-bind:placeholder="title"
+          :focus="true"
+          :init="{ value: title }"
+          :model="{
+            fieldName: 'title',
+            initial: true,
+            required: true,
+            valid: false,
+            value: title,
+
+            validator: val => {
+              return val.length > 0;
+            }
+          }"
+          :placeholder="title"
+          @input="evt => onInput(evt)"
+          @keyup="onKeyUp"
         />
       </h5>
 
@@ -35,19 +48,31 @@
       </p>
 
       <div class="row mb-1" v-if="location">
-        <div class="col-4 col-md-6">{{ this.$t(translations.location) }}:</div>
+        <div class="col-4 col-md-6">{{ $t(translations.location) }}:</div>
         <div class="col-8 col-md-6">
           <span v-if="!modify">{{ location }}</span>
-          <input
+          <field-validation
             v-else
-            type="text"
-            class="form-control"
-            v-model="model.location"
-            v-init-input:model="{
-              field: 'location',
-              value: location
+            :bus="bus"
+            :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
+            :error="{
+              text: $t(translations.location)
             }"
-            v-bind:placeholder="location"
+            :init="{ value: location }"
+            :model="{
+              fieldName: 'location',
+              initial: true,
+              required: true,
+              valid: false,
+              value: location,
+
+              validator: val => {
+                return val.length > 0;
+              }
+            }"
+            :placeholder="location"
+            @input="evt => onInput(evt)"
+            @keyup="onKeyUp"
           />
         </div>
       </div>
@@ -118,7 +143,11 @@
 
             <action-icon
               v-if="actions.save"
-              @click="$emit('save', $event, id)"
+              @click="
+                $event => {
+                  emitSave($event);
+                }
+              "
               :wrapper="{
                 title: $t('common.save')
               }"
@@ -151,8 +180,29 @@
 <script>
 // import ActionIconLayered from "./actionicon-layered.component" is globally registered in main.js
 
+import Vue from "vue";
+import FieldValidation from "../../components/field-validation.component";
+
 export default {
   name: "highscorelist-card",
+
+  components: {
+    "field-validation": FieldValidation
+  },
+
+  data() {
+    // event bus (using Vue instance to use $emit as event emitter)
+    const bus = new Vue();
+
+    return {
+      bus,
+      // loop over models and set it false initially
+      validates: Object.keys(this.model).reduce((accu, curr) => {
+        accu[curr] = false;
+        return accu;
+      }, {})
+    };
+  },
 
   props: {
     id: {
@@ -189,6 +239,49 @@ export default {
     },
     actions: {
       type: Object
+    }
+  },
+
+  methods: {
+    onKeyUp: function(evt) {
+      switch (evt.keyCode) {
+        // enter
+        case 13:
+          this.emitSave(evt);
+          break;
+        // escape
+        case 27:
+          this.$emit("cancel", evt, null);
+          break;
+      }
+    },
+
+    onInput: function(evt) {
+      // if current field name exists in input validation hash
+      if (this.validates[evt.fieldName] !== undefined) {
+        // set validation state (true/false)
+        this.validates[evt.fieldName] = evt.valid;
+        // set current value to model
+        this.model[evt.fieldName] = evt.valid
+          ? evt.value
+          : this.model[evt.fieldName];
+      }
+    },
+
+    emitSave: function(evt) {
+      // trigger validate on event bus (=> this triggers 'onInput' event inside the child component)
+      this.bus.$emit("validate");
+
+      const _this = this,
+        // check if all inputs are valid
+        valid = Object.keys(this.validates).reduce((accu, _key) => {
+          return accu && _this.validates[_key];
+        }, true);
+
+      // all inputs are valid
+      if (valid) {
+        this.$emit("save", evt, this.id);
+      }
     }
   }
 };

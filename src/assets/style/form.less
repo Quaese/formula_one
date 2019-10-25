@@ -1,0 +1,26 @@
+@import url("./variables.less");
+
+.qp-form {
+  &-error {
+    fieldset& {
+      position: relative;
+    }
+
+    input {
+      background: lighten(@color-danger, 42%);
+    }
+
+    span& {
+      position: absolute;
+      left: 0;
+      right: 0;
+      padding: 5px 8px;
+
+      background: lighten(@color-light, 20%);
+      border: 1px solid @color-danger;
+
+      font-size: 0.8em;
+      color: @color-danger;
+    }
+  }
+}

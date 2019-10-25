@@ -31,6 +31,13 @@ const dictDE = {
       deleteText: "Löschen"
     },
 
+    error: {
+      required: {
+        name: "Name erforderlich",
+        time: "Falsches Zeitformat (mm:ss:dd)"
+      }
+    },
+
     home: {
       headline: "Verwaltungs-Tool für Highscore-Listen",
       description: {

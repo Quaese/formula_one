@@ -9,17 +9,31 @@
       <div v-if="edit">
         <span v-if="cell.name === 'place'">{{ idxLine + 1 }}</span>
         <span v-else-if="cell.name === 'name'">
-          <input
+          <!-- <input
             ref="name"
             class="form-control"
             v-model="itemData.name"
             v-on:keyup="onKeyUp"
             v-init-input:itemData="{ field: 'name', value: item[cell.name] }"
             v-bind:placeholder="item[cell.name]"
+          />-->
+          <field-validation
+            label_="Label"
+            :bus="bus"
+            :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
+            :error="{
+              text: $t('error.required.name')
+            }"
+            :focus="true"
+            :init="{ value: item[cell.name] }"
+            :model="model.name"
+            :placeholder="item[cell.name]"
+            @input="evt => (model.name = evt)"
+            @keyup="onKeyUp"
           />
         </span>
         <span v-else-if="cell.name === 'time'">
-          <input
+          <!-- <input
             class="form-control"
             v-model="itemData.time"
             v-on:keyup="onKeyUp"
@@ -30,20 +44,30 @@
             v-bind:placeholder="formatTime(item[cell.name])"
             v-bind:class="{ error: hasError }"
             pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
+          />-->
+          <field-validation
+            label_="Label"
+            :bus="bus"
+            :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
+            :error="{
+              text: $t('error.required.time')
+            }"
+            :init="{ value: formatTime(item[cell.name]) }"
+            :model="model.time"
+            :placeholder="formatTime(item[cell.name])"
+            @input="evt => (model.time = evt)"
+            @keyup="onKeyUp"
           />
         </span>
-        <span v-else-if="cell.name === 'diff_first'">{{
-          formatTime(item[cell.name])
-        }}</span>
-        <span v-else-if="cell.name === 'diff_prev'">{{
-          formatTime(item[cell.name])
-        }}</span>
+        <span v-else-if="cell.name === 'diff_first'">
+          {{ formatTime(item[cell.name]) }}
+        </span>
+        <span v-else-if="cell.name === 'diff_prev'">
+          {{ formatTime(item[cell.name]) }}
+        </span>
         <span v-else-if="cell.name === 'actions'">
           <action-icon
-            @click="
-              setEdit(false);
-              save();
-            "
+            @click="save()"
             :wrapper="{
               title: $t('common.save')
             }"
@@ -70,15 +94,15 @@
       <div v-else>
         <span v-if="cell.name === 'place'">{{ idxLine + 1 }}</span>
         <span v-else-if="cell.name === 'name'">{{ item[cell.name] }}</span>
-        <span v-else-if="cell.name === 'time'">{{
-          formatTime(item[cell.name])
-        }}</span>
-        <span v-else-if="cell.name === 'diff_first'">{{
-          formatTime(item[cell.name])
-        }}</span>
-        <span v-else-if="cell.name === 'diff_prev'">{{
-          formatTime(item[cell.name])
-        }}</span>
+        <span v-else-if="cell.name === 'time'">
+          {{ formatTime(item[cell.name]) }}
+        </span>
+        <span v-else-if="cell.name === 'diff_first'">
+          {{ formatTime(item[cell.name]) }}
+        </span>
+        <span v-else-if="cell.name === 'diff_prev'">
+          {{ formatTime(item[cell.name]) }}
+        </span>
         <span v-else-if="cell.name === 'actions'">
           <action-icon
             @click="setEdit(true)"
@@ -112,18 +136,49 @@
 // InitInput from "../../directives/init-input.directive" is globally registered in main.js
 // import ActionIconLayered from "./actionicon-layered.component" is globally registered in main.js
 
+import Vue from "vue";
 import TimeService from "../services/time.service";
+import FieldValidation from "../../components/field-validation.component";
 
 export default {
   name: "highscorelist-item",
 
+  components: {
+    "field-validation": FieldValidation
+  },
+
   data() {
+    // event bus (using Vue instance to use $emit as event emitter)
+    const bus = new Vue();
+
     return {
+      bus: bus,
       edit: false,
       hasError: false,
-      itemData: {
-        name: "",
-        time: ""
+      model: {
+        name: {
+          fieldName: "name",
+          initial: true,
+          required: true,
+          valid: false,
+          value: "",
+
+          validator: val => {
+            return val.length > 0;
+          }
+        },
+        time: {
+          fieldName: "time",
+          initial: true,
+          required: true,
+          valid: false,
+          value: "",
+
+          validator: val => {
+            const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
+            return val.length > 0 && pattern.test(val);
+          }
+        }
       }
     };
   },
@@ -173,7 +228,6 @@ export default {
     if (this.hasError) {
       this.edit = true;
     }
-    // if (this.edit) this.$refs["name"][0].focus();
   },
 
   methods: {
@@ -182,9 +236,15 @@ export default {
     },
 
     onKeyUp: function(evt) {
-      if (evt.keyCode === 13) {
-        this.setEdit(false);
-        this.save();
+      switch (evt.keyCode) {
+        // enter
+        case 13:
+          this.save();
+          break;
+        // escape
+        case 27:
+          this.setEdit(false);
+          break;
       }
     },
 
@@ -195,32 +255,32 @@ export default {
       }
       // leave edit mode
       this.edit = enable;
-
-      if (enable) {
-        this.$nextTick(() => {
-          this.$refs["name"][0].focus();
-        });
-      }
     },
 
     save: function() {
-      const pattern = /^[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]$/;
+      let isValid = true,
+        _this = this;
 
-      if (this.itemData.name.length === 0) {
-        this.hasError = true;
-        return;
-      }
+      // trigger save event on event bus
+      this.bus.$emit("save");
 
-      if (this.itemData.time && pattern.test(this.itemData.time)) {
+      isValid = Object.keys(this.model).reduce((accu, key) => {
+        const valid = _this.model[key].required ? _this.model[key].valid : true;
+        return accu && valid;
+      }, isValid);
+
+      if (isValid) {
         this.hasError = false;
 
         this.$store.dispatch("highscorelist/modifyItem", {
           raceId: this.raceId,
           item: {
             id: this.item.id,
-            ...this.itemData
+            time: this.model.time.value,
+            name: this.model.name.value
           }
         });
+        this.setEdit(false);
       } else {
         this.hasError = true;
       }
