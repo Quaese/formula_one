@@ -20,19 +20,28 @@
       "location": "Irgendwo",
       "created": 1565173522146,
       "modified": 1568141321839,
-      "results": [
-        "season1_race1_result1"
-      ]
+      "results": ["season1_race1_result1"]
     }
   },
   "results": {
     "season1_race1_result1": {
       "id": "season1_race1_result1",
+      "driverId": "driver1",
       "name": "QP",
       "time": 70123,
       "time_string": "01:23:456",
       "diff_first": 0,
       "diff_prev": 0
+    }
+  },
+  "drivers": {
+    "driver1": {
+      "id": "driver1",
+      "name": "qp"
+    },
+    "driver2": {
+      "id": "driver2",
+      "name": "Hoshi"
     }
   }
 }

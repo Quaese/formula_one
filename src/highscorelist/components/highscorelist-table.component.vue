@@ -1,5 +1,5 @@
 <template>
-  <div v-if="results !== null">
+  <div v-if="results !== null && drivers !== null">
     <table class="table table-hover qp-table-results">
       <thead>
         <th v-for="(header, index) in fields" :key="index">
@@ -20,6 +20,16 @@
           v-bind:raceId="race.id"
           v-bind:fields="fields"
           v-bind:item="results[resultId]"
+          v-bind:drivers="drivers"
+          v-bind:availableDrivers="{
+            ...availableDrivers,
+            [results[resultId]['driverId']]:
+              drivers[results[resultId]['driverId']]
+          }"
+          v-bind:availableDriversOptions="[
+            ...availableDriversOptions,
+            drivers[results[resultId]['driverId']]
+          ]"
           v-bind:last="race.results.length - 1 === idxLine"
           v-bind:idxLine="idxLine"
           :key="idxLine"
@@ -81,6 +91,22 @@ export default {
 
     filteredResults() {
       return this.$store.getters["highscorelist/getAllRaceResults"](this.race);
+    },
+
+    drivers() {
+      return this.$store.getters["highscorelist/getDrivers"]();
+    },
+
+    availableDrivers() {
+      return this.$store.getters["highscorelist/getAvailableDriversForRace"](
+        this.race
+      );
+    },
+
+    availableDriversOptions() {
+      return this.$store.getters[
+        "highscorelist/getAvailableDriversForRaceAsArray"
+      ](this.race);
     }
   },
 
@@ -96,6 +122,9 @@ export default {
       this.$router.push(`/highscorelist`);
     }
   },
+  // mounted() {
+  //   this.availableDrivers;
+  // },
 
   methods: {
     formatTime: function(time) {

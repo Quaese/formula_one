@@ -57,6 +57,7 @@ const mutations = {
     state.seasons = { ...payload.state.seasons };
     state.races = { ...payload.state.races };
     state.results = { ...payload.state.results };
+    state.drivers = { ...payload.state.drivers };
   },
 
   getByIdSuccess(state, payload) {

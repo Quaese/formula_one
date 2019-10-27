@@ -31,6 +31,21 @@
             @input="evt => (model.name = evt)"
             @keyup="onKeyUp"
           />
+
+          <select-validation
+            label_="Label"
+            :bus="bus"
+            :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
+            :error="{
+              text: $t('error.required.name')
+            }"
+            :focus="true"
+            :init="{ value: item['driverId'] }"
+            :options="availableDrivers"
+            :model="model.driver"
+            @change="evt => (model.name = evt)"
+            @keyup="onKeyUp"
+          />
         </span>
         <span v-else-if="cell.name === 'time'">
           <!-- <input
@@ -93,7 +108,12 @@
 
       <div v-else>
         <span v-if="cell.name === 'place'">{{ idxLine + 1 }}</span>
-        <span v-else-if="cell.name === 'name'">{{ item[cell.name] }}</span>
+        <span v-else-if="cell.name === 'name'"
+          >{{ item[cell.name] }} / {{ item["driverId"] }} /
+          {{ drivers ? drivers[item["driverId"]].name : "n.d." }} /
+          {{ drivers ? drivers[item["driverId"]].id : "n.d." }} /
+          {{ JSON.stringify(availableDriversOptions) }}</span
+        >
         <span v-else-if="cell.name === 'time'">
           {{ formatTime(item[cell.name]) }}
         </span>
@@ -139,12 +159,14 @@
 import Vue from "vue";
 import TimeService from "../services/time.service";
 import FieldValidation from "../../components/field-validation.component";
+import SelectValidation from "../../components/select-validation.component";
 
 export default {
   name: "highscorelist-item",
 
   components: {
-    "field-validation": FieldValidation
+    "field-validation": FieldValidation,
+    "select-validation": SelectValidation
   },
 
   data() {
@@ -161,6 +183,17 @@ export default {
           initial: true,
           required: true,
           valid: false,
+          value: "",
+
+          validator: val => {
+            return val.length > 0;
+          }
+        },
+        driver: {
+          fieldName: "driver",
+          initial: true,
+          required: true,
+          valid: true,
           value: "",
 
           validator: val => {
@@ -213,6 +246,15 @@ export default {
           time_string: "05:10:123"
         };
       }
+    },
+    drivers: {
+      type: Object
+    },
+    availableDrivers: {
+      type: Object
+    },
+    availableDriversOptions: {
+      type: Array
     },
     idxLine: {
       type: Number,
