@@ -15,7 +15,7 @@
       :placeholder="placeholder"
       @keyup="$event => hKeyUp($event)"
       @blur="$event => hBlur($event)"
-    /> -->
+    />-->
     <select
       :ref="fieldName"
       :class="[
@@ -25,13 +25,19 @@
         { 'dummy-class': !initial && !valid }
       ]"
       @keyup="$event => hKeyUp($event)"
-    ></select>
+      @change="fnValueWatcher($event.target.value)"
+    >
+      <option
+        v-for="(option, index) in options"
+        :value="option.id"
+        :selected="init.value && init.value === option.id"
+        :key="index"
+      >{{ option.name }}</option>
+    </select>
     <span
       v-if="!initial && !valid"
       :class="[initial || valid ? '' : classes.error]"
-    >
-      {{ error.text }}
-    </span>
+    >{{ error.text }}</span>
   </fieldset>
 </template>
 
@@ -90,7 +96,7 @@ export default {
       type: Object
     },
     options: {
-      type: Object
+      type: Array
     },
     css: {
       type: Object

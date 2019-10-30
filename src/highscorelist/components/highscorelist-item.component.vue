@@ -41,9 +41,9 @@
             }"
             :focus="true"
             :init="{ value: item['driverId'] }"
-            :options="availableDrivers"
+            :options="availableDriversOptions"
             :model="model.driver"
-            @change="evt => (model.name = evt)"
+            @input="evt => (model.driver = evt)"
             @keyup="onKeyUp"
           />
         </span>
@@ -74,12 +74,8 @@
             @keyup="onKeyUp"
           />
         </span>
-        <span v-else-if="cell.name === 'diff_first'">
-          {{ formatTime(item[cell.name]) }}
-        </span>
-        <span v-else-if="cell.name === 'diff_prev'">
-          {{ formatTime(item[cell.name]) }}
-        </span>
+        <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
+        <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
           <action-icon
             @click="save()"
@@ -108,21 +104,15 @@
 
       <div v-else>
         <span v-if="cell.name === 'place'">{{ idxLine + 1 }}</span>
-        <span v-else-if="cell.name === 'name'"
-          >{{ item[cell.name] }} / {{ item["driverId"] }} /
+        <span v-else-if="cell.name === 'name'">
+          {{ item[cell.name] }} / {{ item["driverId"] }} /
           {{ drivers ? drivers[item["driverId"]].name : "n.d." }} /
           {{ drivers ? drivers[item["driverId"]].id : "n.d." }} /
-          {{ JSON.stringify(availableDriversOptions) }}</span
-        >
-        <span v-else-if="cell.name === 'time'">
-          {{ formatTime(item[cell.name]) }}
+          {{ JSON.stringify(availableDriversOptions) }}
         </span>
-        <span v-else-if="cell.name === 'diff_first'">
-          {{ formatTime(item[cell.name]) }}
-        </span>
-        <span v-else-if="cell.name === 'diff_prev'">
-          {{ formatTime(item[cell.name]) }}
-        </span>
+        <span v-else-if="cell.name === 'time'">{{ formatTime(item[cell.name]) }}</span>
+        <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
+        <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
         <span v-else-if="cell.name === 'actions'">
           <action-icon
             @click="setEdit(true)"
@@ -305,6 +295,8 @@ export default {
 
       // trigger save event on event bus
       this.bus.$emit("save");
+
+      return;
 
       isValid = Object.keys(this.model).reduce((accu, key) => {
         const valid = _this.model[key].required ? _this.model[key].valid : true;
