@@ -25,19 +25,27 @@
         { 'dummy-class': !initial && !valid }
       ]"
       @keyup="$event => hKeyUp($event)"
-      @change="fnValueWatcher($event.target.value)"
+      @change="
+        $event => {
+          hChange($event);
+        }
+      "
     >
       <option
         v-for="(option, index) in options"
         :value="option.id"
         :selected="init.value && init.value === option.id"
         :key="index"
-      >{{ option.name }}</option>
+      >
+        {{ option.name }}
+      </option>
     </select>
     <span
       v-if="!initial && !valid"
       :class="[initial || valid ? '' : classes.error]"
-    >{{ error.text }}</span>
+    >
+      {{ error.text }}
+    </span>
   </fieldset>
 </template>
 
@@ -146,6 +154,10 @@ export default {
         valid: this.valid,
         required: this.model.required || false
       });
+    },
+
+    hChange: function(evt) {
+      this.val = evt.target.value;
     },
 
     hKeyUp: function(evt) {

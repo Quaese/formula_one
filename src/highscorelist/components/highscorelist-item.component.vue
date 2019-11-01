@@ -9,14 +9,6 @@
       <div v-if="edit">
         <span v-if="cell.name === 'place'">{{ idxLine + 1 }}</span>
         <span v-else-if="cell.name === 'name'">
-          <!-- <input
-            ref="name"
-            class="form-control"
-            v-model="itemData.name"
-            v-on:keyup="onKeyUp"
-            v-init-input:itemData="{ field: 'name', value: item[cell.name] }"
-            v-bind:placeholder="item[cell.name]"
-          />-->
           <field-validation
             label_="Label"
             :bus="bus"
@@ -39,11 +31,10 @@
             :error="{
               text: $t('error.required.name')
             }"
-            :focus="true"
             :init="{ value: item['driverId'] }"
             :options="availableDriversOptions"
-            :model="model.driver"
-            @input="evt => (model.driver = evt)"
+            :model="{ ...model.driver, value: item['driverId'] }"
+            @input="evt => onInput(evt, 'driver')"
             @keyup="onKeyUp"
           />
         </span>
@@ -67,15 +58,20 @@
             :error="{
               text: $t('error.required.time')
             }"
+            :focus="true"
             :init="{ value: formatTime(item[cell.name]) }"
             :model="model.time"
             :placeholder="formatTime(item[cell.name])"
-            @input="evt => (model.time = evt)"
+            @input="evt => onInput(evt, 'time')"
             @keyup="onKeyUp"
           />
         </span>
-        <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
-        <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
+        <span v-else-if="cell.name === 'diff_first'">{{
+          formatTime(item[cell.name])
+        }}</span>
+        <span v-else-if="cell.name === 'diff_prev'">{{
+          formatTime(item[cell.name])
+        }}</span>
         <span v-else-if="cell.name === 'actions'">
           <action-icon
             @click="save()"
@@ -105,14 +101,22 @@
       <div v-else>
         <span v-if="cell.name === 'place'">{{ idxLine + 1 }}</span>
         <span v-else-if="cell.name === 'name'">
+          {{ drivers ? drivers[item["driverId"]].name : "n.d." }}
+          <!--
           {{ item[cell.name] }} / {{ item["driverId"] }} /
           {{ drivers ? drivers[item["driverId"]].name : "n.d." }} /
           {{ drivers ? drivers[item["driverId"]].id : "n.d." }} /
-          {{ JSON.stringify(availableDriversOptions) }}
+          {{ JSON.stringify(availableDriversOptions) }} -->
         </span>
-        <span v-else-if="cell.name === 'time'">{{ formatTime(item[cell.name]) }}</span>
-        <span v-else-if="cell.name === 'diff_first'">{{ formatTime(item[cell.name]) }}</span>
-        <span v-else-if="cell.name === 'diff_prev'">{{ formatTime(item[cell.name]) }}</span>
+        <span v-else-if="cell.name === 'time'">{{
+          formatTime(item[cell.name])
+        }}</span>
+        <span v-else-if="cell.name === 'diff_first'">{{
+          formatTime(item[cell.name])
+        }}</span>
+        <span v-else-if="cell.name === 'diff_prev'">{{
+          formatTime(item[cell.name])
+        }}</span>
         <span v-else-if="cell.name === 'actions'">
           <action-icon
             @click="setEdit(true)"
@@ -168,6 +172,8 @@ export default {
       edit: false,
       hasError: false,
       model: {
+        // just for compatibility for state.json's with name property on result object
+        // maybe it can be removed after switching to select box for driver names
         name: {
           fieldName: "name",
           initial: true,
@@ -187,7 +193,7 @@ export default {
           value: "",
 
           validator: val => {
-            return val.length > 0;
+            return Number(val) !== -1;
           }
         },
         time: {
@@ -267,6 +273,10 @@ export default {
       return TimeService.secondsToString(time);
     },
 
+    onInput: function(evt, model) {
+      this.model[model] = evt;
+    },
+
     onKeyUp: function(evt) {
       switch (evt.keyCode) {
         // enter
@@ -296,8 +306,6 @@ export default {
       // trigger save event on event bus
       this.bus.$emit("save");
 
-      return;
-
       isValid = Object.keys(this.model).reduce((accu, key) => {
         const valid = _this.model[key].required ? _this.model[key].valid : true;
         return accu && valid;
@@ -311,7 +319,10 @@ export default {
           item: {
             id: this.item.id,
             time: this.model.time.value,
-            name: this.model.name.value
+            driverId: this.model.driver.value,
+            // just for compatibility for state.json's with name property on result object
+            // maybe it can be removed after switching to select box for driver names
+            name: this.model.driver.value
           }
         });
         this.setEdit(false);
