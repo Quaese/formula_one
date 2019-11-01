@@ -35,6 +35,9 @@ const dictEN = {
       required: {
         name: "Name required",
         time: "Wrong time format (mm:ss:dd)"
+      },
+      select: {
+        nothing: "No valid option selected."
       }
     },
 

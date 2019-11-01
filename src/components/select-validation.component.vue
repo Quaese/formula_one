@@ -1,21 +1,6 @@
 <template>
   <fieldset :class="[classes.fieldset, initial || valid ? '' : classes.error]">
     <label v-if="label !== null" :class="css.label">{{ label }}</label>
-    <!-- <input
-      type="text"
-      v-model="val"
-      v-init-input:model="{ field: fieldName, value: val }"
-      :ref="fieldName"
-      :class="[
-        'form-control',
-        classes.input,
-        initial || valid ? '' : classes.error,
-        { 'dummy-class': !initial && !valid }
-      ]"
-      :placeholder="placeholder"
-      @keyup="$event => hKeyUp($event)"
-      @blur="$event => hBlur($event)"
-    />-->
     <select
       :ref="fieldName"
       :class="[
@@ -34,7 +19,7 @@
       <option
         v-for="(option, index) in options"
         :value="option.id"
-        :selected="init.value && init.value === option.id"
+        :selected="model.value && model.value === option.id"
         :key="index"
       >
         {{ option.name }}
@@ -54,12 +39,7 @@ export default {
   name: "select-validation",
 
   data() {
-    const value =
-      this.init && this.init.value
-        ? this.init.value
-        : this.model.value
-        ? this.model.value
-        : "";
+    const value = this.model.value ? this.model.value : "";
 
     return {
       // observed properties:
@@ -91,11 +71,6 @@ export default {
   props: {
     // Eventbus
     bus: {
-      type: Object,
-      default: null
-    },
-    // initial object (properties: value)
-    init: {
       type: Object,
       default: null
     },

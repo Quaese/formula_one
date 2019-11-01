@@ -35,6 +35,9 @@ const dictDE = {
       required: {
         name: "Name erforderlich",
         time: "Falsches Zeitformat (mm:ss:dd)"
+      },
+      select: {
+        nothing: "Kein gültige Option gewählt."
       }
     },
 

@@ -9,27 +9,12 @@
       <div v-if="edit">
         <span v-if="cell.name === 'place'">{{ idxLine + 1 }}</span>
         <span v-else-if="cell.name === 'name'">
-          <field-validation
-            label_="Label"
-            :bus="bus"
-            :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
-            :error="{
-              text: $t('error.required.name')
-            }"
-            :focus="true"
-            :init="{ value: item[cell.name] }"
-            :model="model.name"
-            :placeholder="item[cell.name]"
-            @input="evt => (model.name = evt)"
-            @keyup="onKeyUp"
-          />
-
           <select-validation
             label_="Label"
             :bus="bus"
             :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
             :error="{
-              text: $t('error.required.name')
+              text: $t('error.select.nothing')
             }"
             :init="{ value: item['driverId'] }"
             :options="availableDriversOptions"
