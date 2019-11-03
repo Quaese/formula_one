@@ -9,6 +9,7 @@
         initial || valid ? '' : classes.error,
         { 'dummy-class': !initial && !valid }
       ]"
+      :disabled="disabled"
       @keyup="$event => hKeyUp($event)"
       @change="
         $event => {
@@ -83,6 +84,10 @@ export default {
     },
     css: {
       type: Object
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     label: {
       type: String,

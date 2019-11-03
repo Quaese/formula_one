@@ -16,6 +16,7 @@ const dictDE = {
       delete: "Löschen",
       edit: "Bearbeiten",
       more: "mehr",
+      new: "neu",
       save: "Speichern"
     },
 
@@ -38,6 +39,12 @@ const dictDE = {
       },
       select: {
         nothing: "Kein gültige Option gewählt."
+      }
+    },
+
+    form: {
+      select: {
+        choose: "Bitte auswählen"
       }
     },
 

@@ -38,6 +38,12 @@
         <highscorelist-item-add
           v-bind:raceId="race.id"
           v-bind:fields="fields"
+          v-bind:drivers="drivers"
+          v-bind:availableDriversOptions="
+            [{ id: '-1', name: $t('form.select.choose') }].concat(
+              availableDriversOptions
+            )
+          "
         ></highscorelist-item-add>
       </tbody>
     </table>

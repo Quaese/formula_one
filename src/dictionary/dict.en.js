@@ -16,6 +16,7 @@ const dictEN = {
       delete: "delete",
       edit: "edit",
       more: "more",
+      new: "new",
       save: "save"
     },
 
@@ -38,6 +39,12 @@ const dictEN = {
       },
       select: {
         nothing: "No valid option selected."
+      }
+    },
+
+    form: {
+      select: {
+        choose: "Select please"
       }
     },
 
