@@ -69,19 +69,15 @@ const getters = {
     const results = raceResults(state, race);
     let availableDrivers = state.drivers !== null ? { ...state.drivers } : null;
 
-    if (
-      (results && results.length === 0) ||
-      results === null ||
-      availableDrivers === null
-    )
-      return availableDrivers;
+    if (availableDrivers === null) return availableDrivers;
 
-    // loop over results and filter availableDrivers
-    results.forEach(result => {
-      delete availableDrivers[result.driverId];
-    });
+    if (!((results && results.length === 0) || results === null)) {
+      // loop over results and filter availableDrivers
+      results.forEach(result => {
+        delete availableDrivers[result.driverId];
+      });
+    }
 
-    console.log(availableDrivers);
     return availableDrivers;
   },
 
@@ -92,25 +88,19 @@ const getters = {
     const results = raceResults(state, race);
     let availableDrivers = state.drivers !== null ? { ...state.drivers } : null;
 
-    if (
-      (results && results.length === 0) ||
-      results === null ||
-      availableDrivers === null
-    )
-      return availableDrivers;
+    if (availableDrivers === null) return availableDrivers;
 
-    // loop over results and filter availableDrivers
-    results.forEach(result => {
-      delete availableDrivers[result.driverId];
-    });
+    if (!((results && results.length === 0) || results === null)) {
+      // loop over results and filter availableDrivers
+      results.forEach(result => {
+        delete availableDrivers[result.driverId];
+      });
+    }
 
-    console.log(availableDrivers);
     const ret = Object.entries(availableDrivers).reduce((arr, driver) => {
       arr.push(driver[1]);
       return arr;
     }, []);
-
-    console.log(ret);
 
     return ret;
   },
