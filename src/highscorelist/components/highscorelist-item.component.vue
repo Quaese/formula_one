@@ -24,18 +24,6 @@
           />
         </span>
         <span v-else-if="cell.name === 'time'">
-          <!-- <input
-            class="form-control"
-            v-model="itemData.time"
-            v-on:keyup="onKeyUp"
-            v-init-input:itemData="{
-              field: 'time',
-              value: formatTime(item[cell.name])
-            }"
-            v-bind:placeholder="formatTime(item[cell.name])"
-            v-bind:class="{ error: hasError }"
-            pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
-          />-->
           <field-validation
             label_="Label"
             :bus="bus"
@@ -52,14 +40,10 @@
           />
         </span>
         <span v-else-if="cell.name === 'diff_first'">
-          {{
-          formatTime(item[cell.name])
-          }}
+          {{ formatTime(item[cell.name]) }}
         </span>
         <span v-else-if="cell.name === 'diff_prev'">
-          {{
-          formatTime(item[cell.name])
-          }}
+          {{ formatTime(item[cell.name]) }}
         </span>
         <span v-else-if="cell.name === 'actions'">
           <action-icon
@@ -91,26 +75,15 @@
         <span v-if="cell.name === 'place'">{{ idxLine + 1 }}</span>
         <span v-else-if="cell.name === 'name'">
           {{ drivers ? drivers[item["driverId"]].name : "n.d." }}
-          <!--
-          {{ item[cell.name] }} / {{ item["driverId"] }} /
-          {{ drivers ? drivers[item["driverId"]].name : "n.d." }} /
-          {{ drivers ? drivers[item["driverId"]].id : "n.d." }} /
-          {{ JSON.stringify(availableDriversOptions) }}-->
         </span>
         <span v-else-if="cell.name === 'time'">
-          {{
-          formatTime(item[cell.name])
-          }}
+          {{ formatTime(item[cell.name]) }}
         </span>
         <span v-else-if="cell.name === 'diff_first'">
-          {{
-          formatTime(item[cell.name])
-          }}
+          {{ formatTime(item[cell.name]) }}
         </span>
         <span v-else-if="cell.name === 'diff_prev'">
-          {{
-          formatTime(item[cell.name])
-          }}
+          {{ formatTime(item[cell.name]) }}
         </span>
         <span v-else-if="cell.name === 'actions'">
           <action-icon
@@ -167,19 +140,6 @@ export default {
       edit: false,
       hasError: false,
       model: {
-        // just for compatibility for state.json's with name property on result object
-        // maybe it can be removed after switching to select box for driver names
-        name: {
-          fieldName: "name",
-          initial: true,
-          required: false,
-          valid: false,
-          value: "",
-
-          validator: val => {
-            return val.length > 0;
-          }
-        },
         driver: {
           fieldName: "driver",
           initial: true,
@@ -223,9 +183,7 @@ export default {
     },
     raceId: {
       type: String,
-      // type: Number,
       default: "1"
-      // default: 1
     },
     item: {
       type: Object,
@@ -315,9 +273,7 @@ export default {
             id: this.item.id,
             time: this.model.time.value,
             driverId: this.model.driver.value,
-            // just for compatibility for state.json's with name property on result object
-            // maybe it can be removed after switching to select box for driver names
-            name: this.model.driver.value
+            name: this.drivers[this.model.driver.value].name
           }
         });
         this.setEdit(false);

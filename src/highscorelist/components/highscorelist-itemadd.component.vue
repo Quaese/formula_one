@@ -1,10 +1,6 @@
 <template>
   <tr>
-    <td
-      v-for="(cell, idxCell) in fields"
-      :key="idxCell"
-      class="align-middle"
-    >
+    <td v-for="(cell, idxCell) in fields" :key="idxCell" class="align-middle">
       <div v-if="edit">
         <span v-if="cell.name === 'name'">
           <field-validation
@@ -82,7 +78,7 @@
           />
         </span>
         <span v-else-if="cell.name === 'place'">
-          <div class="custom-control custom-switch">
+          <div class="qp-custom-switch custom-control custom-switch">
             <input
               type="checkbox"
               class="custom-control-input"
@@ -90,10 +86,7 @@
               v-model="addDriver"
               @change="() => onAddDriver()"
             />
-            <label
-              class="custom-control-label"
-              for="addNewDriverId"
-            >{{
+            <label class="custom-control-label" for="addNewDriverId">{{
               $t("common.new")
             }}</label>
           </div>
@@ -136,7 +129,7 @@ export default {
     "select-validation": SelectValidation
   },
 
-  data () {
+  data() {
     // event bus (using Vue instance to use $emit as event emitter)
     const bus = new Vue();
 
@@ -188,7 +181,7 @@ export default {
   props: {
     fields: {
       type: Array,
-      default () {
+      default() {
         return [
           { name: "place", value: "Platz" },
           { name: "name", value: "Name" },
@@ -215,22 +208,22 @@ export default {
     }
   },
 
-  updated () {
+  updated() {
     if (this.hasError) {
       this.edit = true;
     }
   },
 
   methods: {
-    formatTime: function (time) {
+    formatTime: function(time) {
       return TimeService.secondsToString(time);
     },
 
-    onInput: function (evt, model) {
+    onInput: function(evt, model) {
       this.model[model] = evt;
     },
 
-    onKeyUp: function (evt) {
+    onKeyUp: function(evt) {
       switch (evt.keyCode) {
         // enter
         case 13:
@@ -243,7 +236,7 @@ export default {
       }
     },
 
-    onAddDriver: function () {
+    onAddDriver: function() {
       // if a new driver should be added
       if (this.addDriver) {
         this.model.name.required = true;
@@ -255,7 +248,7 @@ export default {
       }
     },
 
-    setEdit: function (enable) {
+    setEdit: function(enable) {
       // disable error first before leaving edit mode
       if (!enable) {
         this.hasError = false;
@@ -279,7 +272,7 @@ export default {
       }
     },
 
-    save: function () {
+    save: function() {
       let isValid = true,
         _this = this;
 
