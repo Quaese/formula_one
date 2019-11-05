@@ -51,12 +51,16 @@
             @keyup="onKeyUp"
           />
         </span>
-        <span v-else-if="cell.name === 'diff_first'">{{
+        <span v-else-if="cell.name === 'diff_first'">
+          {{
           formatTime(item[cell.name])
-        }}</span>
-        <span v-else-if="cell.name === 'diff_prev'">{{
+          }}
+        </span>
+        <span v-else-if="cell.name === 'diff_prev'">
+          {{
           formatTime(item[cell.name])
-        }}</span>
+          }}
+        </span>
         <span v-else-if="cell.name === 'actions'">
           <action-icon
             @click="save()"
@@ -91,17 +95,23 @@
           {{ item[cell.name] }} / {{ item["driverId"] }} /
           {{ drivers ? drivers[item["driverId"]].name : "n.d." }} /
           {{ drivers ? drivers[item["driverId"]].id : "n.d." }} /
-          {{ JSON.stringify(availableDriversOptions) }} -->
+          {{ JSON.stringify(availableDriversOptions) }}-->
         </span>
-        <span v-else-if="cell.name === 'time'">{{
+        <span v-else-if="cell.name === 'time'">
+          {{
           formatTime(item[cell.name])
-        }}</span>
-        <span v-else-if="cell.name === 'diff_first'">{{
+          }}
+        </span>
+        <span v-else-if="cell.name === 'diff_first'">
+          {{
           formatTime(item[cell.name])
-        }}</span>
-        <span v-else-if="cell.name === 'diff_prev'">{{
+          }}
+        </span>
+        <span v-else-if="cell.name === 'diff_prev'">
+          {{
           formatTime(item[cell.name])
-        }}</span>
+          }}
+        </span>
         <span v-else-if="cell.name === 'actions'">
           <action-icon
             @click="setEdit(true)"
@@ -162,7 +172,7 @@ export default {
         name: {
           fieldName: "name",
           initial: true,
-          required: true,
+          required: false,
           valid: false,
           value: "",
 
