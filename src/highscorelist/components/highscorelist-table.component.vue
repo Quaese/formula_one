@@ -21,11 +21,6 @@
           v-bind:fields="fields"
           v-bind:item="results[resultId]"
           v-bind:drivers="drivers"
-          v-bind:availableDrivers="{
-            ...availableDrivers,
-            [results[resultId]['driverId']]:
-              drivers[results[resultId]['driverId']]
-          }"
           v-bind:availableDriversOptions="[
             ...availableDriversOptions,
             drivers[results[resultId]['driverId']]
@@ -103,21 +98,12 @@ export default {
       return this.$store.getters["highscorelist/getDrivers"]();
     },
 
-    availableDrivers() {
-      return this.$store.getters["highscorelist/getAvailableDriversForRace"](
-        this.race
-      );
-    },
-
     availableDriversOptions() {
       return this.$store.getters[
         "highscorelist/getAvailableDriversForRaceAsArray"
       ](this.race);
     }
   },
-
-  // Larissa Rosenthal
-  // Ladyna Wittscher
 
   created() {
     if (
@@ -128,9 +114,6 @@ export default {
       this.$router.push(`/highscorelist`);
     }
   },
-  // mounted() {
-  //   this.availableDrivers;
-  // },
 
   methods: {
     formatTime: function(time) {

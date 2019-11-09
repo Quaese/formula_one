@@ -41,15 +41,6 @@ const getters = {
    * Get all results from a race
    */
   getAllRaceResults: state => race => {
-    // const results = state.results
-    //   ? race.results.reduce((accu, resultId) => {
-    //       accu.push(state.results[resultId]);
-    //       return accu;
-    //     }, [])
-    //   : null;
-
-    // return results;
-
     return raceResults(state, race);
   },
 

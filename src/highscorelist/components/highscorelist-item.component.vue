@@ -199,9 +199,6 @@ export default {
     drivers: {
       type: Object
     },
-    availableDrivers: {
-      type: Object
-    },
     availableDriversOptions: {
       type: Array
     },

@@ -146,10 +146,6 @@ export default {
       this.$emit("keyup", evt);
     },
 
-    hBlur: function(evt) {
-      this.$emit("blur", evt);
-    },
-
     onSave: function() {
       // if component is still in initial state
       if (this.initial) {
