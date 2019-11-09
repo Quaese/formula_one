@@ -19,6 +19,10 @@
       background: lighten(@color-light, 20%);
       border: 1px solid @color-danger;
 
+      @media (max-width: @formula-result-max-width) {
+        font-size: 0.4em;
+      }
+
       font-size: 0.8em;
       color: @color-danger;
     }

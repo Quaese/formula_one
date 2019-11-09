@@ -9,42 +9,21 @@
       <div v-if="edit">
         <span v-if="cell.name === 'place'">{{ idxLine + 1 }}</span>
         <span v-else-if="cell.name === 'name'">
-          <!-- <input
-            ref="name"
-            class="form-control"
-            v-model="itemData.name"
-            v-on:keyup="onKeyUp"
-            v-init-input:itemData="{ field: 'name', value: item[cell.name] }"
-            v-bind:placeholder="item[cell.name]"
-          />-->
-          <field-validation
+          <select-validation
             label_="Label"
             :bus="bus"
             :css="{ input: 'qp-form-control', error: 'qp-form-error' }"
             :error="{
-              text: $t('error.required.name')
+              text: $t('error.select.nothing')
             }"
-            :focus="true"
-            :init="{ value: item[cell.name] }"
-            :model="model.name"
-            :placeholder="item[cell.name]"
-            @input="evt => (model.name = evt)"
+            :init="{ value: item['driverId'] }"
+            :options="availableDriversOptions"
+            :model="{ ...model.driver, value: item['driverId'] }"
+            @input="evt => onInput(evt, 'driver')"
             @keyup="onKeyUp"
           />
         </span>
         <span v-else-if="cell.name === 'time'">
-          <!-- <input
-            class="form-control"
-            v-model="itemData.time"
-            v-on:keyup="onKeyUp"
-            v-init-input:itemData="{
-              field: 'time',
-              value: formatTime(item[cell.name])
-            }"
-            v-bind:placeholder="formatTime(item[cell.name])"
-            v-bind:class="{ error: hasError }"
-            pattern="[0-5]?[0-9]:[0-5]?[0-9]:[0-9][0-9][0-9]"
-          />-->
           <field-validation
             label_="Label"
             :bus="bus"
@@ -52,10 +31,11 @@
             :error="{
               text: $t('error.required.time')
             }"
+            :focus="true"
             :init="{ value: formatTime(item[cell.name]) }"
             :model="model.time"
             :placeholder="formatTime(item[cell.name])"
-            @input="evt => (model.time = evt)"
+            @input="evt => onInput(evt, 'time')"
             @keyup="onKeyUp"
           />
         </span>
@@ -93,7 +73,9 @@
 
       <div v-else>
         <span v-if="cell.name === 'place'">{{ idxLine + 1 }}</span>
-        <span v-else-if="cell.name === 'name'">{{ item[cell.name] }}</span>
+        <span v-else-if="cell.name === 'name'">
+          {{ drivers ? drivers[item["driverId"]].name : "n.d." }}
+        </span>
         <span v-else-if="cell.name === 'time'">
           {{ formatTime(item[cell.name]) }}
         </span>
@@ -139,12 +121,14 @@
 import Vue from "vue";
 import TimeService from "../services/time.service";
 import FieldValidation from "../../components/field-validation.component";
+import SelectValidation from "../../components/select-validation.component";
 
 export default {
   name: "highscorelist-item",
 
   components: {
-    "field-validation": FieldValidation
+    "field-validation": FieldValidation,
+    "select-validation": SelectValidation
   },
 
   data() {
@@ -156,15 +140,15 @@ export default {
       edit: false,
       hasError: false,
       model: {
-        name: {
-          fieldName: "name",
+        driver: {
+          fieldName: "driver",
           initial: true,
           required: true,
-          valid: false,
+          valid: true,
           value: "",
 
           validator: val => {
-            return val.length > 0;
+            return Number(val) !== -1;
           }
         },
         time: {
@@ -199,9 +183,7 @@ export default {
     },
     raceId: {
       type: String,
-      // type: Number,
       default: "1"
-      // default: 1
     },
     item: {
       type: Object,
@@ -213,6 +195,12 @@ export default {
           time_string: "05:10:123"
         };
       }
+    },
+    drivers: {
+      type: Object
+    },
+    availableDriversOptions: {
+      type: Array
     },
     idxLine: {
       type: Number,
@@ -233,6 +221,10 @@ export default {
   methods: {
     formatTime: function(time) {
       return TimeService.secondsToString(time);
+    },
+
+    onInput: function(evt, model) {
+      this.model[model] = evt;
     },
 
     onKeyUp: function(evt) {
@@ -277,7 +269,8 @@ export default {
           item: {
             id: this.item.id,
             time: this.model.time.value,
-            name: this.model.name.value
+            driverId: this.model.driver.value,
+            name: this.drivers[this.model.driver.value].name
           }
         });
         this.setEdit(false);

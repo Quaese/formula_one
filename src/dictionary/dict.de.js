@@ -16,6 +16,7 @@ const dictDE = {
       delete: "Löschen",
       edit: "Bearbeiten",
       more: "mehr",
+      new: "neu",
       save: "Speichern"
     },
 
@@ -34,7 +35,16 @@ const dictDE = {
     error: {
       required: {
         name: "Name erforderlich",
-        time: "Falsches Zeitformat (mm:ss:dd)"
+        time: "Falsches Zeitformat (mm:ss:ddd)"
+      },
+      select: {
+        nothing: "Kein gültige Option gewählt."
+      }
+    },
+
+    form: {
+      select: {
+        choose: "Bitte auswählen"
       }
     },
 

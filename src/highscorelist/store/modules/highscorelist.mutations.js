@@ -57,6 +57,7 @@ const mutations = {
     state.seasons = { ...payload.state.seasons };
     state.races = { ...payload.state.races };
     state.results = { ...payload.state.results };
+    state.drivers = { ...payload.state.drivers };
   },
 
   getByIdSuccess(state, payload) {
@@ -90,6 +91,21 @@ const mutations = {
   },
 
   addItemSuccess: async (state, payload) => {
+    if (payload.newDriver) {
+      // create new driver id
+      let driverId = HighscoreService.createId(
+        "driver",
+        Object.keys(state.drivers)
+      );
+
+      // add new driver to state
+      state.drivers = {
+        ...state.drivers,
+        [driverId]: { id: driverId, name: payload.item.name }
+      };
+      payload.item.driverId = driverId;
+    }
+
     // 04:16:123
     const race = state.races[payload.raceId];
     // create new id

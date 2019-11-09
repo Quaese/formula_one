@@ -16,6 +16,7 @@ const dictEN = {
       delete: "delete",
       edit: "edit",
       more: "more",
+      new: "new",
       save: "save"
     },
 
@@ -34,7 +35,16 @@ const dictEN = {
     error: {
       required: {
         name: "Name required",
-        time: "Wrong time format (mm:ss:dd)"
+        time: "Wrong time format (mm:ss:ddd)"
+      },
+      select: {
+        nothing: "No valid option selected."
+      }
+    },
+
+    form: {
+      select: {
+        choose: "Select please"
       }
     },
 

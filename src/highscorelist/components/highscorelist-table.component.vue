@@ -1,5 +1,5 @@
 <template>
-  <div v-if="results !== null">
+  <div v-if="results !== null && drivers !== null">
     <table class="table table-hover qp-table-results">
       <thead>
         <th v-for="(header, index) in fields" :key="index">
@@ -20,6 +20,11 @@
           v-bind:raceId="race.id"
           v-bind:fields="fields"
           v-bind:item="results[resultId]"
+          v-bind:drivers="drivers"
+          v-bind:availableDriversOptions="[
+            ...availableDriversOptions,
+            drivers[results[resultId]['driverId']]
+          ]"
           v-bind:last="race.results.length - 1 === idxLine"
           v-bind:idxLine="idxLine"
           :key="idxLine"
@@ -28,6 +33,12 @@
         <highscorelist-item-add
           v-bind:raceId="race.id"
           v-bind:fields="fields"
+          v-bind:drivers="drivers"
+          v-bind:availableDriversOptions="
+            [{ id: '-1', name: $t('form.select.choose') }].concat(
+              availableDriversOptions
+            )
+          "
         ></highscorelist-item-add>
       </tbody>
     </table>
@@ -81,11 +92,18 @@ export default {
 
     filteredResults() {
       return this.$store.getters["highscorelist/getAllRaceResults"](this.race);
+    },
+
+    drivers() {
+      return this.$store.getters["highscorelist/getDrivers"]();
+    },
+
+    availableDriversOptions() {
+      return this.$store.getters[
+        "highscorelist/getAvailableDriversForRaceAsArray"
+      ](this.race);
     }
   },
-
-  // Larissa Rosenthal
-  // Ladyna Wittscher
 
   created() {
     if (
