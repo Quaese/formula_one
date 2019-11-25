@@ -124,7 +124,7 @@ const mutations = {
     payload.item.id = resultId;
 
     // push new resultId to result IDs array
-    race.results.push(resultId);
+    race.results = race.results.concat(resultId);
     // update race in state
     state.races[payload.raceId] = { ...state.races[payload.raceId] };
     // update results in state
