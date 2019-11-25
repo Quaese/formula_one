@@ -31,7 +31,7 @@
           v-bind:amount="races[raceId].results.length"
           v-bind:highscore="
             getResultById(races[raceId].results[0])
-              ? getResultById(races[raceId].results[0]).name
+              ? drivers[getResultById(races[raceId].results[0]).driverId].name
               : $t('seasons.highscoreNameDefault')
           "
           v-bind:translations="translations"
@@ -104,6 +104,10 @@ export default {
 
     modifyState() {
       return this.$store.getters["highscorelist/getModifyState"]();
+    },
+
+    drivers() {
+      return this.$store.getters["highscorelist/getDrivers"]();
     }
   },
 

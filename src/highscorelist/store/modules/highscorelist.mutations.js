@@ -34,7 +34,8 @@ const sortResultsByRaceId = (state, raceId) => {
   // loop over race results
   state.races[raceId].results.forEach(resultId => {
     // push corresponding results to an array
-    results.push(state.results[resultId]);
+    // results.push(state.results[resultId]);
+    results = results.concat(state.results[resultId]);
   });
 
   // sort temporary results array
@@ -85,6 +86,8 @@ const mutations = {
     // sort results list for race by the raceId
     sortResultsByRaceId(tmpState, payload.raceId);
     state.races[payload.raceId] = { ...state.races[payload.raceId] };
+
+    state = { ...state };
 
     // update state.json file on server
     await HighscoreService.updateState(state);
