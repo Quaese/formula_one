@@ -107,7 +107,9 @@ export default {
           _this.setContainerFluid();
         },
         delay: 200,
-        elem: window
+        // observe HTML node (window object cannot be observed in Safari)
+        // observing the HTML node seems to be more performant
+        elem: document.querySelector("html")
       }
     };
   },
