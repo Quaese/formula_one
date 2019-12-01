@@ -1,4 +1,5 @@
 import Vue from "vue";
+import ResizeObserver from "resize-observer-polyfill";
 import { debounce, isElement } from "../_tools/common.tools";
 
 import "../_tools/events.namespace";
@@ -17,51 +18,30 @@ export const QPResizeObserver = {
       binding.value && binding.value.delay ? binding.value.delay : 10;
     const elem = binding.value && binding.value.elem ? binding.value.elem : el;
 
-    // observe only if a handler is present
-    if (handler) {
-      // if ResizeObserver API is supported AND observed
-      if (window.ResizeObserver !== undefined && isElement(elem)) {
-        // debounced handler function
-        const fnObserverHandler = debounce(
-          function() {
-            handler(elem);
-          },
-          delay,
-          false
-        );
+    // observe only if a handler and an element are present
+    if (handler && isElement(elem)) {
+      // debounced handler function
+      const fnObserverHandler = debounce(
+        function() {
+          handler(elem);
+        },
+        delay,
+        false
+      );
 
-        // register observer
-        observer = new ResizeObserver(entries => {
-          for (let entry of entries) {
-            // entry.target is equal to el (observed element)
-            if (entry.target === elem) {
-              // handler(elem);
-              fnObserverHandler(elem);
-            }
+      // register observer
+      observer = new ResizeObserver(entries => {
+        for (let entry of entries) {
+          // entry.target is equal to el (observed element)
+          if (entry.target === elem) {
+            // handler(elem);
+            fnObserverHandler(elem);
           }
-        });
+        }
+      });
 
-        // observe element
-        observer.observe(elem);
-      } else {
-        // create unique namespace or use handed over name
-        observer =
-          binding.value && binding.value.namespace
-            ? binding.value.namespace
-            : "id_" + new Date().getTime();
-
-        // register native resize event on window object (namespaced)
-        window.on(
-          "resize." + observer,
-          debounce(
-            function() {
-              handler(elem);
-            },
-            delay,
-            false
-          )
-        );
-      }
+      // observe element
+      observer.observe(elem);
     }
   },
 
@@ -70,12 +50,8 @@ export const QPResizeObserver = {
     // unobserve events on unbind event of driective
     const elem = binding.value && binding.value.elem ? binding.value.elem : el;
 
-    if (observer) {
-      if (window.ResizeObserver !== undefined && isElement(elem)) {
-        observer.unobserve && observer.unobserve(elem);
-      } else {
-        window.off("resize." + observer);
-      }
+    if (observer && isElement(elem)) {
+      observer.unobserve && observer.unobserve(elem);
     }
   }
 };
