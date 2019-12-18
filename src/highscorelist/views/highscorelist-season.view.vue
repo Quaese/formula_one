@@ -19,7 +19,16 @@
     </div>
 
     <ol class="row d-flex d-flex-row justify-content-between qp-card-list">
-      <li class="mb-4" v-for="raceId in season.races" :key="raceId">
+      <!-- add race -->
+      <li class="mb-4 qp-card-list-add-item">
+        <highscorlist-card-add
+          v-bind:title="$t('seasons.addRace')"
+          v-bind:height="true"
+          @add="hAdd"
+        />
+      </li>
+
+      <li class="mb-4" v-for="raceId in season.sortedRaces" :key="raceId">
         <highscorlist-card
           v-bind:id="raceId"
           v-bind:title="races[raceId].title"
@@ -43,14 +52,6 @@
           @save="hSave"
         />
       </li>
-
-      <!-- add race -->
-      <li class="mb-4">
-        <highscorlist-card-add
-          v-bind:title="$t('seasons.addRace')"
-          @add="hAdd"
-        />
-      </li>
     </ol>
   </div>
 </template>
@@ -60,6 +61,7 @@
 
 import HighscorelistCard from "../components/highscorelist-card.component";
 import HighscorelistCardAdd from "../components/highscorelist-cardadd.component";
+import ArrayService from "../../services/array.service";
 
 export default {
   name: "highscorelist-season-view",
@@ -95,7 +97,26 @@ export default {
 
   computed: {
     season() {
-      return this.$store.getters["highscorelist/getSeasonById"](this.seasonId);
+      // get season by id from store
+      let season = this.$store.getters["highscorelist/getSeasonById"](
+        this.seasonId
+      );
+
+      // if season and all existing races are available
+      if (season && this.races) {
+        // sort races corresponding to the season by creation date
+        // and add an array containing the IDs in descending order
+        season.sortedRaces = this.sortRacesByProperty(
+          [...season.races],
+          {
+            ...this.races
+          },
+          "created",
+          true
+        );
+      }
+
+      return season;
     },
 
     races() {
@@ -140,6 +161,18 @@ export default {
 
     getResultById: function(id) {
       return this.$store.getters["highscorelist/getResultById"](id);
+    },
+
+    sortRacesByProperty: function(raceIDs, races, property, desc = false) {
+      let sortedRaces = [];
+
+      raceIDs.forEach(id => {
+        sortedRaces = [...sortedRaces, races[id]];
+      });
+
+      return sortedRaces
+        .sort(ArrayService.sortObjectByProperty(property, desc))
+        .map(race => race.id);
     },
 
     resetModel() {
