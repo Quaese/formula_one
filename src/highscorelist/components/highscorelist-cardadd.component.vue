@@ -1,14 +1,17 @@
 <template>
-  <div class="card qp-card">
+  <div class="card qp-card qp-card-add">
     <div class="card-body">
-      <h5 class="card-title mb-2" v-if="title">{{ title }}</h5>
-      <div class="row mb-1">
+      <!-- <h5 class="card-title mb-2" v-if="title">{{ title }}</h5> -->
+      <div
+        class="row mb-1 qp-card-add-content"
+        v-bind:class="{ 'qp-card-add-content-height': height }"
+      >
         <div class="col-12 d-flex justify-content-center align-items-center">
           <action-icon
             @click="$emit('add', $event)"
             :wrapper="{
               class: 'qp-card-icon-large',
-              title: $t('common.add')
+              title: title
             }"
             :actions="{
               class: 'qp-action-icon-primary',
@@ -38,6 +41,10 @@ export default {
     },
     actions: {
       type: Object
+    },
+    height: {
+      type: Boolean,
+      default: true
     }
   }
 };

@@ -1,10 +1,18 @@
 .qp-card {
+  width: 100%;
+
   &-list {
     list-style: none;
     padding: 15px;
 
     li {
       width: 31%;
+      display: flex;
+    }
+
+    li&-add-item {
+      width: 100%;
+      padding: 0;
     }
 
     // @media (max-width: @extralarge-max-width) {
@@ -16,6 +24,10 @@
     @media (max-width: @large-max-width) {
       li {
         width: 47%;
+      }
+      li&-add-item {
+        width: 100%;
+        padding: 0;
       }
     }
 
@@ -51,6 +63,14 @@
   &-icon {
     &-large {
       font-size: 5em;
+    }
+  }
+
+  &-add {
+    &-content {
+      &-height {
+        height: 100%;
+      }
     }
   }
 }
