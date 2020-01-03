@@ -4,6 +4,10 @@ const dictEN = {
     de: "German",
     language: "Language",
 
+    admin: {
+      drivers: "driver | drivers"
+    },
+
     app: {
       created: "created",
       modified: "modified"
@@ -63,6 +67,7 @@ const dictEN = {
     },
 
     nav: {
+      admin: "Admin",
       home: "Home",
       highscorelist: "Seasons & Highscorelist"
     },

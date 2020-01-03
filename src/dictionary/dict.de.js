@@ -4,6 +4,10 @@ const dictDE = {
     de: "Deutsch",
     language: "Sprache",
 
+    admin: {
+      drivers: "Fahrer | Fahrer"
+    },
+
     app: {
       created: "erstellt",
       modified: "geändert"
@@ -66,6 +70,7 @@ const dictDE = {
     },
 
     nav: {
+      admin: "Verwaltung",
       home: "Home",
       highscorelist: "Saisons & Highscoreliste"
     },
