@@ -44,7 +44,11 @@
         <div class="qp-card-footer-navigate" v-if="actions.navigate">
           <action-icon
             v-if="actions.navigate"
-            @click="$emit('navigate', $event, id)"
+            @click="
+              () => {
+                this.navigate(path);
+              }
+            "
             :wrapper="{
               title: $t('common.more')
             }"
@@ -99,10 +103,20 @@ export default {
     },
     actions: {
       type: Object
+    },
+    path: {
+      type: String,
+      default: ""
     }
   },
 
-  methods: {}
+  methods: {
+    navigate(path) {
+      console.log(path);
+      // navigate to requested race
+      this.$router.push(`${this.path}`);
+    }
+  }
 };
 </script>
 

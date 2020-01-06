@@ -127,6 +127,15 @@ export default {
 
   created() {
     this.$store.dispatch("app/setupApp", { name: "QPs Highscorelist" });
+
+    /*
+     * Load states for all modules that are needed for more than one section
+     * - highscorelist (needed in sections "Seasons & Highscorelist" and "Admin")
+     */
+    // get state for highscore list
+    if (this.$store.state.highscorelist.seasons === null) {
+      this.$store.dispatch("highscorelist/fetchState");
+    }
   },
 
   methods: {

@@ -2,11 +2,16 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "../home/views/Home.vue";
 
-const AdminDrivers = {
-  template: "<div>Drivers {{ $route.params.id }}</div>"
+import DriversList from "../admin/components/drivers-list.component";
+
+const AdminHome = {
+  template: `<div>Home</div>`
 };
+// const AdminDrivers = {
+//   template: `<div>Drivers</div>`
+// };
 const AdminLocations = {
-  template: "<div>Locations {{ $route.params.id }}</div>"
+  template: `<div>Locations</div>`
 };
 
 Vue.use(Router);
@@ -56,8 +61,12 @@ export default new Router({
         import(/* webpackChunkName: "admin" */ "../admin/views/admin.view.vue"),
       children: [
         {
+          path: "",
+          component: AdminHome
+        },
+        {
           path: "drivers",
-          component: AdminDrivers
+          component: DriversList
         },
         {
           path: "locations",

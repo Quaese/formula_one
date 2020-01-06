@@ -90,10 +90,10 @@ export default {
   },
 
   created() {
-    // get seasons
-    if (this.$store.state.highscorelist.seasons === null) {
-      this.$store.dispatch("highscorelist/fetchState");
-    }
+    // // get seasons
+    // if (this.$store.state.highscorelist.seasons === null) {
+    //   this.$store.dispatch("highscorelist/fetchState");
+    // }
   },
 
   methods: {

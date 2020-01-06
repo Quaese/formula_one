@@ -6,6 +6,7 @@
         <nav-card
           :title="$tc('admin.drivers', 1)"
           :actions="card.actions"
+          :path="card.path"
           :translations="card.translations"
         />
       </li>
@@ -28,20 +29,26 @@ export default {
   },
 
   data() {
+    const path = "/admin/";
+
     return {
       cards: [
         {
           actions: {
-            save: true
+            save: true,
+            navigate: true
           },
+          path: path + "drivers",
           translations: {
             location: "seasons.races"
           }
         },
         {
           actions: {
-            save: true
+            save: true,
+            navigate: true
           },
+          path: path + "locations",
           translations: {
             location: "seasons.races"
           }
