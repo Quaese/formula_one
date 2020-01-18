@@ -4,10 +4,13 @@
     <ol class="row d-flex d-flex-row justify-content-between qp-card-list">
       <li class="mb-4" v-for="(card, index) in cards" :key="index">
         <nav-card
-          :title="$tc('admin.drivers', 1)"
+          :title="$tc('admin.' + card.translations.title, 2)"
           :actions="card.actions"
+          :color="card.color"
           :path="card.path"
           :translations="card.translations"
+          :icon="card.icon || null"
+          :active="new RegExp(card.path).test($route.fullPath)"
         />
       </li>
     </ol>
@@ -30,6 +33,7 @@ export default {
 
   data() {
     const path = "/admin/";
+    console.log(this.$route.fullPath);
 
     return {
       cards: [
@@ -38,8 +42,14 @@ export default {
             save: true,
             navigate: true
           },
+          color: "blue",
+          icon: {
+            type: "fas",
+            name: "dharmachakra"
+          },
           path: path + "drivers",
           translations: {
+            title: "drivers",
             location: "seasons.races"
           }
         },
@@ -48,9 +58,15 @@ export default {
             save: true,
             navigate: true
           },
+          color: "red",
+          icon: {
+            type: "fas",
+            name: "globe"
+          },
           path: path + "locations",
           translations: {
-            location: "seasons.races"
+            title: "locations",
+            location: "seasons.location"
           }
         }
       ]

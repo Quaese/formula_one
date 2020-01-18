@@ -44,9 +44,11 @@ import "bootstrap/dist/css/bootstrap.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCheck,
+  faDharmachakra,
   faEdit,
   faArrowLeft,
   faArrowRight,
+  faGlobe,
   faHistory,
   faPencilAlt,
   faPlus,
@@ -68,10 +70,12 @@ import {
 // add icons/fonts
 library.add(
   faCheck,
+  faDharmachakra,
   faEdit,
   faArrowLeft,
   faArrowRight,
   faHistory,
+  faGlobe,
   faPencilAlt,
   faPlus,
   faTimes,

@@ -3,6 +3,9 @@
     <ul v-if="drivers">
       <li v-for="key in Object.keys(drivers)" :key="key">
         {{ drivers[key].name }}
+        <router-link :to="`drivers/${drivers[key].id}`"
+          >({{ drivers[key].id }})</router-link
+        >
       </li>
     </ul>
   </div>

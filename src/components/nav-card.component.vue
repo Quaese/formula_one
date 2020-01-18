@@ -1,63 +1,33 @@
 <template>
-  <div class="card qp-card">
-    <div
-      class="card-img-top qp-card-img-bg"
-      v-if="headerImage"
-      :style="{
-        'background-image': headerImage
-      }"
-    ></div>
-
+  <div
+    class="card qp-card qp-nav-card"
+    :class="{
+      [`qp-nav-card-${color}`]: true,
+      [`qp-nav-card-active`]: active,
+      [`qp-nav-card-active-${color}`]: active
+    }"
+    @click="
+      () => {
+        this.navigate(path);
+      }
+    "
+  >
     <div class="card-body">
-      <h5 class="card-title mb-2" v-if="title">
-        <span>{{ title }}</span>
-      </h5>
-
-      <p class="card-subtitle mb-3 card-text" style="line-height: 1.1;">
-        <small class="text-muted" v-if="created">
-          {{ $t("app.created") }}: {{ created || new Date() }}
-        </small>
-        <br />
-        <small class="text-muted" v-if="modified">
-          {{ $t("app.modified") }}: {{ modified || new Date() }}
-        </small>
-      </p>
-
-      <div class="row mb-1">
-        <div class="col-4 col-md-6">{{ $t(translations.location) }}:</div>
-        <div class="col-8 col-md-6">
-          <span>Content</span>
-        </div>
-      </div>
-
-      <div class="row mb-1" v-if="!!$slots.description">
-        <div class="col-12">
-          <slot name="description"></slot>
-        </div>
-      </div>
-
-      <div class="qp-card-footer d-flex justify-content-between">
-        <div class="qp-card-footer-actions">
-          <span></span>
-        </div>
-
-        <div class="qp-card-footer-navigate" v-if="actions.navigate">
-          <action-icon
-            v-if="actions.navigate"
-            @click="
-              () => {
-                this.navigate(path);
-              }
-            "
-            :wrapper="{
-              title: $t('common.more')
-            }"
-            :actions="{
-              class: 'qp-action-icon-primary',
-              icon: ['fas', 'arrow-right']
+      <div
+        class="qp-card-footer d-flex justify-content-between align-items-center"
+      >
+        <h5 class="d-flex align-items-center" v-if="title">
+          <font-awesome-icon
+            v-if="icon !== null"
+            :icon="[icon.type, icon.name]"
+            transform="shrink-8"
+            :class="{
+              'qp-nav-card-icon': true,
+              [`qp-nav-card-icon-${color}`]: true
             }"
           />
-        </div>
+          <span>{{ title }}</span>
+        </h5>
       </div>
     </div>
   </div>
@@ -74,39 +44,30 @@ export default {
   components: {},
 
   data() {
-    // event bus (using Vue instance to use $emit as event emitter)
-    const bus = new Vue();
-
-    return {
-      bus
-    };
+    return {};
   },
 
   props: {
-    id: {
-      type: String
+    active: {
+      type: Boolean,
+      default: false
     },
-    translations: {
-      type: Object
+    color: {
+      type: String,
+      default: "red"
     },
-    headerImage: {
-      type: String
-    },
-    title: {
-      type: String
-    },
-    created: {
-      type: String
-    },
-    modified: {
-      type: String
-    },
-    actions: {
+    icon: {
       type: Object
     },
     path: {
       type: String,
       default: ""
+    },
+    title: {
+      type: String
+    },
+    translations: {
+      type: Object
     }
   },
 
@@ -120,4 +81,114 @@ export default {
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+@import url("../assets/style/variables.less");
+
+.qp-nav-card {
+  &-icon {
+    font-size: 3em;
+
+    &-red {
+      color: @red-section-color;
+    }
+
+    &-blue {
+      color: @blue-section-color;
+    }
+
+    &-green {
+      color: @green-section-color;
+    }
+
+    &-turquoise {
+      color: @turquoise-section-color;
+    }
+
+    &-yellow {
+      color: @yellow-section-color;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+    border-color: @color-info !important;
+  }
+  &-red {
+    &:hover {
+      border-color: @red-section-color !important;
+    }
+  }
+
+  &-blue {
+    &:hover {
+      border-color: @blue-section-color !important;
+    }
+  }
+
+  &-green {
+    &:hover {
+      border-color: @green-section-color !important;
+    }
+  }
+
+  &-turquoise {
+    &:hover {
+      border-color: @turquoise-section-color !important;
+    }
+  }
+
+  &-yellow {
+    &:hover {
+      border-color: @yellow-section-color !important;
+    }
+  }
+
+  &-active {
+    background-color: lighten(@color-secondary, 50%) !important;
+    border-color: rgba(0, 0, 0, 0.25) !important;
+
+    &:hover {
+      cursor: default;
+      border-color: rgba(0, 0, 0, 0.25) !important;
+    }
+    // &-red,
+    // &-red:hover {
+    //   // &:hover {
+    //   border-color: @red-section-border-color !important;
+    //   // }
+    // }
+
+    // &-blue,
+    // &-blue:hover {
+    //   // &:hover {
+    //   border-color: @blue-section-border-color !important;
+    //   // }
+    // }
+
+    // &-green,
+    // &-green:hover {
+    //   // &:hover {
+    //   border-color: @green-section-border-color !important;
+    //   // }
+    // }
+
+    // &-turquoise,
+    // &-turquoise:hover {
+    //   // &:hover {
+    //   border-color: @turquoise-section-border-color !important;
+    //   // }
+    // }
+
+    // &-yellow,
+    // &-yellow:hover {
+    //   // &:hover {
+    //   border-color: @yellow-section-border-color !important;
+    //   // }
+    // }
+  }
+
+  .qp-card-footer {
+    margin: auto;
+  }
+}
+</style>

@@ -5,7 +5,8 @@ const dictDE = {
     language: "Sprache",
 
     admin: {
-      drivers: "Fahrer | Fahrer"
+      drivers: "Fahrer | Fahrer",
+      locations: "Ort | Orte"
     },
 
     app: {
