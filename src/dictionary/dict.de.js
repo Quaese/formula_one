@@ -5,8 +5,14 @@ const dictDE = {
     language: "Sprache",
 
     admin: {
-      drivers: "Fahrer | Fahrer",
-      locations: "Ort | Orte"
+      drivers: {
+        title: "Fahrer | Fahrer",
+        description: "Bereich zum Verwalten von Fahrern"
+      },
+      locations: {
+        title: "Ort | Orte",
+        description: "Bereich zum Verwalten von Strecken"
+      }
     },
 
     app: {

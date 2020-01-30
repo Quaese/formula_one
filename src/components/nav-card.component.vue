@@ -13,10 +13,31 @@
     "
   >
     <div class="card-body">
-      <div
-        class="qp-card-footer d-flex justify-content-between align-items-center"
-      >
-        <h5 class="d-flex align-items-center" v-if="title">
+      <div class="jumbotron jumbotron-fluid pt-1 pb-3 my-1">
+        <div class="container" v-if="title">
+          <h1 class="display-4 d-flex align-items-center">
+            <font-awesome-icon
+              v-if="icon !== null"
+              :icon="[icon.type, icon.name]"
+              transform="shrink-8"
+              :class="{
+                'qp-nav-card-icon': true,
+                [`qp-nav-card-icon-${color}`]: true
+              }"
+            />{{ title }}
+          </h1>
+          <p class="lead" v-if="!!$slots.description">
+          <slot name="description"></slot>
+          </p>
+        </div>
+      </div>
+        </div>
+      </div>
+      <!-- <div class="qp-card-footer d-flex justify-content-between align-items-center">
+        <h5
+          class="d-flex align-items-center"
+          v-if="title"
+        >
           <font-awesome-icon
             v-if="icon !== null"
             :icon="[icon.type, icon.name]"
@@ -28,7 +49,7 @@
           />
           <span>{{ title }}</span>
         </h5>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -86,7 +107,7 @@ export default {
 
 .qp-nav-card {
   &-icon {
-    font-size: 3em;
+    font-size: 1.7em;
 
     &-red {
       color: @red-section-color;
@@ -144,7 +165,7 @@ export default {
   }
 
   &-active {
-    background-color: lighten(@color-secondary, 50%) !important;
+    // background-color: lighten(@color-secondary, 50%) !important;
     border-color: rgba(0, 0, 0, 0.25) !important;
 
     &:hover {

@@ -5,8 +5,14 @@ const dictEN = {
     language: "Language",
 
     admin: {
-      drivers: "driver | drivers",
-      locations: "location | locations"
+      drivers: {
+        title: "driver | drivers",
+        description: "Area to administrate drivers"
+      },
+      locations: {
+        title: "location | locations",
+        description: "Area to administrate locations"
+      }
     },
 
     app: {

@@ -1,17 +1,21 @@
 <template>
   <div>
     Admin
-    <ol class="row d-flex d-flex-row justify-content-between qp-card-list">
+    <ol
+      class="row_ d-flex d-flex-row justify-content-stretch qp-card-list-flex qp-card-list_ qp-card-list_nav_"
+    >
       <li class="mb-4" v-for="(card, index) in cards" :key="index">
         <nav-card
-          :title="$tc('admin.' + card.translations.title, 2)"
+          :title="$tc(card.translations.title, 2)"
           :actions="card.actions"
           :color="card.color"
           :path="card.path"
           :translations="card.translations"
           :icon="card.icon || null"
           :active="new RegExp(card.path).test($route.fullPath)"
-        />
+        >
+          <div slot="description">{{ $t(card.translations.description) }}</div>
+        </nav-card>
       </li>
     </ol>
 
@@ -49,7 +53,8 @@ export default {
           },
           path: path + "drivers",
           translations: {
-            title: "drivers",
+            title: "admin.drivers.title",
+            description: "admin.drivers.description",
             location: "seasons.races"
           }
         },
@@ -65,7 +70,8 @@ export default {
           },
           path: path + "locations",
           translations: {
-            title: "locations",
+            title: "admin.locations.title",
+            description: "admin.locations.description",
             location: "seasons.location"
           }
         }
