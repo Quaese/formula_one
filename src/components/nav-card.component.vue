@@ -27,13 +27,13 @@
             />{{ title }}
           </h1>
           <p class="lead" v-if="!!$slots.description">
-          <slot name="description"></slot>
+            <slot name="description"></slot>
           </p>
         </div>
       </div>
-        </div>
-      </div>
-      <!-- <div class="qp-card-footer d-flex justify-content-between align-items-center">
+    </div>
+  </div>
+  <!-- <div class="qp-card-footer d-flex justify-content-between align-items-center">
         <h5
           class="d-flex align-items-center"
           v-if="title"
@@ -50,8 +50,6 @@
           <span>{{ title }}</span>
         </h5>
       </div> -->
-    </div>
-  </div>
 </template>
 
 <script>

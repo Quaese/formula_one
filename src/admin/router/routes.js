@@ -1,10 +1,8 @@
 import DriversList from "../components/drivers-list.component.vue";
+import DriversProfile from "../components/drivers-profile.component.vue";
 
 const AdminHome = {
   template: `<div>Home</div>`
-};
-const DriverProfile = {
-  template: `<div>DriverProfile</div>`
 };
 const AdminLocations = {
   template: `<div>Locations</div>`
@@ -30,7 +28,7 @@ const AdminRoutes = [
       },
       {
         path: "drivers/:id",
-        component: DriverProfile
+        component: DriversProfile
       },
       {
         path: "locations",

@@ -10,7 +10,7 @@
       v-if="seasons !== null"
     >
       <li class="mb-4" v-for="seasonId in order" :key="seasonId">
-        <highscorlist-card
+        <highscorelist-card
           v-bind:id="seasonId"
           v-bind:headerImage="`url(${getImage(seasons[seasonId].image)})`"
           v-bind:title="seasons[seasonId].title"
@@ -28,12 +28,12 @@
           @save="hSave"
         >
           <!-- <p slot="description">Hier kommt eine fette Beschreibung</p> -->
-        </highscorlist-card>
+        </highscorelist-card>
       </li>
 
       <!-- add season -->
       <li class="mb-4">
-        <highscorlist-card-add
+        <highscorelist-card-add
           v-bind:title="$t('seasons.addSeason')"
           @add="hAdd"
         />
@@ -51,8 +51,8 @@ export default {
   name: "highscorelist-home-view",
 
   components: {
-    "highscorlist-card": HighscorelistCard,
-    "highscorlist-card-add": HighscorelistCardAdd
+    "highscorelist-card": HighscorelistCard,
+    "highscorelist-card-add": HighscorelistCardAdd
   },
 
   data() {

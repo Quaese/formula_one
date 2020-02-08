@@ -6,7 +6,8 @@ const state = {
   loading: false,
   modify: {
     season: null,
-    race: null
+    race: null,
+    driver: null
   },
   fields: null
 };

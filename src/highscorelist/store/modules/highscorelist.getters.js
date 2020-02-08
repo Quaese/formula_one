@@ -45,6 +45,15 @@ const getters = {
   },
 
   /*
+   * Get a race by its ID
+   */
+  getDriverById: state => id => {
+    const driver = state.drivers !== null ? state.drivers[id] : null;
+
+    return driver;
+  },
+
+  /*
    * Get drivers
    */
   getDrivers: state => () => {
